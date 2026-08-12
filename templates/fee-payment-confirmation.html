@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Fee Payment Confirmation - School Portal</title>
+		<style>
+			body {
+				font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+				line-height: 1.6;
+				color: #444;
+				margin: 0;
+				padding: 20px;
+				background-color: #f0f2f5;
+			}
+			.container {
+				max-width: 600px;
+				margin: 0 auto;
+				background: #ffffff;
+				padding: 0;
+				border-radius: 12px;
+				overflow: hidden;
+				border: 1px solid #dcdcdc;
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+			}
+			.header {
+				background-color: #f8f9fa;
+				padding: 30px;
+				text-align: center;
+				border-bottom: 4px solid #004d25;
+			}
+			.logo {
+				max-width: 140px;
+				margin-bottom: 15px;
+			}
+			.content {
+				padding: 40px;
+			}
+			.footer {
+				background-color: #004d25;
+				color: #ffffff;
+				padding: 30px;
+				text-align: center;
+				font-size: 13px;
+			}
+			.button {
+				display: inline-block;
+				padding: 14px 28px;
+				background-color: #004d25;
+				color: #ffffff !important;
+				text-decoration: none;
+				border-radius: 30px;
+				font-weight: bold;
+				margin: 25px 0;
+				transition: background 0.3s;
+			}
+			.button:hover {
+				background-color: #00361a;
+			}
+			h1 {
+				color: #004d25;
+				font-size: 22px;
+				margin: 0;
+			}
+			.divider {
+				height: 1px;
+				background: #eee;
+				margin: 25px 0;
+			}
+			.payment-details {
+				background-color: #f8f9fa;
+				border: 1px solid #e0e0e0;
+				border-radius: 8px;
+				padding: 20px;
+				margin: 20px 0;
+			}
+			.payment-details p {
+				margin: 10px 0;
+			}
+			.payment-details strong {
+				color: #004d25;
+			}
+			.social-links {
+				margin-top: 15px;
+			}
+			.social-links a {
+				color: #ffffff;
+				text-decoration: none;
+				margin: 0 10px;
+				font-weight: bold;
+			}
+			.success {
+				background-color: #d4edda;
+				border-left: 4px solid #28a745;
+				padding: 15px;
+				margin: 20px 0;
+				border-radius: 4px;
+				font-size: 14px;
+				color: #155724;
+			}
+			.student-info {
+				background-color: #e8f5e9;
+				border: 1px solid #c8e6c9;
+				border-radius: 8px;
+				padding: 15px;
+				margin: 15px 0;
+			}
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 15px 0;
+			}
+			table th,
+			table td {
+				padding: 12px;
+				text-align: left;
+				border-bottom: 1px solid #ddd;
+			}
+			table th {
+				background-color: #004d25;
+				color: #ffffff;
+			}
+			table tr:last-child td {
+				border-bottom: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<!-- Header -->
+			<div class="header">
+				<img
+					src="https://res.cloudinary.com/dligmvsem/image/upload/v1781004567/logo_wmslhh.jpg"
+					alt="School Logo"
+					class="logo"
+				/>
+				<h1>International Nursery & Primary School</h1>
+			</div>
+
+			<!-- Content Area -->
+			<div class="content">
+				<p>Dear <strong>[PARENT_NAME]</strong>,</p>
+
+				<div class="success">
+					<strong>✅ Payment Successful!</strong> We are pleased to confirm that
+					we have received your fee payment.
+				</div>
+
+				<div class="student-info">
+					<p><strong>Student Name:</strong> [FIRST_NAME] [LAST_NAME]</p>
+					<p><strong>Admission Number:</strong> [ADMISSION_NUMBER]</p>
+				</div>
+
+				<div class="payment-details">
+					<p><strong>Payment Details:</strong></p>
+					<table>
+						<tr>
+							<th>Description</th>
+							<th>Amount</th>
+						</tr>
+						<tr>
+							<td>[BILL_NAME]</td>
+							<td>[AMOUNT]</td>
+						</tr>
+						<tr>
+							<td><strong>Total Paid</strong></td>
+							<td><strong>[TOTAL_AMOUNT]</strong></td>
+						</tr>
+					</table>
+					<p><strong>Payment Date:</strong> [PAYMENT_DATE]</p>
+					<p><strong>Transaction Reference:</strong> [TRANSACTION_ID]</p>
+					<p><strong>Payment Method:</strong> [PAYMENT_METHOD]</p>
+					<p><strong>Term:</strong> [TERM]</p>
+					<p><strong>Academic Year:</strong> [ACADEMIC_YEAR]</p>
+				</div>
+
+				<div style="text-align: center">
+					<a href="[PORTAL_LINK]" class="button"
+						>View Payment History</a
+					>
+				</div>
+
+				<div class="divider"></div>
+
+				<p>
+					A detailed receipt has been generated and is available in your parent
+					portal under the payment history section. You can download or print this
+					receipt for your records.
+				</p>
+
+				<p>
+					If you have any questions regarding this payment or need further
+					assistance, please contact the bursary department or school administration
+					office.
+				</p>
+
+				<p>
+					Thank you for your prompt payment and continued partnership with
+					International Nursery & Primary School.
+				</p>
+
+				<p>
+					Warm regards,<br />
+					<strong>The Bursary Department</strong><br />
+					International Nursery & Primary School
+				</p>
+			</div>
+
+			<!-- Footer -->
+			<div class="footer">
+				<p>International Nursery and Primary School, Enugu</p>
+				<p>[Phone Number] | [School Website URL]</p>
+				<div class="social-links">
+					<a href="#">Facebook</a> | <a href="#">Twitter</a> |
+					<a href="#">Instagram</a>
+				</div>
+				<p style="margin-top: 20px; font-size: 11px; opacity: 0.8">
+					You are receiving this email because a fee payment was made on your
+					school portal account.
+				</p>
+			</div>
+		</div>
+	</body>
+</html>

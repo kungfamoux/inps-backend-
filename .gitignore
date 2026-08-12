@@ -1,0 +1,13 @@
+.qodo
+node_modules
+coverage
+.env
+settings.json
+teacher_portal/routes/note
+teacher_portal/routes/note.txt
+note.txt
+.vscode
+inps_newsletter_template.html
+admin_portal/services/anot.html
+templates/test.html
+inps-206d3-firebase-adminsdk-fbsvc-ca49ead82c.json

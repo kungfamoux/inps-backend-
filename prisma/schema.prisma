@@ -1,0 +1,890 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model SchoolConfiguration {
+  id                      String   @id @default(uuid())
+  academicYear            String
+  term                    Term
+  maxStudentsPerClass     Int      @default(30)
+  minAverageScore         Float    @default(55)
+  minAttendancePercentage Float    @default(75)
+  maxFailedSubjects       Int      @default(3)
+  passMark                Float    @default(55)
+  creditMark              Float    @default(70)
+  distinctionMark         Float    @default(90)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@unique([academicYear, term])
+}
+
+model SchoolConfig {
+  id                  String          @id @unique @default("singleton")
+  currentSessionId    String          @unique
+  currentTermId       String          @unique
+  academicYear        String
+  currentTerm         Term
+  updatedAt           DateTime        @updatedAt
+  createdAt           DateTime        @default(now())
+  currentSession      AcademicSession @relation(fields: [currentSessionId], references: [id])
+  currentTermRelation AcademicTerm    @relation(fields: [currentTermId], references: [id])
+}
+
+model SchoolCalendar {
+  id            String    @id @default(uuid())
+  academicYear  String
+  term          Term
+  startDate     DateTime
+  endDate       DateTime
+  isCurrentTerm Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  holidays      Holiday[]
+
+  @@unique([academicYear, term])
+}
+
+model Holiday {
+  id         String         @id @default(uuid())
+  calendarId String
+  name       String
+  startDate  DateTime
+  endDate    DateTime
+  type       HolidayType
+  createdAt  DateTime       @default(now())
+  deletedAt  DateTime?
+  calendar   SchoolCalendar @relation(fields: [calendarId], references: [id])
+}
+
+model Staff {
+  id                 String              @id @default(uuid())
+  staffId            String              @unique
+  firebaseUid        String              @unique
+  firstName          String?
+  lastName           String?
+  dateOfBirth        DateTime?
+  gender             Gender?
+  address            String?
+  email              String              @unique
+  phone              String?
+  type               StaffType
+  role               StaffRole
+  status             StaffStatus         @default(ACTIVE)
+  biometricId        String?
+  deletedAt          DateTime?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  attendances        Attendance[]
+  behavioralRatings  BehavioralRating[]
+  nurseryAssessments NurseryAssessment[]
+  promotionRuns      PromotionRun[]
+  results            Result[]
+  verifiedResults    Result[]            @relation("ResultVerifier")
+  schedules          Schedule[]
+  classesAsAssistant Class?              @relation("ClassAssistantTeacher")
+  classesAsTeacher   Class?              @relation("ClassClassTeacher")
+  stockOuts          StockOut[]
+  subjectAssignments SubjectAssignment[]
+}
+
+model Class {
+  id                 String              @id @default(uuid())
+  name               String
+  status             ClassStatus         @default(ACTIVE)
+  currentEnrollment  Int                 @default(0)
+  color              ClassColor?
+  roomNumber         String?
+  classTeacherId     String?             @unique
+  assistantTeacherId String?             @unique
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  billClasses        BillClass[]
+  classSubjects      ClassSubject[]
+  enrollments        Enrollment[]
+  subjectAssignments SubjectAssignment[]
+  schedules          Schedule[]
+  attendances        Attendance[]
+  behavioralRatings  BehavioralRating[]
+  nurseryAssessments NurseryAssessment[]
+  communications     Communication[]
+  classTeacher       Staff?              @relation("ClassClassTeacher", fields: [classTeacherId], references: [id])
+  assistantTeacher   Staff?              @relation("ClassAssistantTeacher", fields: [assistantTeacherId], references: [id])
+}
+
+model ClassSubject {
+  classId   String
+  subjectId String
+  createdAt DateTime     @default(now())
+  termId    String
+  class     Class        @relation(fields: [classId], references: [id])
+  subject   Subject      @relation(fields: [subjectId], references: [id])
+  term      AcademicTerm @relation(fields: [termId], references: [id])
+
+  @@id([classId, subjectId, termId])
+}
+
+model Enrollment {
+  id              String           @id @default(uuid())
+  studentId       String
+  classId         String
+  academicYear    String
+  term            Term
+  status          EnrollmentStatus @default(PENDING)
+  transferredAt   DateTime?
+  previousClassId String?
+  transferCount   Int              @default(0)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  class           Class            @relation(fields: [classId], references: [id])
+  student         Student          @relation(fields: [studentId], references: [id])
+
+  @@unique([studentId, academicYear, term])
+  @@index([classId, academicYear, term])
+  @@index([status])
+}
+
+model Parent {
+  id                 String              @id @default(uuid())
+  firebaseUid        String              @unique
+  accountEmail       String              @unique
+  accountPhone       String
+  primaryGuardian    String // JSON: {relationship, title, firstName, lastName, phone, email, occupation, address}
+  secondaryGuardian  String? // JSON: {relationship, firstName, lastName, phone, email, occupation}
+  address            String?
+  maritalStatus      String?
+  biometricId        String?
+  deletedAt          DateTime?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  communicationReads CommunicationRead[]
+  invoices           Invoice[]
+  payments           Payment[]
+  students           Student[]
+}
+
+model Student {
+  id                 String              @id @default(uuid())
+  admissionNumber    String              @unique
+  firstName          String
+  lastName           String
+  gender             Gender?
+  dateOfBirth        DateTime?
+  nationality        String?
+  state              String?
+  lga                String?
+  religion           String?
+  healthInfo         String?
+  sportHouse         String?
+  address            String?
+  status             StudentStatus       @default(ACTIVE)
+  intakeType         IntakeType          @default(NEW)
+  passportPhoto      String?
+  admissionDocs      String?
+  biometricId        String?
+  admissionDate      DateTime?
+  graduationDate     DateTime?
+  parentId           String?
+  deletedAt          DateTime?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  bloodGroup         String?
+  middleName         String?
+  studentType        String?
+  attendances        Attendance[]
+  behavioralRatings  BehavioralRating[]
+  billStudents       BillStudent[]
+  enrollments        Enrollment[]
+  invoices           Invoice[]
+  nurseryAssessments NurseryAssessment[]
+  payments           Payment[]
+  promotionLogs      PromotionLog[]
+  results            Result[]
+  storeIssuances     StockOut[]
+  parent             Parent?             @relation(fields: [parentId], references: [id])
+  termRemarks        StudentTermRemark[]
+}
+
+model Subject {
+  id            String              @id @default(uuid())
+  subjectName   String
+  subjectCode   String              @unique
+  isActive      Boolean             @default(true)
+  createdAt     DateTime            @default(now())
+  deletedAt     DateTime?
+  classSubjects ClassSubject[]
+  results       Result[]
+  schedules     Schedule[]
+  assignments   SubjectAssignment[]
+  levels        SubjectLevel[]
+}
+
+model SubjectLevel {
+  subjectId String
+  level     SchoolLevel
+  subject   Subject     @relation(fields: [subjectId], references: [id])
+
+  @@id([subjectId, level])
+}
+
+model SubjectAssignment {
+  id           String                  @id @default(uuid())
+  subjectId    String
+  teacherId    String
+  academicYear String
+  term         Term
+  status       SubjectAssignmentStatus @default(ACTIVE)
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+  classId      String
+  class        Class                   @relation(fields: [classId], references: [id])
+  subject      Subject                 @relation(fields: [subjectId], references: [id])
+  teacher      Staff                   @relation(fields: [teacherId], references: [id])
+
+  @@unique([classId, subjectId, academicYear, term])
+}
+
+model Schedule {
+  id        String   @id @default(uuid())
+  classId   String
+  subjectId String
+  staffId   String
+  dayOfWeek String
+  startTime String
+  endTime   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  class     Class    @relation(fields: [classId], references: [id])
+  staff     Staff    @relation(fields: [staffId], references: [id])
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+}
+
+model AcademicSession {
+  id           String              @id @default(uuid())
+  session      String              @unique
+  status       SessionStatus       @default(UPCOMING)
+  createdAt    DateTime            @default(now())
+  terms        AcademicTerm[]
+  promotionRun PromotionRun?
+  results      Result[]
+  schoolConfig SchoolConfig?
+  termRemarks  StudentTermRemark[]
+}
+
+model AcademicTerm {
+  id            String              @id @default(uuid())
+  term          Term
+  status        TermStatus
+  startDate     DateTime
+  endDate       DateTime
+  sessionId     String
+  createdAt     DateTime            @default(now())
+  session       AcademicSession     @relation(fields: [sessionId], references: [id])
+  classSubjects ClassSubject[]
+  results       Result[]
+  schoolConfig  SchoolConfig?
+  termRemarks   StudentTermRemark[]
+
+  @@unique([sessionId, term])
+}
+
+model Result {
+  id                   String          @id @default(uuid())
+  studentId            String
+  subjectId            String
+  staffId              String
+  termId               String
+  sessionId            String
+  ca1Score             Float
+  ca2Score             Float
+  examScore            Float
+  total                Float
+  grade                Grade
+  position             Int?
+  overallPosition      Int?
+  classAverage         Float?
+  subjectTeacherRemark String?
+  isVerified           Boolean         @default(false)
+  verifiedById         String?
+  verifiedAt           DateTime?
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  session              AcademicSession @relation(fields: [sessionId], references: [id])
+  staff                Staff           @relation(fields: [staffId], references: [id])
+  student              Student         @relation(fields: [studentId], references: [id])
+  subject              Subject         @relation(fields: [subjectId], references: [id])
+  term                 AcademicTerm    @relation(fields: [termId], references: [id])
+  verifiedBy           Staff?          @relation("ResultVerifier", fields: [verifiedById], references: [id])
+
+  @@unique([studentId, subjectId, termId, sessionId])
+  @@index([studentId, termId, sessionId])
+  @@index([subjectId])
+}
+
+model StudentTermRemark {
+  id                 String          @id @default(uuid())
+  studentId          String
+  termId             String
+  sessionId          String
+  classTeacherRemark String?
+  headTeacherRemark  String?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  session            AcademicSession @relation(fields: [sessionId], references: [id])
+  student            Student         @relation(fields: [studentId], references: [id])
+  term               AcademicTerm    @relation(fields: [termId], references: [id])
+
+  @@unique([studentId, termId, sessionId])
+}
+
+model Attendance {
+  id        String           @id @default(uuid())
+  studentId String
+  staffId   String
+  date      DateTime         @db.Date
+  status    AttendanceStatus @default(PRESENT)
+  note      String?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  classId   String
+  class     Class            @relation(fields: [classId], references: [id])
+  markedBy  Staff            @relation(fields: [staffId], references: [id])
+  student   Student          @relation(fields: [studentId], references: [id])
+
+  @@unique([studentId, date])
+  @@index([classId, date])
+}
+
+model BehavioralTrait {
+  id      String             @id @default(uuid())
+  name    String             @unique
+  domain  String
+  ratings BehavioralRating[]
+}
+
+model BehavioralRating {
+  id           String          @id @default(uuid())
+  studentId    String
+  traitId      String
+  staffId      String
+  academicYear String
+  term         Term
+  score        Int
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  classId      String
+  class        Class           @relation(fields: [classId], references: [id])
+  markedBy     Staff           @relation(fields: [staffId], references: [id])
+  student      Student         @relation(fields: [studentId], references: [id])
+  trait        BehavioralTrait @relation(fields: [traitId], references: [id])
+
+  @@unique([studentId, traitId, academicYear, term])
+  @@index([classId, academicYear, term])
+}
+
+model NurseryAssessmentItem {
+  id          String              @id @default(uuid())
+  category    String
+  description String
+  sortOrder   Int                 @default(0)
+  assessments NurseryAssessment[]
+}
+
+model NurseryAssessment {
+  id           String                @id @default(uuid())
+  studentId    String
+  itemId       String
+  staffId      String
+  academicYear String
+  term         Term
+  rating       NurseryRating
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  classId      String
+  class        Class                 @relation(fields: [classId], references: [id])
+  item         NurseryAssessmentItem @relation(fields: [itemId], references: [id])
+  markedBy     Staff                 @relation(fields: [staffId], references: [id])
+  student      Student               @relation(fields: [studentId], references: [id])
+
+  @@unique([studentId, itemId, academicYear, term])
+  @@index([classId, academicYear, term])
+}
+
+model Bill {
+  id           String        @id @default(uuid())
+  name         String
+  amount       Float
+  academicYear String
+  term         Term
+  isCompulsory Boolean       @default(true)
+  scope        BillScope
+  intakeType   IntakeType?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  classes      BillClass[]
+  students     BillStudent[]
+  invoices     Invoice[]
+
+  @@unique([name, academicYear, term])
+}
+
+model BillClass {
+  billId  String
+  classId String
+  bill    Bill   @relation(fields: [billId], references: [id])
+  class   Class  @relation(fields: [classId], references: [id])
+
+  @@id([billId, classId])
+}
+
+model BillStudent {
+  billId    String
+  studentId String
+  bill      Bill    @relation(fields: [billId], references: [id])
+  student   Student @relation(fields: [studentId], references: [id])
+
+  @@id([billId, studentId])
+}
+
+model Invoice {
+  id            String        @id @default(uuid())
+  invoiceNumber String        @unique
+  studentId     String
+  parentId      String?
+  billId        String
+  amount        Float
+  amountPaid    Float         @default(0)
+  balance       Float
+  dueDate       DateTime
+  status        InvoiceStatus @default(PENDING)
+  description   String?
+  academicYear  String
+  term          Term
+  deletedAt     DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  bill          Bill          @relation(fields: [billId], references: [id])
+  parent        Parent?       @relation(fields: [parentId], references: [id])
+  student       Student       @relation(fields: [studentId], references: [id])
+  payments      Payment[]
+
+  @@index([studentId, academicYear, term])
+  @@index([status, dueDate])
+}
+
+model Payment {
+  id            String         @id @default(uuid())
+  invoiceId     String
+  studentId     String
+  parentId      String?
+  amount        Float
+  category      IncomeCategory
+  paymentMethod String
+  paystackRef   String?        @unique
+  transactionId String?
+  status        PaymentStatus  @default(PENDING)
+  paymentDate   DateTime
+  deletedAt     DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  invoice       Invoice        @relation(fields: [invoiceId], references: [id])
+  parent        Parent?        @relation(fields: [parentId], references: [id])
+  student       Student        @relation(fields: [studentId], references: [id])
+
+  @@index([studentId])
+  @@index([status])
+}
+
+model BookPrice {
+  id        String      @id @default(uuid())
+  level     SchoolLevel
+  bookName  String
+  price     Float
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model Expense {
+  id          String          @id @default(uuid())
+  category    ExpenseCategory
+  amount      Float
+  description String
+  date        DateTime
+  createdAt   DateTime        @default(now())
+}
+
+model IncomeRecord {
+  id          String         @id @default(uuid())
+  category    IncomeCategory
+  amount      Float
+  description String
+  date        DateTime
+  createdAt   DateTime       @default(now())
+}
+
+model Communication {
+  id                   String                @id @default(uuid())
+  title                String
+  content              String
+  fileUrl              String?
+  type                 CommunicationType     @default(NEWSLETTER)
+  target               CommunicationTarget   @default(ALL)
+  announcementCategory AnnouncementCategory?
+  status               CommunicationStatus   @default(DRAFT)
+  publishedAt          DateTime?
+  sentAt               DateTime?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  classId              String?
+  class                Class?                @relation(fields: [classId], references: [id])
+  reads                CommunicationRead[]
+}
+
+model CommunicationRead {
+  id              String        @id @default(uuid())
+  communicationId String
+  parentId        String
+  readAt          DateTime      @default(now())
+  communication   Communication @relation(fields: [communicationId], references: [id])
+  parent          Parent        @relation(fields: [parentId], references: [id])
+
+  @@unique([communicationId, parentId])
+}
+
+model PromotionRun {
+  id          String          @id @default(uuid())
+  sessionId   String          @unique
+  status      PromotionStatus @default(PENDING)
+  staffId     String
+  verifiedAt  DateTime?
+  completedAt DateTime?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  logs        PromotionLog[]
+  session     AcademicSession @relation(fields: [sessionId], references: [id])
+  triggeredBy Staff           @relation(fields: [staffId], references: [id])
+}
+
+model PromotionLog {
+  id             String       @id @default(uuid())
+  promotionRunId String
+  studentId      String
+  fromLevel      SchoolLevel
+  toLevel        SchoolLevel
+  promoted       Boolean
+  reason         String?
+  createdAt      DateTime     @default(now())
+  promotionRun   PromotionRun @relation(fields: [promotionRunId], references: [id])
+  student        Student      @relation(fields: [studentId], references: [id])
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  action     String
+  entityType String
+  entityId   String
+  oldValues  Json?
+  newValues  Json?
+  userId     String?
+  sessionId  String?
+  termId     String?
+  reason     String?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Counter {
+  id    String @id
+  value Int    @default(0)
+}
+
+model Supplier {
+  id          String    @id @default(uuid())
+  name        String
+  contactName String?
+  phone       String?
+  email       String?
+  supplies    String?
+  deletedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  stockIns    StockIn[]
+}
+
+model InventoryItem {
+  id           String            @id @default(uuid())
+  name         String
+  category     InventoryCategory
+  unit         String
+  quantity     Int               @default(0)
+  reorderLevel Int
+  unitPrice    Float
+  status       StockStatus       @default(OK)
+  deletedAt    DateTime?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  stockIns     StockIn[]
+  stockOuts    StockOut[]
+}
+
+model StockIn {
+  id         String        @id @default(uuid())
+  ref        String        @unique
+  itemId     String
+  supplierId String
+  quantity   Int
+  totalCost  Float
+  date       DateTime
+  notes      String?
+  createdAt  DateTime      @default(now())
+  item       InventoryItem @relation(fields: [itemId], references: [id])
+  supplier   Supplier      @relation(fields: [supplierId], references: [id])
+
+  @@index([itemId])
+  @@index([supplierId])
+  @@index([date])
+}
+
+model StockOut {
+  id            String                @id @default(uuid())
+  ref           String                @unique
+  itemId        String
+  issuedTo      String
+  studentId     String?
+  paymentStatus StoreIssuancePayment?
+  issuedById    String
+  quantity      Int
+  date          DateTime
+  notes         String?
+  createdAt     DateTime              @default(now())
+  issuedBy      Staff                 @relation(fields: [issuedById], references: [id])
+  item          InventoryItem         @relation(fields: [itemId], references: [id])
+  student       Student?              @relation(fields: [studentId], references: [id])
+
+  @@index([itemId])
+  @@index([studentId])
+  @@index([issuedById])
+  @@index([date])
+}
+
+model RateLimitHit {
+  key       String   @id
+  totalHits Int      @default(0)
+  resetTime DateTime
+
+  @@index([resetTime])
+}
+
+enum StaffType {
+  TEACHING
+  NON_TEACHING
+}
+
+enum StaffStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum StaffRole {
+  TEACHER
+  ADMIN
+  HEAD_TEACHER
+  BURSARY
+  STOREKEEPER
+  SUPPORT
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum StudentStatus {
+  ACTIVE
+  GRADUATED
+  WITHDRAWN
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  PENDING
+  COMPLETED
+}
+
+enum SchoolLevel {
+  DAYCARE
+  PRENURSERY
+  NURSERY_1
+  NURSERY_2
+  NURSERY_3
+  PRIMARY_1
+  PRIMARY_2
+  PRIMARY_3
+  PRIMARY_4
+  PRIMARY_5
+  PRIMARY_6
+}
+
+enum ClassColor {
+  YELLOW
+  BLUE
+  GREEN
+  RAINBOW
+}
+
+enum ClassStatus {
+  ACTIVE
+  INACTIVE
+  MERGED
+}
+
+enum Term {
+  FIRST_TERM
+  SECOND_TERM
+  THIRD_TERM
+}
+
+enum TermStatus {
+  COMPLETED
+  CURRENT
+  UPCOMING
+}
+
+enum SessionStatus {
+  COMPLETED
+  UPCOMING
+}
+
+enum Grade {
+  A
+  C
+  P
+  F
+}
+
+enum ExpenseCategory {
+  SALARIES
+  UTILITIES
+  SUPPLIES
+  MAINTENANCE
+  OTHER
+}
+
+enum IncomeCategory {
+  FEES
+  DONATIONS
+  BOOKS
+  LEVY
+}
+
+enum InvoiceStatus {
+  PENDING
+  PARTIAL
+  PAID
+  OVERDUE
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum HolidayType {
+  PUBLIC
+  SCHOOL
+  RELIGIOUS
+  EXAM
+}
+
+enum SubjectAssignmentStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum BillScope {
+  ALL_STUDENTS
+  BY_CLASS
+  BY_STUDENT
+}
+
+enum IntakeType {
+  NEW
+  CONTINUING
+}
+
+enum StoreIssuancePayment {
+  PREPAID
+  CHARGED
+}
+
+enum InventoryCategory {
+  BOOKS
+  STATIONERY
+  UNIFORM
+  OFFICE
+  LAB
+  SPORTSWEAR
+  CLEANING
+  OTHER
+}
+
+enum StockStatus {
+  OK
+  LOW
+  CRITICAL
+  OUT
+}
+
+enum CommunicationStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CommunicationTarget {
+  PARENTS
+  STAFF
+  ALL
+}
+
+enum CommunicationType {
+  NEWSLETTER
+  ANNOUNCEMENT
+}
+
+enum PromotionStatus {
+  PENDING
+  VERIFIED
+  COMPLETED
+  ROLLED_BACK
+}
+
+enum NurseryRating {
+  Y
+  N
+  S
+}
+
+enum AttendanceStatus {
+  PRESENT
+  LATE
+  EXCUSED
+  ABSENT
+}
+
+enum AnnouncementCategory {
+  GENERAL
+  URGENT
+  CLASS_UPDATE
+}

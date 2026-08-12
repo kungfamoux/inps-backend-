@@ -1,0 +1,109 @@
+// Single source of truth for Zod enum value lists that are otherwise
+// copy-pasted across multiple portals' validators/services. Each mirrors
+// the corresponding enum in prisma/schema.prisma.
+
+const TERM_VALUES = ["FIRST_TERM", "SECOND_TERM", "THIRD_TERM"]; // enum Term
+
+const SCHOOL_LEVEL_VALUES = [
+	"DAYCARE",
+	"PRENURSERY",
+	"NURSERY_1",
+	"NURSERY_2",
+	"NURSERY_3",
+	"PRIMARY_1",
+	"PRIMARY_2",
+	"PRIMARY_3",
+	"PRIMARY_4",
+	"PRIMARY_5",
+	"PRIMARY_6",
+]; // enum SchoolLevel
+
+const GENDER_VALUES = ["MALE", "FEMALE"]; // enum Gender
+
+const INTAKE_TYPE_VALUES = ["NEW", "CONTINUING"]; // enum IntakeType
+
+const PAYMENT_STATUS_VALUES = ["PENDING", "COMPLETED", "FAILED", "REFUNDED"]; // enum PaymentStatus
+
+const ANNOUNCEMENT_CATEGORY_VALUES = ["GENERAL", "URGENT", "CLASS_UPDATE"]; // enum AnnouncementCategory
+
+const STAFF_ROLE_VALUES = [
+	"TEACHER",
+	"ADMIN",
+	"HEAD_TEACHER",
+	"BURSARY",
+	"STOREKEEPER",
+	"SUPPORT",
+]; // enum StaffRole
+
+const STAFF_TYPE_VALUES = ["TEACHING", "NON_TEACHING"]; // enum StaffType
+
+const STUDENT_STATUS_VALUES = ["ACTIVE", "GRADUATED", "WITHDRAWN"]; // enum StudentStatus
+
+const ENROLLMENT_STATUS_VALUES = ["ACTIVE", "PENDING", "COMPLETED"]; // enum EnrollmentStatus
+
+const CLASS_COLOR_VALUES = ["YELLOW", "BLUE", "GREEN", "RAINBOW"]; // enum ClassColor
+
+const CLASS_STATUS_VALUES = ["ACTIVE", "INACTIVE", "MERGED"]; // enum ClassStatus
+
+const SECTION_STATUS_VALUES = ["ACTIVE", "INACTIVE"]; // enum SectionStatus
+
+const TERM_STATUS_VALUES = ["CURRENT", "COMPLETED", "UPCOMING"]; // enum TermStatus
+
+const SESSION_STATUS_VALUES = ["CURRENT", "COMPLETED", "UPCOMING"]; // enum SessionStatus
+
+const EXPENSE_CATEGORY_VALUES = [
+	"SALARIES",
+	"UTILITIES",
+	"SUPPLIES",
+	"MAINTENANCE",
+	"OTHER",
+]; // enum ExpenseCategory
+
+const INCOME_CATEGORY_VALUES = ["FEES", "DONATIONS", "BOOKS", "LEVY"]; // enum IncomeCategory
+
+const INVOICE_STATUS_VALUES = ["PENDING", "PARTIAL", "PAID", "OVERDUE"]; // enum InvoiceStatus
+
+const HOLIDAY_TYPE_VALUES = ["PUBLIC", "SCHOOL", "RELIGIOUS", "EXAM"]; // enum HolidayType
+
+const SUBJECT_ASSIGNMENT_STATUS_VALUES = ["ACTIVE", "INACTIVE"]; // enum SubjectAssignmentStatus
+
+const BILL_SCOPE_VALUES = ["ALL_STUDENTS", "BY_CLASS", "BY_STUDENT"]; // enum BillScope
+
+const COMMUNICATION_STATUS_VALUES = ["DRAFT", "PUBLISHED", "ARCHIVED"]; // enum CommunicationStatus
+
+const COMMUNICATION_TARGET_VALUES = ["PARENTS", "STAFF", "ALL"]; // enum CommunicationTarget
+
+const COMMUNICATION_TYPE_VALUES = ["NEWSLETTER", "ANNOUNCEMENT"]; // enum CommunicationType
+
+const NURSERY_RATING_VALUES = ["Y", "N", "S"]; // enum NurseryRating
+
+const ATTENDANCE_STATUS_VALUES = ["PRESENT", "ABSENT", "EXCUSED", "LATE"]; // enum AttendanceStatus
+
+module.exports = {
+	TERM_VALUES,
+	SCHOOL_LEVEL_VALUES,
+	GENDER_VALUES,
+	INTAKE_TYPE_VALUES,
+	PAYMENT_STATUS_VALUES,
+	ANNOUNCEMENT_CATEGORY_VALUES,
+	STAFF_ROLE_VALUES,
+	STAFF_TYPE_VALUES,
+	STUDENT_STATUS_VALUES,
+	ENROLLMENT_STATUS_VALUES,
+	CLASS_COLOR_VALUES,
+	CLASS_STATUS_VALUES,
+	SECTION_STATUS_VALUES,
+	TERM_STATUS_VALUES,
+	SESSION_STATUS_VALUES,
+	EXPENSE_CATEGORY_VALUES,
+	INCOME_CATEGORY_VALUES,
+	INVOICE_STATUS_VALUES,
+	HOLIDAY_TYPE_VALUES,
+	SUBJECT_ASSIGNMENT_STATUS_VALUES,
+	BILL_SCOPE_VALUES,
+	COMMUNICATION_STATUS_VALUES,
+	COMMUNICATION_TARGET_VALUES,
+	COMMUNICATION_TYPE_VALUES,
+	NURSERY_RATING_VALUES,
+	ATTENDANCE_STATUS_VALUES,
+};
