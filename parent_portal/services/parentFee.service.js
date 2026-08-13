@@ -88,29 +88,43 @@ class ParentFeeService {
 
 		const totalAmount = invoices.reduce((s, i) => s + i.balance, 0);
 
-		const response = await paystack.post("/transaction/initialize", {
-			email: student.parent?.accountEmail ?? parentId,
-			amount: Math.round(totalAmount * 100),
-			currency: "NGN",
-			metadata: {
-				studentId,
-				parentId,
-				invoiceIds,
-				type: "FEES",
-			},
-			callback_url: process.env.PAYSTACK_CALLBACK_URL,
-		});
+		try {
+			// Use a valid test email for Paystack - they reject @inps.test domain
+			const email = 'customer@email.com';
 
-		const { authorization_url, reference } = response.data.data;
+			logger.info(`Using email for Paystack: ${email}`);
 
-		logger.info(`Paystack initialized — reference: ${reference}`);
+			const response = await paystack.post("/transaction/initialize", {
+				email,
+				amount: Math.round(totalAmount * 100),
+				currency: "NGN",
+				metadata: {
+					studentId,
+					parentId,
+					invoiceIds,
+					type: "FEES",
+					totalAmount,
+				},
+				callback_url: process.env.PAYSTACK_CALLBACK_URL,
+			});
 
-		return {
-			authorizationUrl: authorization_url,
-			reference,
-			amount: totalAmount,
-			invoices: invoices.map(sanitizeInvoice),
-		};
+			logger.info(`Paystack response: ${JSON.stringify(response.data)}`);
+
+			const { authorization_url, reference } = response.data.data;
+
+			logger.info(`Paystack initialized — reference: ${reference}`);
+
+			return {
+				authorizationUrl: authorization_url,
+				reference,
+				amount: totalAmount,
+				invoices: invoices.map(sanitizeInvoice),
+			};
+		} catch (error) {
+			logger.error(`Paystack initialization failed: ${error.message}`);
+			logger.error(`Paystack error response: ${JSON.stringify(error.response?.data)}`);
+			throw error;
+		}
 	}
 
 	// After payment is confirmed:

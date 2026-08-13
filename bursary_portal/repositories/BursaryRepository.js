@@ -169,7 +169,7 @@ const findBillsForTerm = (academicYear, term, billIds = null) =>
 			...(billIds && billIds.length > 0 ? { id: { in: billIds } } : {}),
 		},
 		include: {
-			classes: { include: { class: { select: { id: true, level: true } } } },
+			classes: { include: { class: { select: { id: true, name: true } } } },
 			students: { select: { studentId: true } },
 		},
 	});
@@ -187,7 +187,7 @@ const findActiveStudentsWithEnrollment = (academicYear, term) =>
 		include: {
 			enrollments: {
 				where: { academicYear, term, status: "ACTIVE" },
-				include: { class: { select: { id: true, level: true } } },
+				include: { class: { select: { id: true, name: true } } },
 				take: 1,
 			},
 			parent: { select: { id: true } },
