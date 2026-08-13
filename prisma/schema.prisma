@@ -700,7 +700,6 @@ enum StaffRole {
   HEAD_TEACHER
   BURSARY
   STOREKEEPER
-  SUPPORT
 }
 
 enum Gender {

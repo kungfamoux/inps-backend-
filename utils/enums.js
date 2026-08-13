@@ -32,7 +32,6 @@ const STAFF_ROLE_VALUES = [
 	"HEAD_TEACHER",
 	"BURSARY",
 	"STOREKEEPER",
-	"SUPPORT",
 ]; // enum StaffRole
 
 const STAFF_TYPE_VALUES = ["TEACHING", "NON_TEACHING"]; // enum StaffType

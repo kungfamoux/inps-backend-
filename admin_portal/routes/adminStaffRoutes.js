@@ -74,7 +74,6 @@ const {
  *                   - HEAD_TEACHER
  *                   - BURSARY
  *                   - STOREKEEPER
- *                   - SUPPORT
  *               gender:
  *                 type: string
  *                 enum:
@@ -142,7 +141,7 @@ router.post(
  *         name: role
  *         schema:
  *           type: string
- *           enum: [TEACHER, ADMIN, HEAD_TEACHER, BURSARY, STOREKEEPER, SUPPORT]
+ *           enum: [TEACHER, ADMIN, HEAD_TEACHER, BURSARY, STOREKEEPER]
  *       - in: query
  *         name: type
  *         schema:
@@ -210,7 +209,7 @@ router.get(
 //  *         name: role
 //  *         schema:
 //  *           type: string
-//  *           enum: [TEACHER, ADMIN, HEAD_TEACHER, BURSARY, STOREKEEPER, SUPPORT]
+//  *           enum: [TEACHER, ADMIN, HEAD_TEACHER, BURSARY, STOREKEEPER]
 //  *       - in: query
 //  *         name: type
 //  *         schema:
@@ -331,7 +330,7 @@ router.get("/:staffId", authenticate, requireAdmin, getStaffById);
  *                 format: date
  *               role:
  *                 type: string
- *                 enum: [TEACHER, ADMIN, HEAD_TEACHER, BURSARY, STOREKEEPER, SUPPORT]
+ *                 enum: [TEACHER, ADMIN, HEAD_TEACHER, BURSARY, STOREKEEPER]
  *                 description: Optional. Updates the role and auto-derives type.
  *     responses:
  *       200:
