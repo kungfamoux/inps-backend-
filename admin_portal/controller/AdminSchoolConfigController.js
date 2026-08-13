@@ -110,6 +110,13 @@ const getCurrentTerm = async (req, res, next) => {
 		const data = await AdminSchoolConfigService.getCurrentTerm();
 		return res.status(200).json({ success: true, data });
 	} catch (error) {
+		// Return 404 instead of error when no current term is set
+		if (error.message === "No current term set") {
+			return res.status(404).json({ 
+				success: false, 
+				message: "No current term set" 
+			});
+		}
 		return next(error);
 	}
 };
@@ -119,6 +126,13 @@ const getCurrentSession = async (req, res, next) => {
 		const data = await AdminSchoolConfigService.getCurrentSession();
 		return res.status(200).json({ success: true, data });
 	} catch (error) {
+		// Return 404 instead of error when no current session is set
+		if (error.message === "No current session set") {
+			return res.status(404).json({ 
+				success: false, 
+				message: "No current session set" 
+			});
+		}
 		return next(error);
 	}
 };

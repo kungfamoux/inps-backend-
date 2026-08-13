@@ -141,6 +141,42 @@ router.get("/sessions", authenticate, requireAdmin, getAllSessions);
 
 /**
  * @swagger
+ * /api/admin/config/sessions/current:
+ *   get:
+ *     summary: Get the current academic session
+ *     tags: [Admin - School Config]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Current session with terms
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 data:
+ *                   id: "sess_01"
+ *                   session: "2024/2025"
+ *                   status: CURRENT
+ *                   terms: [{ id: "term_01", term: FIRST_TERM, status: CURRENT }]
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       404:
+ *         description: No current session set
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/ErrorResponse' }
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.get("/sessions/current", authenticate, requireAdmin, getCurrentSession);
+
+/**
+ * @swagger
  * /api/admin/config/sessions/{sessionId}:
  *   get:
  *     summary: Get a single session by ID
@@ -401,42 +437,6 @@ router.post(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get("/terms/current", authenticate, requireAdmin, getCurrentTerm);
-
-/**
- * @swagger
- * /api/admin/config/sessions/current:
- *   get:
- *     summary: Get the current academic session
- *     tags: [Admin - School Config]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Current session with terms
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               example:
- *                 success: true
- *                 data:
- *                   id: "sess_01"
- *                   session: "2024/2025"
- *                   status: CURRENT
- *                   terms: [{ id: "term_01", term: FIRST_TERM, status: CURRENT }]
- *       401:
- *         $ref: '#/components/responses/UnauthorizedError'
- *       403:
- *         $ref: '#/components/responses/ForbiddenError'
- *       404:
- *         description: No current session set
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/ErrorResponse' }
- *       500:
- *         $ref: '#/components/responses/ServerError'
- */
-router.get("/sessions/current", authenticate, requireAdmin, getCurrentSession);
 
 /**
  * @swagger
