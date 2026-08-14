@@ -3,8 +3,9 @@ const prisma = require("../../lib/prisma");
 
 const AuthRepository = require("../../shared/repositories/AuthRepository");
 const StaffRepository = require("../repositories/StaffRepository");
+const StaffFinancialRepository = require("../repositories/StaffFinancialRepository");
 const generateStaffId = require("../../utils/generateStaffId");
-const { sanitizeStaff } = require("../../utils/sanitizers");
+const { sanitizeStaff, sanitizeStaffFinancial } = require("../../utils/sanitizers");
 const logger = require("../../utils/logger");
 const {
 	sendStaffAccountCreationEmail,
@@ -27,12 +28,27 @@ class AdminStaffService {
 		const {
 			firstName,
 			lastName,
+			middleName,
 			email,
 			phone,
 			role,
 			gender,
 			dateOfBirth,
 			address,
+			maritalStatus,
+			nationality,
+			state,
+			lga,
+			religion,
+			qualifications,
+			subjectId,
+			yearsOfExperience,
+			previousEmployment,
+			dateOfEmployment,
+			nextOfKinName,
+			nextOfKinPhone,
+			nextOfKinRelationship,
+			nextOfKinAddress,
 		} = staffData;
 
 		if (!firstName || !lastName || !email || !phone || !role) {
@@ -100,11 +116,26 @@ class AdminStaffService {
 						firebaseUid: firebaseUser.uid,
 						firstName,
 						lastName,
+						middleName: middleName ?? null,
 						email,
 						phone,
 						gender: gender ?? null,
 						dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
 						address: address ?? null,
+						maritalStatus: maritalStatus ?? null,
+						nationality: nationality ?? null,
+						state: state ?? null,
+						lga: lga ?? null,
+						religion: religion ?? null,
+						qualifications: qualifications ? JSON.stringify(qualifications) : null,
+						subjectId: subjectId ?? null,
+						yearsOfExperience: yearsOfExperience ?? null,
+						previousEmployment: previousEmployment ? JSON.stringify(previousEmployment) : null,
+						dateOfEmployment: dateOfEmployment ? new Date(dateOfEmployment) : null,
+						nextOfKinName: nextOfKinName ?? null,
+						nextOfKinPhone: nextOfKinPhone ?? null,
+						nextOfKinRelationship: nextOfKinRelationship ?? null,
+						nextOfKinAddress: nextOfKinAddress ?? null,
 						type: deriveType(role),
 						role,
 						status: "ACTIVE",
@@ -226,10 +257,49 @@ class AdminStaffService {
 		if (updateData.dateOfBirth) {
 			updateData.dateOfBirth = new Date(updateData.dateOfBirth);
 		}
+		if (updateData.dateOfEmployment) {
+			updateData.dateOfEmployment = new Date(updateData.dateOfEmployment);
+		}
+		if (updateData.qualifications) {
+			updateData.qualifications = JSON.stringify(updateData.qualifications);
+		}
+		if (updateData.previousEmployment) {
+			updateData.previousEmployment = JSON.stringify(updateData.previousEmployment);
+		}
 
 		const updated = await StaffRepository.update(staff.id, updateData);
 		logger.info(`Staff updated: ${staffId}`);
 		return sanitizeStaff(updated);
+	}
+
+	async getStaffFinancial(staffId) {
+		logger.info(`Fetching financial data for staff: ${staffId}`);
+		const staff = await StaffRepository.findById(staffId);
+		if (!staff) throw new Error("Staff member not found");
+		
+		const financial = await StaffFinancialRepository.findByStaffId(staffId);
+		return financial ? sanitizeStaffFinancial(financial) : null;
+	}
+
+	async updateStaffFinancial(staffId, financialData) {
+		logger.info(`Updating financial data for staff: ${staffId}`);
+		const staff = await StaffRepository.findById(staffId);
+		if (!staff) throw new Error("Staff member not found");
+
+		const existing = await StaffFinancialRepository.findByStaffId(staffId);
+		
+		if (existing) {
+			const updated = await StaffFinancialRepository.update(staffId, financialData);
+			logger.info(`Financial data updated for staff: ${staffId}`);
+			return sanitizeStaffFinancial(updated);
+		} else {
+			const created = await StaffFinancialRepository.create({
+				staffId,
+				...financialData,
+			});
+			logger.info(`Financial data created for staff: ${staffId}`);
+			return sanitizeStaffFinancial(created);
+		}
 	}
 
 	async resetPasswordToDefault(staffId, performedByName) {

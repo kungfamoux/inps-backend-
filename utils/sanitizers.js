@@ -40,6 +40,30 @@ const sanitizeStaff = (staff) => {
 	if (!staff) return null;
 	const { firebaseUid, biometricId, createdAt, updatedAt, deletedAt, ...safe } =
 		staff;
+	
+	// Parse JSON fields if they exist
+	let parsedSafe = { ...safe };
+	if (safe.qualifications && typeof safe.qualifications === 'string') {
+		try {
+			parsedSafe.qualifications = JSON.parse(safe.qualifications);
+		} catch (e) {
+			// Keep original if parsing fails
+		}
+	}
+	if (safe.previousEmployment && typeof safe.previousEmployment === 'string') {
+		try {
+			parsedSafe.previousEmployment = JSON.parse(safe.previousEmployment);
+		} catch (e) {
+			// Keep original if parsing fails
+		}
+	}
+	
+	return parsedSafe;
+};
+
+const sanitizeStaffFinancial = (financial) => {
+	if (!financial) return null;
+	const { staffId, createdAt, updatedAt, ...safe } = financial;
 	return safe;
 };
 
@@ -346,6 +370,7 @@ module.exports = {
 	sanitizeStudent,
 	sanitizeParent,
 	sanitizeStaff,
+	sanitizeStaffFinancial,
 	sanitizeResult,
 	sanitizeEnrollment,
 	sanitizeSession,

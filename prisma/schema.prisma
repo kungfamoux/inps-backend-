@@ -67,8 +67,14 @@ model Staff {
   firebaseUid        String              @unique
   firstName          String?
   lastName           String?
+  middleName         String?
   dateOfBirth        DateTime?
   gender             Gender?
+  maritalStatus      MaritalStatus?
+  nationality        String?
+  state              String?
+  lga                String?
+  religion           String?
   address            String?
   email              String              @unique
   phone              String?
@@ -76,6 +82,15 @@ model Staff {
   role               StaffRole
   status             StaffStatus         @default(ACTIVE)
   biometricId        String?
+  qualifications     String? // JSON: [{degree, institution, year}]
+  subjectSpecialization String?
+  yearsOfExperience  Int?
+  previousEmployment String? // JSON: [{company, position, period}]
+  dateOfEmployment   DateTime?
+  nextOfKinName     String?
+  nextOfKinPhone     String?
+  nextOfKinRelationship String?
+  nextOfKinAddress   String?
   deletedAt          DateTime?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
@@ -90,6 +105,22 @@ model Staff {
   classesAsTeacher   Class?              @relation("ClassClassTeacher")
   stockOuts          StockOut[]
   subjectAssignments SubjectAssignment[]
+  financialRecord    StaffFinancial?
+}
+
+model StaffFinancial {
+  id                 String              @id @default(uuid())
+  staffId            String              @unique
+  salary             Decimal?            @db.Decimal(10, 2)
+  bankName           String?
+  bankAccountNumber  String?
+  bankAccountName    String?
+  taxId              String?
+  pensionNumber      String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  
+  staff              Staff              @relation(fields: [staffId], references: [id])
 }
 
 model Class {
@@ -700,6 +731,14 @@ enum StaffRole {
   HEAD_TEACHER
   BURSARY
   STOREKEEPER
+}
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+  DIVORCED
+  WIDOWED
+  SEPARATED
 }
 
 enum Gender {

@@ -64,7 +64,7 @@ const getAssignmentsByClass = async (req, res, next) => {
 
 const removeSubjectAssignment = async (req, res, next) => {
 	try {
-		const data = await AdminSubjectsService.removeSubjectAssignment(
+		const data = await AdminSubjectsService.deactivateSubjectAssignment(
 			req.params.assignmentId,
 		);
 		return res.status(200).json({

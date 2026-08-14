@@ -6,7 +6,13 @@ const create = (data, tx) => {
 };
 
 const findById = (id) => {
-	return prisma.staff.findFirst({ where: { id, deletedAt: null } });
+	return prisma.staff.findFirst({ 
+		where: { id, deletedAt: null },
+		include: {
+			financialRecord: true,
+			subject: true,
+		}
+	});
 };
 
 const findByStaffId = (staffId) => {

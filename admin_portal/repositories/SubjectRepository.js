@@ -123,6 +123,28 @@ const findAssignmentsByClass = (classId, academicYear, term) =>
 		},
 	});
 
+const findAllSubjectAssignments = async (filters = {}) => {
+	const { classId, subjectId, academicYear, term, status } = filters;
+	
+	const where = {};
+	if (classId) where.classId = classId;
+	if (subjectId) where.subjectId = subjectId;
+	if (academicYear) where.academicYear = academicYear;
+	if (term) where.term = term;
+	if (status) where.status = status;
+	if (!status) where.status = "ACTIVE"; // Default to ACTIVE if no status specified
+
+	return prisma.subjectAssignment.findMany({
+		where,
+		include: {
+			subject: true,
+			teacher: true,
+			class: true,
+		},
+		orderBy: { createdAt: "desc" },
+	});
+};
+
 const updateSubjectAssignment = (id, data) =>
 	prisma.subjectAssignment.update({ where: { id }, data });
 
@@ -343,6 +365,7 @@ module.exports = {
 	createSubjectAssignment,
 	findAssignmentsByTeacher,
 	findAssignmentsByClass,
+	findAllSubjectAssignments,
 	updateSubjectAssignment,
 	deactivateSubjectAssignment,
 	findSubjectAssignmentByUnique,

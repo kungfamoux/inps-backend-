@@ -112,6 +112,31 @@ const reactivateStaffAccount = async (req, res, next) => {
 	}
 };
 
+const getStaffFinancial = async (req, res, next) => {
+	try {
+		const financial = await AdminStaffService.getStaffFinancial(req.params.staffId);
+		return res.status(200).json({ success: true, data: financial });
+	} catch (error) {
+		return next(error);
+	}
+};
+
+const updateStaffFinancial = async (req, res, next) => {
+	try {
+		const financial = await AdminStaffService.updateStaffFinancial(
+			req.params.staffId,
+			req.body,
+		);
+		return res.status(200).json({
+			success: true,
+			message: "Financial data updated successfully",
+			data: financial,
+		});
+	} catch (error) {
+		return next(error);
+	}
+};
+
 module.exports = {
 	getActiveStaff,
 	createStaffAccount,
@@ -122,4 +147,6 @@ module.exports = {
 	resetPasswordToDefault,
 	deactivateStaffAccount,
 	reactivateStaffAccount,
+	getStaffFinancial,
+	updateStaffFinancial,
 };

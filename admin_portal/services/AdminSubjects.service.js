@@ -336,6 +336,66 @@ class AdminSubjectsService {
 		logger.info(`Subject assignment deactivated: ${id}`);
 	}
 
+	async getAllSubjectAssignments(filters = {}) {
+		logger.info(`Fetching all subject assignments — filters: ${JSON.stringify(filters)}`);
+		return SubjectsRepository.findAllSubjectAssignments(filters);
+	}
+
+	async removeSubjectAssignment(id) {
+		logger.info(`Removing subject assignment: ${id}`);
+		await SubjectsRepository.deactivateSubjectAssignment(id);
+		logger.info(`Subject assignment removed: ${id}`);
+	}
+
+	async bulkAssignSubjectToTeacher(data) {
+		const { classIds, subjectId, teacherId, academicYear, term, termId } = data;
+
+		if (!classIds?.length || !subjectId || !teacherId || !academicYear || !term || !termId) {
+			throw new Error("classIds, subjectId, teacherId, academicYear, term, and termId are required");
+		}
+
+		logger.info(`Bulk assigning subject ${subjectId} to teacher ${teacherId} for ${classIds.length} classes`);
+
+		const subject = await SubjectsRepository.findSubjectById(subjectId);
+		if (!subject) throw new Error("Subject not found");
+		if (!subject.isActive) {
+			throw new Error("Cannot assign an inactive subject to a teacher. Activate it first.");
+		}
+
+		const teacher = await StaffRepository.findById(teacherId);
+		if (!teacher) throw new Error("Teacher not found");
+
+		const results = [];
+		for (const classId of classIds) {
+			const cls = await ClassRepository.findClassById(classId);
+			if (!cls) throw new Error(`Class not found: ${classId}`);
+
+			const existing = await SubjectsRepository.findSubjectAssignmentByUnique(
+				classId,
+				subjectId,
+				academicYear,
+				term,
+			);
+			if (existing) {
+				logger.info(`Skipping duplicate assignment for class ${classId}`);
+				continue;
+			}
+
+			const assignment = await SubjectsRepository.createSubjectAssignment({
+				classId,
+				subjectId,
+				teacherId,
+				academicYear,
+				term,
+				status: "ACTIVE",
+			});
+			results.push(assignment);
+		}
+
+		logger.info(`Bulk assignment complete — ${results.length} assignments created`);
+		return results;
+	}
+
 	// CLASS TEACHER ASSIGNMENTS
 
 	async assignClassTeacher(classId, staffId) {

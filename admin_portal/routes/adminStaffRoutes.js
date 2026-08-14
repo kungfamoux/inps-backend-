@@ -10,6 +10,8 @@ const {
 	resetPasswordToDefault,
 	deactivateStaffAccount,
 	reactivateStaffAccount,
+	getStaffFinancial,
+	updateStaffFinancial,
 } = require("../controller/AdminStaffController");
 
 const { authenticate, requireAdmin, validate } = require("../../middleware");
@@ -17,6 +19,7 @@ const {
 	createStaffAccountSchema,
 	getAllStaffQuerySchema,
 	updateStaffSchema,
+	updateStaffFinancialSchema,
 } = require("../validators/adminStaff.validator");
 
 /**
@@ -502,6 +505,135 @@ router.patch(
 	authenticate,
 	requireAdmin,
 	reactivateStaffAccount,
+);
+
+/**
+ * @swagger
+ * /api/admin/staff/{staffId}/financial:
+ *   get:
+ *     summary: Get staff financial information (Admin/HeadTeacher only)
+ *     description: |
+ *       Retrieves sensitive financial data for a staff member.
+ *       Access restricted to ADMIN and HEAD_TEACHER roles only.
+ *     tags: [Admin - Staff]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: staffId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Financial data retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 data:
+ *                   salary: 150000.00
+ *                   bankName: "GTBank"
+ *                   bankAccountNumber: "1234567890"
+ *                   bankAccountName: "Chukwuemeka Obi"
+ *                   taxId: "TIN123456"
+ *                   pensionNumber: "PEN789012"
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.get(
+	"/:staffId/financial",
+	authenticate,
+	requireAdmin,
+	getStaffFinancial,
+);
+
+/**
+ * @swagger
+ * /api/admin/staff/{staffId}/financial:
+ *   patch:
+ *     summary: Update staff financial information (Admin/HeadTeacher only)
+ *     description: |
+ *       Updates sensitive financial data for a staff member.
+ *       Access restricted to ADMIN and HEAD_TEACHER roles only.
+ *     tags: [Admin - Staff]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: staffId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               salary:
+ *                 type: number
+ *                 example: 150000.00
+ *               bankName:
+ *                 type: string
+ *                 example: "GTBank"
+ *               bankAccountNumber:
+ *                 type: string
+ *                 example: "1234567890"
+ *               bankAccountName:
+ *                 type: string
+ *                 example: "Chukwuemeka Obi"
+ *               taxId:
+ *                 type: string
+ *                 example: "TIN123456"
+ *               pensionNumber:
+ *                 type: string
+ *                 example: "PEN789012"
+ *     responses:
+ *       200:
+ *         description: Financial data updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 message: "Financial data updated successfully"
+ *                 data:
+ *                   salary: 150000.00
+ *                   bankName: "GTBank"
+ *                   bankAccountNumber: "1234567890"
+ *                   bankAccountName: "Chukwuemeka Obi"
+ *                   taxId: "TIN123456"
+ *                   pensionNumber: "PEN789012"
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/ErrorResponse' }
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.patch(
+	"/:staffId/financial",
+	authenticate,
+	requireAdmin,
+	validate(updateStaffFinancialSchema),
+	updateStaffFinancial,
 );
 
 module.exports = router;
