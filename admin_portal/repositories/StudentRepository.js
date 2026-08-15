@@ -218,6 +218,23 @@ const findParentByAccountEmail = (accountEmail) =>
 	prisma.parent.findUnique({ where: { accountEmail } });
 
 /**
+ * Finds a duplicate student based on personal details and parent email.
+ * Used in createStudent to prevent duplicate registrations.
+ */
+const findDuplicateStudent = ({ firstName, lastName, dateOfBirth, accountEmail }) =>
+	prisma.student.findFirst({
+		where: {
+			firstName,
+			lastName,
+			dateOfBirth,
+			parent: {
+				accountEmail,
+			},
+			deletedAt: null,
+		},
+	});
+
+/**
  * Creates a new parent record.
  * Used in createStudent after Firebase user creation succeeds.
  */
@@ -361,6 +378,7 @@ module.exports = {
 	softDelete,
 	countStudents,
 	findParentByAccountEmail,
+	findDuplicateStudent,
 	createParent,
 	createStudentWithAdmissionNumber,
 	findResultsByStudentAndTerm,
