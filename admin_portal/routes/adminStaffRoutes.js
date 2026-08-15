@@ -240,20 +240,20 @@ router.get(
 
 /**
  * @swagger
- * /api/admin/staff/{staffId}:
+ * /api/admin/staff/{id}:
  *   get:
- *     summary: Get a staff member by staffId
- *     description: staffId format — INPSE-TCH-2024-001
+ *     summary: Get a staff member by id
+ *     description: id format — UUID
  *     tags: [Admin - Staff]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: staffId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         example: INPSE-TCH-2024-001
+ *         example: "550e8400-e29b-41d4-a716-446655440000"
  *     responses:
  *       200:
  *         description: Staff record
@@ -264,6 +264,7 @@ router.get(
  *               example:
  *                 success: true
  *                 data:
+ *                   id: "550e8400-e29b-41d4-a716-446655440000"
  *                   staffId: "INPS-TCH-2024-001"
  *                   firstName: "Ada"
  *                   lastName: "Obi"
@@ -280,11 +281,11 @@ router.get(
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.get("/:staffId", authenticate, requireAdmin, getStaffById);
+router.get("/:id", authenticate, requireAdmin, getStaffById);
 
 /**
  * @swagger
- * /api/admin/staff/{staffId}:
+ * /api/admin/staff/{id}:
  *   patch:
  *     summary: Update a staff member's profile and/or role
  *     description: |
@@ -306,11 +307,11 @@ router.get("/:staffId", authenticate, requireAdmin, getStaffById);
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: staffId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         example: INPSE-TCH-2024-001
+ *         example: "550e8400-e29b-41d4-a716-446655440000"
  *     requestBody:
  *       content:
  *         application/json:
@@ -346,6 +347,7 @@ router.get("/:staffId", authenticate, requireAdmin, getStaffById);
  *                 success: true
  *                 message: "Staff updated successfully"
  *                 data:
+ *                   id: "550e8400-e29b-41d4-a716-446655440000"
  *                   staffId: "INPS-TCH-2024-001"
  *                   firstName: "Ada"
  *                   lastName: "Obi"
@@ -367,7 +369,7 @@ router.get("/:staffId", authenticate, requireAdmin, getStaffById);
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/:staffId",
+	"/:id",
 	authenticate,
 	requireAdmin,
 	validate(updateStaffSchema),
@@ -376,7 +378,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/staff/{staffId}/reset-password:
+ * /api/admin/staff/{id}/reset-password:
  *   patch:
  *     summary: Reset a staff member's password to their phone number
  *     tags: [Admin - Staff]
@@ -384,7 +386,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: staffId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -411,7 +413,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/:staffId/reset-password",
+	"/:id/reset-password",
 	authenticate,
 	requireAdmin,
 	resetPasswordToDefault,
@@ -419,7 +421,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/staff/{staffId}/deactivate:
+ * /api/admin/staff/{id}/deactivate:
  *   patch:
  *     summary: Deactivate a staff account (soft delete)
  *     description: |
@@ -431,7 +433,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: staffId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -458,7 +460,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/:staffId/deactivate",
+	"/:id/deactivate",
 	authenticate,
 	requireAdmin,
 	deactivateStaffAccount,
@@ -466,7 +468,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/staff/{staffId}/reactivate:
+ * /api/admin/staff/{id}/reactivate:
  *   patch:
  *     summary: Reactivate a previously deactivated staff account
  *     tags: [Admin - Staff]
@@ -474,7 +476,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: staffId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -501,7 +503,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/:staffId/reactivate",
+	"/:id/reactivate",
 	authenticate,
 	requireAdmin,
 	reactivateStaffAccount,
@@ -509,7 +511,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/staff/{staffId}/financial:
+ * /api/admin/staff/{id}/financial:
  *   get:
  *     summary: Get staff financial information (Admin/HeadTeacher only)
  *     description: |
@@ -520,7 +522,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: staffId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -550,7 +552,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/:staffId/financial",
+	"/:id/financial",
 	authenticate,
 	requireAdmin,
 	getStaffFinancial,
@@ -558,7 +560,7 @@ router.get(
 
 /**
  * @swagger
- * /api/admin/staff/{staffId}/financial:
+ * /api/admin/staff/{id}/financial:
  *   patch:
  *     summary: Update staff financial information (Admin/HeadTeacher only)
  *     description: |
@@ -569,7 +571,7 @@ router.get(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: staffId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -629,7 +631,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/:staffId/financial",
+	"/:id/financial",
 	authenticate,
 	requireAdmin,
 	validate(updateStaffFinancialSchema),

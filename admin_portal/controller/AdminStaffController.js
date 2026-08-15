@@ -47,7 +47,7 @@ const getActiveStaff = async (req, res, next) => {
 
 const getStaffById = async (req, res, next) => {
 	try {
-		const staff = await AdminStaffService.getStaffById(req.params.staffId);
+		const staff = await AdminStaffService.getStaffById(req.params.id);
 		return res.status(200).json({ success: true, data: staff });
 	} catch (error) {
 		return next(error);
@@ -57,7 +57,7 @@ const getStaffById = async (req, res, next) => {
 const updateStaff = async (req, res, next) => {
 	try {
 		const staff = await AdminStaffService.updateStaff(
-			req.params.staffId,
+			req.params.id,
 			req.body,
 		);
 		return res.status(200).json({
@@ -76,7 +76,7 @@ const resetPasswordToDefault = async (req, res, next) => {
 			? `${req.staff.firstName ?? ""} ${req.staff.lastName ?? ""}`.trim()
 			: undefined;
 		await AdminStaffService.resetPasswordToDefault(
-			req.params.staffId,
+			req.params.id,
 			performedByName,
 		);
 		return res.status(200).json({
@@ -90,7 +90,7 @@ const resetPasswordToDefault = async (req, res, next) => {
 
 const deactivateStaffAccount = async (req, res, next) => {
 	try {
-		await AdminStaffService.deactivateStaffAccount(req.params.staffId);
+		await AdminStaffService.deactivateStaffAccount(req.params.id);
 		return res.status(200).json({
 			success: true,
 			message: "Staff account deactivated successfully",
@@ -102,7 +102,7 @@ const deactivateStaffAccount = async (req, res, next) => {
 
 const reactivateStaffAccount = async (req, res, next) => {
 	try {
-		await AdminStaffService.reactivateStaffAccount(req.params.staffId);
+		await AdminStaffService.reactivateStaffAccount(req.params.id);
 		return res.status(200).json({
 			success: true,
 			message: "Staff account reactivated successfully",
@@ -114,7 +114,7 @@ const reactivateStaffAccount = async (req, res, next) => {
 
 const getStaffFinancial = async (req, res, next) => {
 	try {
-		const financial = await AdminStaffService.getStaffFinancial(req.params.staffId);
+		const financial = await AdminStaffService.getStaffFinancial(req.params.id);
 		return res.status(200).json({ success: true, data: financial });
 	} catch (error) {
 		return next(error);
@@ -124,7 +124,7 @@ const getStaffFinancial = async (req, res, next) => {
 const updateStaffFinancial = async (req, res, next) => {
 	try {
 		const financial = await AdminStaffService.updateStaffFinancial(
-			req.params.staffId,
+			req.params.id,
 			req.body,
 		);
 		return res.status(200).json({
