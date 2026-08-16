@@ -553,9 +553,9 @@ class AdminSubjectsService {
 		return SubjectsRepository.findSchedulesByClass(classId);
 	}
 
-	async getSchedulesByTeacher(staffId) {
-		logger.info(`Fetching schedules for teacher: ${staffId}`);
-		return SubjectsRepository.findSchedulesByTeacher(staffId);
+	async getSchedulesByTeacher(id) {
+		logger.info(`Fetching schedules for teacher: ${id}`);
+		return SubjectsRepository.findSchedulesByTeacher(id);
 	}
 
 	async deleteSchedule(scheduleId) {

@@ -421,7 +421,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/enrollment/promotion/{sessionId}/verify:
+ * /api/admin/enrollment/promotion/{id}/verify:
  *   get:
  *     summary: Verify all results before running promotion (read-only)
  *     description: |
@@ -433,7 +433,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sessionId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -467,7 +467,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/promotion/:sessionId/verify",
+	"/promotion/:id/verify",
 	authenticate,
 	requireAdmin,
 	verifyResultsForPromotion,
@@ -475,7 +475,7 @@ router.get(
 
 /**
  * @swagger
- * /api/admin/enrollment/promotion/{sessionId}/run:
+ * /api/admin/enrollment/promotion/{id}/run:
  *   post:
  *     summary: Run promotion for all students in a session
  *     description: |
@@ -490,7 +490,7 @@ router.get(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sessionId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -523,7 +523,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.post(
-	"/promotion/:sessionId/run",
+	"/promotion/:id/run",
 	authenticate,
 	requireAdmin,
 	runPromotion,

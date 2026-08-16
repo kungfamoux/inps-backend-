@@ -177,7 +177,7 @@ router.get("/sessions/current", authenticate, requireAdmin, getCurrentSession);
 
 /**
  * @swagger
- * /api/admin/config/sessions/{sessionId}:
+ * /api/admin/config/sessions/{id}:
  *   get:
  *     summary: Get a single session by ID
  *     tags: [Admin - School Config]
@@ -185,7 +185,7 @@ router.get("/sessions/current", authenticate, requireAdmin, getCurrentSession);
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sessionId
+ *         name: id
  *         required: true
  *         schema: { type: string }
  *     responses:
@@ -214,11 +214,11 @@ router.get("/sessions/current", authenticate, requireAdmin, getCurrentSession);
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.get("/sessions/:sessionId", authenticate, requireAdmin, getSessionById);
+router.get("/sessions/:id", authenticate, requireAdmin, getSessionById);
 
 /**
  * @swagger
- * /api/admin/config/sessions/{sessionId}/terms:
+ * /api/admin/config/sessions/{id}/terms:
  *   get:
  *     summary: Get all terms for a session
  *     tags: [Admin - School Config]
@@ -226,7 +226,7 @@ router.get("/sessions/:sessionId", authenticate, requireAdmin, getSessionById);
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sessionId
+ *         name: id
  *         required: true
  *         schema: { type: string }
  *     responses:
@@ -252,7 +252,7 @@ router.get("/sessions/:sessionId", authenticate, requireAdmin, getSessionById);
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/sessions/:sessionId/terms",
+	"/sessions/:id/terms",
 	authenticate,
 	requireAdmin,
 	getTermsBySession,
@@ -260,7 +260,7 @@ router.get(
 
 /**
  * @swagger
- * /api/admin/config/sessions/{sessionId}:
+ * /api/admin/config/sessions/{id}:
  *   patch:
  *     summary: Update a session's details
  *     tags: [Admin - School Config]
@@ -268,7 +268,7 @@ router.get(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sessionId
+ *         name: id
  *         required: true
  *         schema: { type: string }
  *     requestBody:
@@ -303,7 +303,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/sessions/:sessionId",
+	"/sessions/:id",
 	authenticate,
 	requireAdmin,
 	validate(updateSessionSchema),
@@ -312,7 +312,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/config/sessions/{sessionId}:
+ * /api/admin/config/sessions/{id}:
  *   delete:
  *     summary: Delete a session
  *     description: Cannot delete a session that is currently active.
@@ -321,7 +321,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sessionId
+ *         name: id
  *         required: true
  *         schema: { type: string }
  *     responses:
@@ -347,7 +347,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.delete(
-	"/sessions/:sessionId",
+	"/sessions/:id",
 	authenticate,
 	requireAdmin,
 	deleteSession,
@@ -578,7 +578,7 @@ router.put("/current", authenticate, requireAdmin, setCurrentSessionAndTerm);
 
 /**
  * @swagger
- * /api/admin/config/terms/{termId}/status:
+ * /api/admin/config/terms/{id}/status:
  *   patch:
  *     summary: Update a term's status
  *     description: |
@@ -591,7 +591,7 @@ router.put("/current", authenticate, requireAdmin, setCurrentSessionAndTerm);
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: termId
+ *         name: id
  *         required: true
  *         schema: { type: string }
  *     requestBody:
@@ -632,7 +632,7 @@ router.put("/current", authenticate, requireAdmin, setCurrentSessionAndTerm);
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/terms/:termId/status",
+	"/terms/:id/status",
 	authenticate,
 	requireAdmin,
 	validate(updateTermStatusSchema),
@@ -641,16 +641,16 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/config/terms/{termId}:
+ * /api/admin/config/terms/{id}:
  *   patch:
  *     summary: Update a term's details (dates)
- *     description: Does not update status — use PATCH /terms/{termId}/status for that.
+ *     description: Does not update status — use PATCH /terms/{id}/status for that.
  *     tags: [Admin - School Config]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: termId
+ *         name: id
  *         required: true
  *         schema: { type: string }
  *     requestBody:
@@ -686,7 +686,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/terms/:termId",
+	"/terms/:id",
 	authenticate,
 	requireAdmin,
 	validate(updateTermSchema),
@@ -695,7 +695,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/config/terms/{termId}:
+ * /api/admin/config/terms/{id}:
  *   delete:
  *     summary: Delete a term
  *     description: Cannot delete a term that is currently active.
@@ -704,7 +704,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: termId
+ *         name: id
  *         required: true
  *         schema: { type: string }
  *     responses:
@@ -729,7 +729,7 @@ router.patch(
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.delete("/terms/:termId", authenticate, requireAdmin, deleteTerm);
+router.delete("/terms/:id", authenticate, requireAdmin, deleteTerm);
 
 // ─── Calendar ───────────────────────────────────────────────────────────────
 

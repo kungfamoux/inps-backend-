@@ -137,7 +137,7 @@ const assignFromPool = async (req, res, next) => {
 const verifyResultsForPromotion = async (req, res, next) => {
 	try {
 		const data = await AdminEnrollmentService.verifyResultsForPromotion(
-			req.params.sessionId,
+			req.params.id,
 		);
 		return res.status(200).json({ success: true, data });
 	} catch (error) {
@@ -147,10 +147,10 @@ const verifyResultsForPromotion = async (req, res, next) => {
 
 const runPromotion = async (req, res, next) => {
 	try {
-		const { sessionId } = req.params;
+		const { id } = req.params;
 		const staffId = req.staff.id;
 
-		const data = await AdminEnrollmentService.runPromotion(sessionId, staffId);
+		const data = await AdminEnrollmentService.runPromotion(id, staffId);
 		return res.status(200).json({
 			success: true,
 			message: "Promotion completed successfully",

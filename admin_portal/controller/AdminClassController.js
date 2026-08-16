@@ -26,7 +26,7 @@ const getAllClasses = async (req, res, next) => {
 
 const getClassById = async (req, res, next) => {
 	try {
-		const data = await AdminClassService.getClassById(req.params.classId);
+		const data = await AdminClassService.getClassById(req.params.id);
 		return res.status(200).json({ success: true, data });
 	} catch (error) {
 		return next(error);
@@ -45,7 +45,7 @@ const getClassByName = async (req, res, next) => {
 const updateClass = async (req, res, next) => {
 	try {
 		const data = await AdminClassService.updateClass(
-			req.params.classId,
+			req.params.id,
 			req.body,
 		);
 		return res.status(200).json({
@@ -60,7 +60,7 @@ const updateClass = async (req, res, next) => {
 
 const deleteClass = async (req, res, next) => {
 	try {
-		await AdminClassService.deleteClass(req.params.classId);
+		await AdminClassService.deleteClass(req.params.id);
 		return res.status(200).json({
 			success: true,
 			message: "Class deleted successfully",
@@ -74,7 +74,7 @@ const getStudentsByClass = async (req, res, next) => {
 	try {
 		const { status, academicYear, term } = req.query;
 		const data = await AdminClassService.getStudentsByClass(
-			req.params.classId,
+			req.params.id,
 			{ status, academicYear, term },
 		);
 		return res.status(200).json({ success: true, data });
@@ -86,7 +86,7 @@ const getStudentsByClass = async (req, res, next) => {
 const assignClassTeacher = async (req, res, next) => {
 	try {
 		const data = await AdminClassService.assignClassTeacher(
-			req.params.classId,
+			req.params.id,
 			req.body.teacherId,
 		);
 		return res.status(200).json({
@@ -102,7 +102,7 @@ const assignClassTeacher = async (req, res, next) => {
 const assignAssistantTeacher = async (req, res, next) => {
 	try {
 		const data = await AdminClassService.assignAssistantTeacher(
-			req.params.classId,
+			req.params.id,
 			req.body.teacherId,
 		);
 		return res.status(200).json({
@@ -117,7 +117,7 @@ const assignAssistantTeacher = async (req, res, next) => {
 
 const removeClassTeacher = async (req, res, next) => {
 	try {
-		await AdminClassService.removeClassTeacher(req.params.classId);
+		await AdminClassService.removeClassTeacher(req.params.id);
 		return res.status(200).json({
 			success: true,
 			message: "Class teacher removed successfully",
@@ -129,7 +129,7 @@ const removeClassTeacher = async (req, res, next) => {
 
 const removeAssistantTeacher = async (req, res, next) => {
 	try {
-		await AdminClassService.removeAssistantTeacher(req.params.classId);
+		await AdminClassService.removeAssistantTeacher(req.params.id);
 		return res.status(200).json({
 			success: true,
 			message: "Assistant teacher removed successfully",

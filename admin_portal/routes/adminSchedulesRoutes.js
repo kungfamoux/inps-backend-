@@ -121,7 +121,7 @@ router.get(
 
 /**
  * @swagger
- * /api/admin/schedules/teacher/{staffId}:
+ * /api/admin/schedules/teacher/{id}:
  *   get:
  *     summary: Get full timetable for a teacher
  *     tags: [Admin - Schedules]
@@ -129,7 +129,7 @@ router.get(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: staffId
+ *         name: id
  *         required: true
  *         schema: { type: string }
  *     responses:
@@ -156,7 +156,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/teacher/:staffId",
+	"/teacher/:id",
 	authenticate,
 	requireAdmin,
 	getSchedulesByTeacher,

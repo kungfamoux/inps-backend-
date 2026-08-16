@@ -53,30 +53,30 @@ class AdminSchoolConfigService {
 		return sanitizeSession(session);
 	}
 
-	async updateSession(sessionId, data) {
-		logger.info(`Updating session: ${sessionId}`);
-		const session = await AcademicRepository.findSessionById(sessionId);
+	async updateSession(id, data) {
+		logger.info(`Updating session: ${id}`);
+		const session = await AcademicRepository.findSessionById(id);
 		if (!session) throw new Error("Session not found");
 
-		const updated = await AcademicRepository.updateSession(sessionId, data);
-		logger.info(`Session ${sessionId} updated`);
+		const updated = await AcademicRepository.updateSession(id, data);
+		logger.info(`Session ${id} updated`);
 		return sanitizeSession(updated);
 	}
 
-	async deleteSession(sessionId) {
-		logger.info(`Deleting session: ${sessionId}`);
-		const session = await AcademicRepository.findSessionById(sessionId);
+	async deleteSession(id) {
+		logger.info(`Deleting session: ${id}`);
+		const session = await AcademicRepository.findSessionById(id);
 		if (!session) throw new Error("Session not found");
 
-		const dependents = await AcademicRepository.countSessionDependents(sessionId);
+		const dependents = await AcademicRepository.countSessionDependents(id);
 		if (dependents.total > 0) {
 			throw new Error(
 				`Cannot delete session with ${dependents.total} dependent records (${dependents.terms} terms, ${dependents.results} results, ${dependents.termRemarks} term remarks, ${dependents.promotionRuns} promotion runs)`
 			);
 		}
 
-		await AcademicRepository.deleteSession(sessionId);
-		logger.info(`Session ${sessionId} deleted`);
+		await AcademicRepository.deleteSession(id);
+		logger.info(`Session ${id} deleted`);
 		return { message: "Session deleted successfully" };
 	}
 
@@ -114,16 +114,16 @@ class AdminSchoolConfigService {
 	// Pass status=CURRENT to activate a term, status=COMPLETED to close it.
 	// sessionId is required when setting status=CURRENT so other terms
 	// in the same session are reset to UPCOMING.
-	async updateTermStatus(termId, status, sessionId) {
+	async updateTermStatus(id, status, sessionId) {
 		if (!UPDATABLE_TERM_STATUSES.includes(status)) {
 			throw new Error(
 				`Invalid status "${status}". Must be one of: ${UPDATABLE_TERM_STATUSES.join(", ")}`,
 			);
 		}
 
-		logger.info(`Updating term ${termId} status → ${status}`);
+		logger.info(`Updating term ${id} status → ${status}`);
 
-		const term = await AcademicRepository.findTermById(termId);
+		const term = await AcademicRepository.findTermById(id);
 		if (!term) throw new Error("Term not found");
 
 		if (term.status === status) {
@@ -135,12 +135,12 @@ class AdminSchoolConfigService {
 		if (status === "CURRENT") {
 			if (!sessionId)
 				throw new Error("sessionId is required when setting a term as current");
-			updated = await AcademicRepository.setCurrentTerm(termId, sessionId);
+			updated = await AcademicRepository.setCurrentTerm(id, sessionId);
 		} else {
-			updated = await AcademicRepository.updateTerm(termId, { status });
+			updated = await AcademicRepository.updateTerm(id, { status });
 		}
 
-		logger.info(`Term ${termId} status updated to ${status}`);
+		logger.info(`Term ${id} status updated to ${status}`);
 		return sanitizeTerm(updated);
 	}
 
@@ -194,7 +194,7 @@ class AdminSchoolConfigService {
 				term: sanitizeTerm(updatedTerm),
 			},
 			sessionId: sessionId,
-			termId: termId,
+			termId: id,
 		}, userId);
 
 		return {
@@ -203,36 +203,36 @@ class AdminSchoolConfigService {
 		};
 	}
 
-	async getTermsBySession(sessionId) {
-		logger.info(`Fetching terms for session: ${sessionId}`);
-		const terms = await AcademicRepository.findAllTermsBySession(sessionId);
+	async getTermsBySession(id) {
+		logger.info(`Fetching terms for session: ${id}`);
+		const terms = await AcademicRepository.findAllTermsBySession(id);
 		return terms.map(sanitizeTerm);
 	}
 
-	async updateTerm(termId, data) {
-		logger.info(`Updating term: ${termId}`);
-		const term = await AcademicRepository.findTermById(termId);
+	async updateTerm(id, data) {
+		logger.info(`Updating term: ${id}`);
+		const term = await AcademicRepository.findTermById(id);
 		if (!term) throw new Error("Term not found");
 
-		const updated = await AcademicRepository.updateTerm(termId, data);
-		logger.info(`Term ${termId} updated`);
+		const updated = await AcademicRepository.updateTerm(id, data);
+		logger.info(`Term ${id} updated`);
 		return sanitizeTerm(updated);
 	}
 
-	async deleteTerm(termId) {
-		logger.info(`Deleting term: ${termId}`);
-		const term = await AcademicRepository.findTermById(termId);
+	async deleteTerm(id) {
+		logger.info(`Deleting term: ${id}`);
+		const term = await AcademicRepository.findTermById(id);
 		if (!term) throw new Error("Term not found");
 
-		const dependents = await AcademicRepository.countTermDependents(termId);
+		const dependents = await AcademicRepository.countTermDependents(id);
 		if (dependents.total > 0) {
 			throw new Error(
 				`Cannot delete term with ${dependents.total} dependent records (${dependents.classSubjects} class subjects, ${dependents.results} results, ${dependents.termRemarks} term remarks)`
 			);
 		}
 
-		await AcademicRepository.deleteTerm(termId);
-		logger.info(`Term ${termId} deleted`);
+		await AcademicRepository.deleteTerm(id);
+		logger.info(`Term ${id} deleted`);
 		return { message: "Term deleted successfully" };
 	}
 

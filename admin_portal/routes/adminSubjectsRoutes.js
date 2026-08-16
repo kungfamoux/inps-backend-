@@ -142,11 +142,11 @@ router.get(
 	AdminSubjectsController.getAllSubjects,
 );
 
-//  STATIC ROUTES — must come before /:subjectId
+//  STATIC ROUTES — must come before /:id
 
 /**
  * @swagger
- * /api/admin/subjects/classes/{classId}/subjects:
+ * /api/admin/subjects/classes/{id}/subjects:
  *   get:
  *     summary: Get all subjects assigned to a class for a term
  *     tags: [Class Curriculum]
@@ -154,7 +154,7 @@ router.get(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -190,7 +190,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/classes/:classId/subjects",
+	"/classes/:id/subjects",
 	authenticate,
 	requireAdmin,
 	validate(getSubjectsByClassQuerySchema, "query"),
@@ -199,7 +199,7 @@ router.get(
 
 /**
  * @swagger
- * /api/admin/subjects/classes/{classId}/subjects/bulk:
+ * /api/admin/subjects/classes/{id}/subjects/bulk:
  *   post:
  *     summary: Assign multiple subjects to a class for a term in one call
  *     tags: [Class Curriculum]
@@ -211,7 +211,7 @@ router.get(
  *       exist and be active.
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -262,7 +262,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.post(
-	"/classes/:classId/subjects/bulk",
+	"/classes/:id/subjects/bulk",
 	authenticate,
 	requireAdmin,
 	validate(bulkAssignSubjectsSchema),
@@ -271,7 +271,7 @@ router.post(
 
 /**
  * @swagger
- * /api/admin/subjects/classes/{classId}/subjects/{subjectId}:
+ * /api/admin/subjects/classes/{id}/subjects/{subjectId}:
  *   post:
  *     summary: Assign a subject to a class for a term
  *     tags: [Class Curriculum]
@@ -282,7 +282,7 @@ router.post(
  *       class for the given term. termId is required — curriculum is scoped per term.
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -329,7 +329,7 @@ router.post(
  *         $ref: '#/components/responses/ServerError'
  */
 router.post(
-	"/classes/:classId/subjects/:subjectId",
+	"/classes/:id/subjects/:subjectId",
 	authenticate,
 	requireAdmin,
 	validate(termIdBodySchema),
@@ -338,7 +338,7 @@ router.post(
 
 /**
  * @swagger
- * /api/admin/subjects/classes/{classId}/subjects/{subjectId}:
+ * /api/admin/subjects/classes/{id}/subjects/{subjectId}:
  *   delete:
  *     summary: Remove a subject from a class curriculum for a term
  *     tags: [Class Curriculum]
@@ -349,7 +349,7 @@ router.post(
  *       not from other terms where it may also be assigned.
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -393,7 +393,7 @@ router.post(
  *         $ref: '#/components/responses/ServerError'
  */
 router.delete(
-	"/classes/:classId/subjects/:subjectId",
+	"/classes/:id/subjects/:subjectId",
 	authenticate,
 	requireAdmin,
 	validate(termIdBodySchema),
@@ -404,7 +404,7 @@ router.delete(
 
 /**
  * @swagger
- * /api/admin/subjects/{subjectId}:
+ * /api/admin/subjects/{id}:
  *   get:
  *     summary: Get a subject by ID
  *     tags: [Subjects]
@@ -412,7 +412,7 @@ router.delete(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: subjectId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -444,7 +444,7 @@ router.delete(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/:subjectId",
+	"/:id",
 	authenticate,
 	requireAdmin,
 	AdminSubjectsController.getSubjectById,
@@ -452,7 +452,7 @@ router.get(
 
 /**
  * @swagger
- * /api/admin/subjects/{subjectId}:
+ * /api/admin/subjects/{id}:
  *   patch:
  *     summary: Update a subject
  *     tags: [Subjects]
@@ -464,7 +464,7 @@ router.get(
 
  *     parameters:
  *       - in: path
- *         name: subjectId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -516,7 +516,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/:subjectId",
+	"/:id",
 	authenticate,
 	requireAdmin,
 	validate(updateSubjectSchema),
@@ -525,7 +525,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/subjects/{subjectId}:
+ * /api/admin/subjects/{id}:
  *   delete:
  *     summary: Delete a subject
  *     tags: [Subjects]
@@ -533,7 +533,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: subjectId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -560,7 +560,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.delete(
-	"/:subjectId",
+	"/:id",
 	authenticate,
 	requireAdmin,
 	AdminSubjectsController.deleteSubject,
@@ -568,7 +568,7 @@ router.delete(
 
 /**
  * @swagger
- * /api/admin/subjects/{subjectId}/toggle-active:
+ * /api/admin/subjects/{id}/toggle-active:
  *   patch:
  *     summary: Toggle a subject's active status on or off
  *     tags: [Subjects]
@@ -579,7 +579,7 @@ router.delete(
  *       Inactive subjects cannot be assigned to classes or teachers.
  *     parameters:
  *       - in: path
- *         name: subjectId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -607,7 +607,7 @@ router.delete(
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/:subjectId/toggle-active",
+	"/:id/toggle-active",
 	authenticate,
 	requireAdmin,
 	AdminSubjectsController.toggleSubjectActive,
@@ -615,7 +615,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/subjects/{subjectId}/levels:
+ * /api/admin/subjects/{id}/levels:
  *   post:
  *     summary: Add a level to an existing subject
  *     tags: [Subjects]
@@ -623,7 +623,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: subjectId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -667,7 +667,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.post(
-	"/:subjectId/levels",
+	"/:id/levels",
 	authenticate,
 	requireAdmin,
 	validate(addSubjectLevelSchema),
@@ -676,7 +676,7 @@ router.post(
 
 /**
  * @swagger
- * /api/admin/subjects/{subjectId}/levels/{level}:
+ * /api/admin/subjects/{id}/levels/{level}:
  *   delete:
  *     summary: Remove a level from a subject
  *     tags: [Subjects]
@@ -684,7 +684,7 @@ router.post(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: subjectId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -717,7 +717,7 @@ router.post(
  *         $ref: '#/components/responses/ServerError'
  */
 router.delete(
-	"/:subjectId/levels/:level",
+	"/:id/levels/:level",
 	authenticate,
 	requireAdmin,
 	AdminSubjectsController.removeSubjectLevel,

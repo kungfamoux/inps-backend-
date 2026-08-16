@@ -179,9 +179,9 @@ class AdminEnrollmentService {
 
 	// VERIFY
 
-	async verifyResultsForPromotion(sessionId) {
+	async verifyResultsForPromotion(id) {
 		try {
-			const session = await AcademicRepository.findSessionById(sessionId);
+			const session = await AcademicRepository.findSessionById(id);
 
 			if (!session) throw new Error("Session not found");
 
@@ -199,7 +199,7 @@ class AdminEnrollmentService {
 			const resultsByStudent =
 				await EnrollmentRepository.findResultsByStudentIdsAndSession(
 					students.map((s) => s.id),
-					sessionId,
+					id,
 				);
 
 			const issues = [];
@@ -243,7 +243,7 @@ class AdminEnrollmentService {
 			}
 
 			return {
-				sessionId,
+				sessionId: id,
 				totalStudents: students.length,
 				verified: verified.length,
 				hasIssues: issues.length > 0,
@@ -256,9 +256,9 @@ class AdminEnrollmentService {
 
 	// PROMOTE
 
-	async runPromotion(sessionId, staffId) {
+	async runPromotion(id, staffId) {
 		try {
-			const session = await AcademicRepository.findSessionById(sessionId);
+			const session = await AcademicRepository.findSessionById(id);
 
 			if (!session) throw new Error("Session not found");
 
@@ -271,7 +271,7 @@ class AdminEnrollmentService {
 				throw new Error("Not all terms are completed");
 			}
 
-			logger.info(`Starting promotion for session: ${sessionId}`);
+			logger.info(`Starting promotion for session: ${id}`);
 
 			const promoted =
 				await EnrollmentRepository.promoteStudentsToNextSession(

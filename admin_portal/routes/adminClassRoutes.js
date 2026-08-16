@@ -140,7 +140,7 @@ router.get(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}:
+ * /api/admin/classes/{id}:
  *   get:
  *     summary: Get a class by ID
  *     tags: [Classes]
@@ -148,7 +148,7 @@ router.get(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -179,7 +179,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/:classId",
+	"/:id",
 	authenticate,
 	requireAdmin,
 	getClassById,
@@ -234,7 +234,7 @@ router.get(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}:
+ * /api/admin/classes/{id}:
  *   patch:
  *     summary: Update a class
  *     description: >
@@ -245,7 +245,7 @@ router.get(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -288,7 +288,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/:classId",
+	"/:id",
 	authenticate,
 	requireAdmin,
 	validate(updateClassSchema),
@@ -297,7 +297,7 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}:
+ * /api/admin/classes/{id}:
  *   delete:
  *     summary: Delete a class
  *     description: Cannot delete a class that has enrolled students or other dependencies
@@ -306,7 +306,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -333,7 +333,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.delete(
-	"/:classId",
+	"/:id",
 	authenticate,
 	requireAdmin,
 	deleteClass,
@@ -341,7 +341,7 @@ router.delete(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}/students:
+ * /api/admin/classes/{id}/students:
  *   get:
  *     summary: Get students in a class
  *     tags: [Classes]
@@ -349,7 +349,7 @@ router.delete(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -380,7 +380,7 @@ router.delete(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/:classId/students",
+	"/:id/students",
 	authenticate,
 	requireAdmin,
 	getStudentsByClass,
@@ -388,7 +388,7 @@ router.get(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}/class-teacher:
+ * /api/admin/classes/{id}/class-teacher:
  *   post:
  *     summary: Assign a class teacher
  *     tags: [Classes]
@@ -396,7 +396,7 @@ router.get(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -426,7 +426,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.post(
-	"/:classId/class-teacher",
+	"/:id/class-teacher",
 	authenticate,
 	requireAdmin,
 	assignClassTeacher,
@@ -434,7 +434,7 @@ router.post(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}/assistant-teacher:
+ * /api/admin/classes/{id}/assistant-teacher:
  *   post:
  *     summary: Assign an assistant teacher
  *     tags: [Classes]
@@ -442,7 +442,7 @@ router.post(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -472,7 +472,7 @@ router.post(
  *         $ref: '#/components/responses/ServerError'
  */
 router.post(
-	"/:classId/assistant-teacher",
+	"/:id/assistant-teacher",
 	authenticate,
 	requireAdmin,
 	assignAssistantTeacher,
@@ -480,7 +480,7 @@ router.post(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}/class-teacher:
+ * /api/admin/classes/{id}/class-teacher:
  *   delete:
  *     summary: Remove class teacher
  *     tags: [Classes]
@@ -488,7 +488,7 @@ router.post(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -507,7 +507,7 @@ router.post(
  *         $ref: '#/components/responses/ServerError'
  */
 router.delete(
-	"/:classId/class-teacher",
+	"/:id/class-teacher",
 	authenticate,
 	requireAdmin,
 	removeClassTeacher,
@@ -515,7 +515,7 @@ router.delete(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}/assistant-teacher:
+ * /api/admin/classes/{id}/assistant-teacher:
  *   delete:
  *     summary: Remove assistant teacher
  *     tags: [Classes]
@@ -523,7 +523,7 @@ router.delete(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: classId
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
@@ -542,7 +542,7 @@ router.delete(
  *         $ref: '#/components/responses/ServerError'
  */
 router.delete(
-	"/:classId/assistant-teacher",
+	"/:id/assistant-teacher",
 	authenticate,
 	requireAdmin,
 	removeAssistantTeacher,

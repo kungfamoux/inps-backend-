@@ -28,7 +28,7 @@ const getAllSubjects = async (req, res, next) => {
 const getSubjectById = async (req, res, next) => {
 	try {
 		const data = await AdminSubjectsService.getSubjectById(
-			req.params.subjectId,
+			req.params.id,
 		);
 		return res.status(200).json({ success: true, data });
 	} catch (error) {
@@ -39,7 +39,7 @@ const getSubjectById = async (req, res, next) => {
 const updateSubject = async (req, res, next) => {
 	try {
 		const data = await AdminSubjectsService.updateSubject(
-			req.params.subjectId,
+			req.params.id,
 			req.body,
 		);
 		return res.status(200).json({
@@ -54,7 +54,7 @@ const updateSubject = async (req, res, next) => {
 
 const deleteSubject = async (req, res, next) => {
 	try {
-		await AdminSubjectsService.deleteSubject(req.params.subjectId);
+		await AdminSubjectsService.deleteSubject(req.params.id);
 		return res.status(200).json({
 			success: true,
 			message: "Subject deleted successfully",
@@ -67,7 +67,7 @@ const deleteSubject = async (req, res, next) => {
 const toggleSubjectActive = async (req, res, next) => {
 	try {
 		const data = await AdminSubjectsService.toggleSubjectActive(
-			req.params.subjectId,
+			req.params.id,
 		);
 		return res.status(200).json({
 			success: true,
@@ -81,14 +81,14 @@ const toggleSubjectActive = async (req, res, next) => {
 
 const addSubjectLevel = async (req, res, next) => {
 	try {
-		const { subjectId } = req.params;
+		const { id } = req.params;
 		const { level } = req.body;
 		if (!level) {
 			return res
 				.status(400)
 				.json({ success: false, message: "level is required" });
 		}
-		const data = await AdminSubjectsService.addSubjectLevel(subjectId, level);
+		const data = await AdminSubjectsService.addSubjectLevel(id, level);
 		return res.status(201).json({
 			success: true,
 			message: "Level added to subject",
@@ -101,8 +101,8 @@ const addSubjectLevel = async (req, res, next) => {
 
 const removeSubjectLevel = async (req, res, next) => {
 	try {
-		const { subjectId, level } = req.params;
-		await AdminSubjectsService.removeSubjectLevel(subjectId, level);
+		const { id, level } = req.params;
+		await AdminSubjectsService.removeSubjectLevel(id, level);
 		return res.status(200).json({
 			success: true,
 			message: "Level removed from subject",
@@ -116,7 +116,7 @@ const removeSubjectLevel = async (req, res, next) => {
 
 const assignSubjectToClass = async (req, res, next) => {
 	try {
-		const { classId, subjectId } = req.params;
+		const { id: classId, subjectId } = req.params;
 		const { termId } = req.body;
 		const data = await AdminSubjectsService.assignSubjectToClass(
 			classId,
@@ -135,7 +135,7 @@ const assignSubjectToClass = async (req, res, next) => {
 
 const removeSubjectFromClass = async (req, res, next) => {
 	try {
-		const { classId, subjectId } = req.params;
+		const { id: classId, subjectId } = req.params;
 		const { termId } = req.body;
 		await AdminSubjectsService.removeSubjectFromClass(
 			classId,
@@ -153,7 +153,7 @@ const removeSubjectFromClass = async (req, res, next) => {
 
 const getSubjectsByClass = async (req, res, next) => {
 	try {
-		const { classId } = req.params;
+		const { id: classId } = req.params;
 		const { termId } = req.query;
 		const data = await AdminSubjectsService.getSubjectsByClass(
 			classId,
@@ -167,7 +167,7 @@ const getSubjectsByClass = async (req, res, next) => {
 
 const bulkAssignSubjectsToClass = async (req, res, next) => {
 	try {
-		const { classId } = req.params;
+		const { id: classId } = req.params;
 		const { termId, subjectIds } = req.body;
 		const data = await AdminSubjectsService.bulkAssignSubjectsToClass(
 			classId,

@@ -31,7 +31,7 @@ const getAllSessions = async (req, res, next) => {
 const getSessionById = async (req, res, next) => {
 	try {
 		const data = await AdminSchoolConfigService.getSessionById(
-			req.params.sessionId,
+			req.params.id,
 		);
 		return res.status(200).json({ success: true, data });
 	} catch (error) {
@@ -42,7 +42,7 @@ const getSessionById = async (req, res, next) => {
 const updateSession = async (req, res, next) => {
 	try {
 		const data = await AdminSchoolConfigService.updateSession(
-			req.params.sessionId,
+			req.params.id,
 			req.body,
 		);
 		return res
@@ -55,7 +55,7 @@ const updateSession = async (req, res, next) => {
 
 const deleteSession = async (req, res, next) => {
 	try {
-		await AdminSchoolConfigService.deleteSession(req.params.sessionId);
+		await AdminSchoolConfigService.deleteSession(req.params.id);
 		return res.status(200).json({ success: true, message: "Session deleted" });
 	} catch (error) {
 		return next(error);
@@ -81,7 +81,7 @@ const createTerm = async (req, res, next) => {
 // status=UPCOMING → resets the term
 const updateTermStatus = async (req, res, next) => {
 	try {
-		const { termId } = req.params;
+		const { id } = req.params;
 		const { status, sessionId } = req.body;
 
 		if (!status) {
@@ -91,7 +91,7 @@ const updateTermStatus = async (req, res, next) => {
 		}
 
 		const data = await AdminSchoolConfigService.updateTermStatus(
-			termId,
+			id,
 			status,
 			sessionId,
 		);
@@ -162,7 +162,7 @@ const setCurrentSessionAndTerm = async (req, res, next) => {
 const getTermsBySession = async (req, res, next) => {
 	try {
 		const data = await AdminSchoolConfigService.getTermsBySession(
-			req.params.sessionId,
+			req.params.id,
 		);
 		return res.status(200).json({ success: true, data });
 	} catch (error) {
@@ -173,7 +173,7 @@ const getTermsBySession = async (req, res, next) => {
 const updateTerm = async (req, res, next) => {
 	try {
 		const data = await AdminSchoolConfigService.updateTerm(
-			req.params.termId,
+			req.params.id,
 			req.body,
 		);
 		return res
@@ -186,7 +186,7 @@ const updateTerm = async (req, res, next) => {
 
 const deleteTerm = async (req, res, next) => {
 	try {
-		await AdminSchoolConfigService.deleteTerm(req.params.termId);
+		await AdminSchoolConfigService.deleteTerm(req.params.id);
 		return res.status(200).json({ success: true, message: "Term deleted" });
 	} catch (error) {
 		return next(error);

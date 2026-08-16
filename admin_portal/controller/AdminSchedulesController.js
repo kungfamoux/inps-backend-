@@ -27,7 +27,7 @@ const getSchedulesByClass = async (req, res, next) => {
 const getSchedulesByTeacher = async (req, res, next) => {
 	try {
 		const data = await AdminSubjectsService.getSchedulesByTeacher(
-			req.params.staffId,
+			req.params.id,
 		);
 		return res.status(200).json({ success: true, data });
 	} catch (error) {
