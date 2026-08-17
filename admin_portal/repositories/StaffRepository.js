@@ -10,7 +10,7 @@ const findById = (id) => {
 		where: { id, deletedAt: null },
 		include: {
 			financialRecord: true,
-			subject: true,
+			subjectAssignments: true,
 		}
 	});
 };
