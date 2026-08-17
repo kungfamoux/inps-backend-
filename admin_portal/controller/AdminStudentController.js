@@ -145,7 +145,8 @@ const updateStudent = async (req, res, next) => {
 
 const deleteStudent = async (req, res, next) => {
 	try {
-		await AdminStudentService.deleteStudent(req.params.admissionNumber);
+		const staffId = req.staff.id;
+		await AdminStudentService.deleteStudent(req.params.admissionNumber, staffId);
 		return res.status(200).json({
 			success: true,
 			message: "Student record deleted successfully",

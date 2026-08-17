@@ -638,6 +638,17 @@ model Counter {
   value Int    @default(0)
 }
 
+model AdmissionNumberPool {
+  admissionNumber String    @id
+  isAvailable     Boolean   @default(true)
+  year            String
+  releasedAt      DateTime?
+  releasedBy      String?
+  studentId       String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
 model Supplier {
   id          String    @id @default(uuid())
   name        String

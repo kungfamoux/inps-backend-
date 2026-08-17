@@ -300,14 +300,14 @@ class AdminStudentService {
 		return signStudentFiles(updated);
 	}
 
-	async deleteStudent(admissionNumber) {
-		logger.info(`Deleting student: ${admissionNumber}`);
+	async deleteStudent(admissionNumber, staffId) {
+		logger.info(`Deleting student and releasing admission number: ${admissionNumber}`);
 
 		const student = await StudentRepository.findByAdmissionNumber(admissionNumber);
 		if (!student) throw new Error(`Student not found: ${admissionNumber}`);
 
-		await StudentRepository.delete(admissionNumber);
-		logger.info(`Student deleted: ${admissionNumber}`);
+		await StudentRepository.hardDeleteAndReleaseAdmissionNumber(admissionNumber, staffId);
+		logger.info(`Student deleted and admission number released: ${admissionNumber}`);
 		return { message: "Student deleted successfully" };
 	}
 

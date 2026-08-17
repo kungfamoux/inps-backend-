@@ -204,6 +204,45 @@ const softDelete = (id) =>
 		data: { deletedAt: new Date() },
 	});
 
+/**
+ * Hard deletes a student and releases their admission number back to the pool for reuse.
+ * This operation is performed within a transaction to ensure data integrity.
+ *
+ * @param {string} admissionNumber - The admission number of the student to delete
+ * @param {string} staffId - The ID of the staff member performing the deletion (for audit trail)
+ * @returns {Promise<void>}
+ */
+const hardDeleteAndReleaseAdmissionNumber = async (admissionNumber, staffId) => {
+	return prisma.$transaction(async (tx) => {
+		// Get the student before deletion
+		const student = await tx.student.findUnique({
+			where: { admissionNumber }
+		});
+
+		if (!student) throw new Error("Student not found");
+
+		// Extract year from admission number (format: INPS-YEAR-SEQUENCE)
+		const year = admissionNumber.split('-')[1];
+
+		// Delete the student (hard delete)
+		await tx.student.delete({
+			where: { admissionNumber }
+		});
+
+		// Add admission number to pool for reuse
+		await tx.admissionNumberPool.create({
+			data: {
+				admissionNumber: student.admissionNumber,
+				isAvailable: true,
+				year: year,
+				releasedAt: new Date(),
+				releasedBy: staffId,
+				studentId: student.id
+			}
+		});
+	});
+};
+
 const countStudents = (filters = {}) => {
 	const where = { deletedAt: null };
 	if (filters.status) where.status = filters.status;
@@ -376,6 +415,7 @@ module.exports = {
 	findAll,
 	update,
 	softDelete,
+	hardDeleteAndReleaseAdmissionNumber,
 	countStudents,
 	findParentByAccountEmail,
 	findDuplicateStudent,

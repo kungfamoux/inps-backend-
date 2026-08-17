@@ -424,7 +424,11 @@ router.patch(
  * @swagger
  * /api/admin/students/{admissionNumber}:
  *   delete:
- *     summary: Soft-delete a student record
+ *     summary: Hard-delete a student record and release admission number for reuse
+ *     description: |
+ *       Permanently deletes the student record and releases their admission number
+ *       back to the admission number pool for reuse by new students. An audit trail
+ *       is maintained tracking which staff member released the number and when.
  *     tags: [Admin - Students]
  *     security:
  *       - bearerAuth: []
@@ -435,7 +439,7 @@ router.patch(
  *         schema: { type: string }
  *     responses:
  *       200:
- *         description: Student deleted successfully
+ *         description: Student deleted successfully and admission number released
  *         content:
  *           application/json:
  *             schema:
@@ -444,7 +448,7 @@ router.patch(
  *                 success: true
  *                 message: "Student record deleted successfully"
  *       400:
- *         description: Already deleted
+ *         description: Student not found
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/ErrorResponse' }
