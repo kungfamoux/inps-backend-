@@ -128,7 +128,7 @@ class AdminStaffService {
 						lga: lga ?? null,
 						religion: religion ?? null,
 						qualifications: qualifications ? JSON.stringify(qualifications) : null,
-						subjectId: subjectId ?? null,
+						subjectSpecialization: subjectId ?? null,
 						yearsOfExperience: yearsOfExperience ?? null,
 						previousEmployment: previousEmployment ? JSON.stringify(previousEmployment) : null,
 						dateOfEmployment: dateOfEmployment ? new Date(dateOfEmployment) : null,
