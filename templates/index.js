@@ -14,7 +14,7 @@ const toText = (value) => (value ?? "").toString();
 const portalLink = (override) =>
 	override ||
 	process.env.PORTAL_URL ||
-	"https://inps-frontend.vercel.app" ||
+	"https://portal.inpse.com" ||
 	"#";
 
 // Shared footer placeholders present on every template.
