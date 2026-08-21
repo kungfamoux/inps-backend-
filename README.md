@@ -164,7 +164,7 @@ The schema (`prisma/schema.prisma`) models a single school (no multi-tenancy). K
    npm run seed
    ```
 
-   This creates the first admin accounts (from `ADMIN_1_*` / `ADMIN_2_*` env vars — default password is the phone number, digits only), plus baseline counters, subjects, behavioral traits, and nursery assessment items.
+   This creates the first admin accounts (from `ADMIN_1_*` / `ADMIN_2_*` env vars — default password is the phone number, digits only), plus baseline counters, subjects, behavioral traits, and nursery assessment items. You can create up to 10 admin accounts total.
 
 5. **Start the server**
 

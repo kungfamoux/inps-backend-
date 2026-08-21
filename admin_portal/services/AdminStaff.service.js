@@ -17,7 +17,7 @@ if (!process.env.FIREBASE_API_KEY) {
 }
 
 const ROLE_CAPS = {
-	ADMIN: 2,
+	ADMIN: 10,
 	HEAD_TEACHER: 1,
 };
 
@@ -60,7 +60,7 @@ class AdminStaffService {
 			if (currentCount >= ROLE_CAPS[role]) {
 				const capMessage =
 					role === "ADMIN"
-						? "Maximum of 2 admin accounts allowed"
+						? "Maximum of 10 admin accounts allowed"
 						: "Only 1 head teacher account is allowed";
 				logger.warn(
 					`Role cap reached for ${role}: ${currentCount}/${ROLE_CAPS[role]}`,
@@ -238,7 +238,7 @@ class AdminStaffService {
 				if (currentCount >= ROLE_CAPS[newRole]) {
 					const capMessage =
 						newRole === "ADMIN"
-							? "Maximum of 2 admin accounts allowed"
+							? "Maximum of 10 admin accounts allowed"
 							: "Only 1 head teacher account is allowed";
 					logger.warn(
 						`Role cap reached for ${newRole}: ${currentCount}/${ROLE_CAPS[newRole]}`,

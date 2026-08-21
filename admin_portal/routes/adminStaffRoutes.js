@@ -299,7 +299,7 @@ router.get("/:id", authenticate, requireAdmin, getStaffById);
  *       - `type` is always derived from the role automatically — do not pass it.
  *       - Whether a TEACHER is a class teacher, subject teacher, or both is
  *         determined by section/subject assignments, not by this role.
- *       - Role cap is enforced: max 2 ADMIN accounts, max 1 HEAD_TEACHER.
+ *       - Role cap is enforced: max 10 ADMIN accounts, max 1 HEAD_TEACHER.
  *
  *       **Immutable fields** — staffId, firebaseUid, email, status are always ignored.
  *     tags: [Admin - Staff]
