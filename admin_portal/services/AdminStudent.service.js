@@ -295,7 +295,7 @@ class AdminStudentService {
 		const student = await StudentRepository.findByAdmissionNumber(admissionNumber);
 		if (!student) throw new Error(`Student not found: ${admissionNumber}`);
 
-		const updated = await StudentRepository.update(admissionNumber, updateData);
+		const updated = await StudentRepository.update(student.id, updateData);
 		logger.info(`Student updated: ${admissionNumber}`);
 		return signStudentFiles(updated);
 	}
