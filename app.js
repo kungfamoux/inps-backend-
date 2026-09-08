@@ -42,9 +42,10 @@ app.use(helmet());
 // which slows down any frontend waiting on these payloads.
 app.use(compression());
 app.use(requestId);
+// Temporary: Allow all origins for development
 app.use(
 	cors({
-		origin: process.env.CORS_ORIGIN || "*",
+		origin: "*",
 		methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
 		allowedHeaders: ["Content-Type", "Authorization"],
 		// Lets the browser cache the preflight result instead of sending a

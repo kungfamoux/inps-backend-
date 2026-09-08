@@ -40,15 +40,38 @@ const generateAdmissionNumber = async (tx) => {
 		return availableNumber.admissionNumber;
 	}
 
-	// If no available numbers, generate new one using the counter
-	const counter = await client.counter.upsert({
-		where: { id: COUNTER_ID },
-		create: { id: COUNTER_ID, value: 1 },
-		update: { value: { increment: 1 } },
+	// If no pool numbers, find the next available sequence number by checking existing students
+	const existingStudents = await client.student.findMany({
+		where: {
+			admissionNumber: {
+				startsWith: `${PREFIX}-${year}-`
+			}
+		},
+		select: { admissionNumber: true }
 	});
 
-	const sequence = counter.value.toString().padStart(3, "0");
-	return `${PREFIX}-${year}-${sequence}`;
+	// Extract existing sequence numbers
+	const existingSequences = existingStudents
+		.map(s => parseInt(s.admissionNumber.split('-')[2]))
+		.filter(n => !isNaN(n));
+
+	// Find the smallest unused sequence number starting from 1
+	let nextSequence = 1;
+	while (existingSequences.includes(nextSequence)) {
+		nextSequence++;
+	}
+
+	const sequence = nextSequence.toString().padStart(3, "0");
+	const admissionNumber = `${PREFIX}-${year}-${sequence}`;
+
+	// Update counter to reflect the new sequence (for tracking purposes)
+	await client.counter.upsert({
+		where: { id: COUNTER_ID },
+		create: { id: COUNTER_ID, value: nextSequence },
+		update: { value: nextSequence },
+	});
+
+	return admissionNumber;
 };
 
 module.exports = generateAdmissionNumber;

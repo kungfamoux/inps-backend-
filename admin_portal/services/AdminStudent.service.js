@@ -73,16 +73,19 @@ class AdminStudentService {
 
 		const dob = new Date(dateOfBirth);
 
-		// Check for duplicate student
-		const existingStudent = await StudentRepository.findDuplicateStudent({
-			firstName,
-			lastName,
-			dateOfBirth: dob,
-			accountEmail
-		});
+		// Check for duplicate student by checking if parent email exists with a student having same name and DOB
+		const existingParent = await StudentRepository.findParentByAccountEmail(accountEmail);
+		if (existingParent) {
+			const existingStudent = await StudentRepository.findDuplicateStudent({
+				firstName,
+				lastName,
+				dateOfBirth: dob,
+				accountEmail
+			});
 
-		if (existingStudent) {
-			throw new Error("A student with these details already exists");
+			if (existingStudent) {
+				throw new Error("A student with these details already exists");
+			}
 		}
 		const admDate = new Date(admissionDate);
 		let gradDate = null;

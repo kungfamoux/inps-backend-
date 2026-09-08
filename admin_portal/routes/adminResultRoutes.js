@@ -21,6 +21,20 @@ const {
 } = require("../controller/AdminReportCardController");
 
 const {
+	getAnnualReportCard,
+	getAnnualReportCardPreview,
+	generateBatchAnnualReportCards,
+	getAnnualStatistics,
+	getAnnualResultsByClass,
+	generateAnnualReportCardPDF,
+	generateBatchAnnualReportCardPDFs,
+} = require("../controller/AnnualResultsController");
+
+const {
+	AnnualReportCardService,
+} = require("../services/AnnualReportCard.service");
+
+const {
 	authenticate,
 	requireAdmin,
 	requireRoles,
@@ -33,6 +47,13 @@ const {
 	reportCardQuerySchema,
 	batchReportCardSchema,
 } = require("../validators/adminResult.validator");
+
+const {
+	annualReportCardQuerySchema,
+	batchAnnualReportCardSchema,
+	annualStatisticsQuerySchema,
+	annualResultsByClassQuerySchema,
+} = require("../validators/annualResult.validator");
 
 /**
  * @swagger
@@ -729,6 +750,324 @@ router.post(
 	requireAdmin,
 	validate(batchReportCardSchema),
 	generateClassReportCards,
+);
+
+/**
+ * @swagger
+ * /api/admin/results/annual-report-card/{studentId}:
+ *   get:
+ *     summary: Get annual report card data for a student
+ *     description: Returns cumulative data across all terms in a session for a specific student.
+ *     tags: [Admin - Results]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: studentId
+ *         required: true
+ *         schema: { type: string }
+ *       - in: query
+ *         name: sessionId
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Annual report card data retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: object
+ *       400:
+ *         description: Missing required parameters
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.get(
+	"/annual-report-card/:studentId",
+	authenticate,
+	requireAdmin,
+	validate(annualReportCardQuerySchema, "query"),
+	getAnnualReportCard,
+);
+
+/**
+ * @swagger
+ * /api/admin/results/annual-report-card/{studentId}/preview:
+ *   get:
+ *     summary: Get annual report card preview
+ *     description: Returns JSON data for annual report card preview without generating PDF.
+ *     tags: [Admin - Results]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: studentId
+ *         required: true
+ *         schema: { type: string }
+ *       - in: query
+ *         name: sessionId
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Annual report card preview data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       400:
+ *         description: Missing required parameters
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.get(
+	"/annual-report-card/:studentId/preview",
+	authenticate,
+	requireAdmin,
+	validate(annualReportCardQuerySchema, "query"),
+	getAnnualReportCardPreview,
+);
+
+/**
+ * @swagger
+ * /api/admin/results/annual-report-cards/batch:
+ *   post:
+ *     summary: Generate batch annual report cards for a class
+ *     description: Generates annual report cards for all students in a class. Returns ZIP file by default.
+ *     tags: [Admin - Results]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [classId, sessionId]
+ *             properties:
+ *               classId:
+ *                 type: string
+ *               sessionId:
+ *                 type: string
+ *               format:
+ *                 type: string
+ *                 enum: [zip, individual]
+ *                 default: zip
+ *     responses:
+ *       200:
+ *         description: Annual report cards generated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       400:
+ *         description: Missing required parameters
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.post(
+	"/annual-report-cards/batch",
+	authenticate,
+	requireAdmin,
+	validate(batchAnnualReportCardSchema),
+	generateBatchAnnualReportCards,
+);
+
+/**
+ * @swagger
+ * /api/admin/results/annual-statistics:
+ *   get:
+ *     summary: Get annual statistics for a class
+ *     description: Returns annual performance statistics for a class including averages and student performance.
+ *     tags: [Admin - Results]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: classId
+ *         required: true
+ *         schema: { type: string }
+ *       - in: query
+ *         name: sessionId
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Annual statistics retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       400:
+ *         description: Missing required parameters
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.get(
+	"/annual-statistics",
+	authenticate,
+	requireAdmin,
+	validate(annualStatisticsQuerySchema, "query"),
+	getAnnualStatistics,
+);
+
+/**
+ * @swagger
+ * /api/admin/results/annual-by-class:
+ *   get:
+ *     summary: Get annual results by class
+ *     description: Returns all annual results for students in a specific class for the given session.
+ *     tags: [Admin - Results]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: classId
+ *         required: true
+ *         schema: { type: string }
+ *       - in: query
+ *         name: sessionId
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Annual results retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       400:
+ *         description: Missing required parameters
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.get(
+	"/annual-by-class",
+	authenticate,
+	requireAdmin,
+	validate(annualResultsByClassQuerySchema, "query"),
+	getAnnualResultsByClass,
+);
+
+/**
+ * @swagger
+ * /api/admin/results/annual-report-card-pdf/{studentId}:
+ *   get:
+ *     summary: Generate annual report card PDF for a student
+ *     description: Generates a PDF annual report card for a specific student for the given session.
+ *     tags: [Admin - Results]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: studentId
+ *         required: true
+ *         schema: { type: string }
+ *       - in: query
+ *         name: sessionId
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: PDF annual report card generated
+ *         content:
+ *           application/pdf:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       400:
+ *         description: Missing required parameters
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.get(
+	"/annual-report-card-pdf/:studentId",
+	authenticate,
+	requireAdmin,
+	validate(annualReportCardQuerySchema, "query"),
+	generateAnnualReportCardPDF,
+);
+
+/**
+ * @swagger
+ * /api/admin/results/annual-report-cards-pdf/batch:
+ *   post:
+ *     summary: Generate batch annual report card PDFs for a class
+ *     description: Generates PDF annual report cards for all students in a class. Returns ZIP file by default.
+ *     tags: [Admin - Results]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [classId, sessionId]
+ *             properties:
+ *               classId:
+ *                 type: string
+ *               sessionId:
+ *                 type: string
+ *               format:
+ *                 type: string
+ *                 enum: [zip, individual]
+ *                 default: zip
+ *     responses:
+ *       200:
+ *         description: Annual report card PDFs generated
+ *         content:
+ *           application/zip:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       400:
+ *         description: Missing required parameters
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.post(
+	"/annual-report-cards-pdf/batch",
+	authenticate,
+	requireAdmin,
+	validate(batchAnnualReportCardSchema),
+	generateBatchAnnualReportCardPDFs,
 );
 
 module.exports = router;
