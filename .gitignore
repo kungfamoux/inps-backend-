@@ -1,7 +1,7 @@
 .qodo
 node_modules
 coverage
-#.env
+.env
 settings.json
 teacher_portal/routes/note
 teacher_portal/routes/note.txt
