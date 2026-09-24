@@ -119,7 +119,7 @@ model StaffFinancial {
   pensionNumber      String?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
-  
+
   staff              Staff              @relation(fields: [staffId], references: [id])
 }
 
@@ -649,6 +649,18 @@ model AdmissionNumberPool {
   updatedAt       DateTime  @updatedAt
 }
 
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  readAt    DateTime?
+  metadata  Json?
+  createdAt DateTime @default(now())
+}
+
 model Supplier {
   id          String    @id @default(uuid())
   name        String
@@ -742,6 +754,12 @@ enum StaffRole {
   HEAD_TEACHER
   BURSARY
   STOREKEEPER
+  NURSE
+  SUPERVISOR
+  ICT
+  CLEANERS
+  SECURITY
+  OTHERS
 }
 
 enum MaritalStatus {
