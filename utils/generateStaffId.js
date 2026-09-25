@@ -8,6 +8,12 @@ const ROLE_ABBREVIATIONS = {
 	HEAD_TEACHER: "HTR",
 	BURSARY: "BUR",
 	STOREKEEPER: "STK",
+	NURSE: "NUR",
+	SUPERVISOR: "SUP",
+	ICT: "ICT",
+	CLEANERS: "CLN",
+	SECURITY: "SEC",
+	OTHERS: "OTH",
 };
 
 /**
@@ -36,9 +42,12 @@ const generateStaffId = async (role, tx) => {
 
 	const year = new Date().getFullYear().toString();
 
+	const counterId = `staff_${abbr}`;
+	
+	// Use upsert to create counter if it doesn't exist
 	const counter = await client.counter.upsert({
-		where: { id: `staff_${abbr}` },
-		create: { id: `staff_${abbr}`, value: 1 },
+		where: { id: counterId },
+		create: { id: counterId, value: 1 },
 		update: { value: { increment: 1 } },
 	});
 
