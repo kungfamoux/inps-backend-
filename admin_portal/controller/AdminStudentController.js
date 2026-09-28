@@ -1,4 +1,6 @@
 const AdminStudentService = require("../services/AdminStudent.service");
+const prisma = require("../../lib/prisma");
+const StudentRepository = require("../repositories/StudentRepository");
 
 const STRIP_FIELDS = new Set([
 	"firebaseUid",
@@ -146,11 +148,49 @@ const updateStudent = async (req, res, next) => {
 const deleteStudent = async (req, res, next) => {
 	try {
 		const staffId = req.staff.id;
-		await AdminStudentService.deleteStudent(req.params.admissionNumber, staffId);
-		return res.status(200).json({
-			success: true,
-			message: "Student record deleted successfully",
+		const admissionNumber = req.params.admissionNumber;
+		
+		// First check if parent has other children (soft check before deletion)
+		const student = await StudentRepository.findByAdmissionNumber(admissionNumber);
+		if (!student) throw new Error(`Student not found: ${admissionNumber}`);
+		
+		const parentWithChildren = await prisma.parent.findUnique({
+			where: { id: student.parentId },
+			include: {
+				students: {
+					where: { deletedAt: null }
+				}
+			}
 		});
+		
+		const hasOtherChildren = parentWithChildren && parentWithChildren.students.length > 1;
+		const otherChildrenCount = hasOtherChildren ? parentWithChildren.students.length - 1 : 0;
+		
+		// Return check result for frontend confirmation
+		if (req.query.check === 'true') {
+			return res.status(200).json({
+				success: true,
+				hasOtherChildren,
+				otherChildrenCount,
+				parentEmail: parentWithChildren?.accountEmail,
+				studentName: `${student.firstName} ${student.lastName}`
+			});
+		}
+		
+		// Proceed with deletion
+		const result = await AdminStudentService.deleteStudent(admissionNumber, staffId);
+		
+		const response = {
+			success: true,
+			message: result.message
+		};
+		
+		// Add warning information if parent has other children
+		if (result.hasOtherChildren) {
+			response.warning = `Parent account still has ${result.otherChildrenCount} other child(ren) registered`;
+		}
+		
+		return res.status(200).json(response);
 	} catch (error) {
 		return next(error);
 	}

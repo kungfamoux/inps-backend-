@@ -216,10 +216,22 @@ const hardDeleteAndReleaseAdmissionNumber = async (admissionNumber, staffId) => 
 	return prisma.$transaction(async (tx) => {
 		// Get the student before deletion
 		const student = await tx.student.findUnique({
-			where: { admissionNumber }
+			where: { admissionNumber },
+			include: {
+				parent: {
+					include: {
+						students: {
+							where: { deletedAt: null }
+						}
+					}
+				}
+			}
 		});
 
 		if (!student) throw new Error("Student not found");
+
+		// Check if parent has other children
+		const hasOtherChildren = student.parent?.students && student.parent.students.length > 1;
 
 		// Extract year from admission number (format: INPS-YEAR-SEQUENCE)
 		const year = admissionNumber.split('-')[1];
@@ -240,6 +252,14 @@ const hardDeleteAndReleaseAdmissionNumber = async (admissionNumber, staffId) => 
 				studentId: student.id
 			}
 		});
+
+		// Return information about parent's other children
+		return {
+			message: "Student deleted successfully",
+			hasOtherChildren,
+			otherChildrenCount: hasOtherChildren ? student.parent.students.length - 1 : 0,
+			parentEmail: student.parent?.accountEmail
+		};
 	});
 };
 

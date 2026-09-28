@@ -306,12 +306,21 @@ class AdminStudentService {
 	async deleteStudent(admissionNumber, staffId) {
 		logger.info(`Deleting student and releasing admission number: ${admissionNumber}`);
 
-		const student = await StudentRepository.findByAdmissionNumber(admissionNumber);
-		if (!student) throw new Error(`Student not found: ${admissionNumber}`);
-
-		await StudentRepository.hardDeleteAndReleaseAdmissionNumber(admissionNumber, staffId);
+		const result = await StudentRepository.hardDeleteAndReleaseAdmissionNumber(admissionNumber, staffId);
+		
+		// Log warning if parent has other children
+		if (result.hasOtherChildren) {
+			logger.warn(
+				`Student ${admissionNumber} deleted but parent ${result.parentEmail} still has ${result.otherChildrenCount} other child(ren)`
+			);
+		}
+		
 		logger.info(`Student deleted and admission number released: ${admissionNumber}`);
-		return { message: "Student deleted successfully" };
+		return {
+			message: result.message,
+			hasOtherChildren: result.hasOtherChildren,
+			otherChildrenCount: result.otherChildrenCount
+		};
 	}
 
 	async getAllStudents(params) {
