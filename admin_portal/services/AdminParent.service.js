@@ -107,36 +107,33 @@ class AdminParentService {
 	}
 
 	async deleteParent(parentId) {
-		logger.info(`Soft-deleting parent: ${parentId}`);
+		logger.info(`Deleting parent: ${parentId}`);
 
 		const parent = await ParentRepository.findById(parentId);
 		if (!parent) throw new Error(`Parent not found: ${parentId}`);
 
-		if (parent.deletedAt) {
-			throw new Error(`Parent already deleted: ${parentId}`);
-		}
-
 		// Check if parent has linked students
-		if (parent.students && parent.students.length > 0) {
-			throw new Error(
-				`Cannot delete parent with ${parent.students.length} linked student(s). Please reassign or delete students first.`
-			);
-		}
+		const hasStudents = parent.students && parent.students.length > 0;
+		const studentCount = hasStudents ? parent.students.length : 0;
 
-		// Soft delete parent
-		await ParentRepository.softDelete(parentId);
+		// Hard delete parent from database
+		await ParentRepository.hardDelete(parentId);
 
-		// Disable Firebase user
+		// Delete Firebase user
 		try {
-			await AuthRepository.disableFirebaseUser(parent.firebaseUid);
-			logger.info(`Firebase user disabled for parent: ${parentId}`);
+			await AuthRepository.deleteFirebaseUser(parent.firebaseUid);
+			logger.info(`Firebase user deleted for parent: ${parentId}`);
 		} catch (error) {
-			logger.error(`Firebase user disable failed for parent ${parentId}: ${error.message}`);
-			// Don't throw error - parent is already soft deleted in DB
+			logger.error(`Firebase user deletion failed for parent ${parentId}: ${error.message}`);
+			// Don't throw error - parent is already deleted in DB
 		}
 
 		logger.info(`Parent deleted: ${parentId}`);
-		return { message: "Parent deleted successfully" };
+		return { 
+			message: "Parent deleted successfully",
+			hasStudents,
+			studentCount
+		};
 	}
 }
 

@@ -95,10 +95,18 @@ const updateParent = async (req, res, next) => {
 const deleteParent = async (req, res, next) => {
 	try {
 		const result = await AdminParentService.deleteParent(req.params.id);
-		return res.status(200).json({
+		
+		const response = {
 			success: true,
-			message: result.message,
-		});
+			message: result.message
+		};
+		
+		// Add warning information if parent had students
+		if (result.hasStudents) {
+			response.warning = `Parent account had ${result.studentCount} registered child(ren) that were also deleted`;
+		}
+		
+		return res.status(200).json(response);
 	} catch (error) {
 		return next(error);
 	}

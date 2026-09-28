@@ -258,7 +258,8 @@ const hardDeleteAndReleaseAdmissionNumber = async (admissionNumber, staffId) => 
 			message: "Student deleted successfully",
 			hasOtherChildren,
 			otherChildrenCount: hasOtherChildren ? student.parent.students.length - 1 : 0,
-			parentEmail: student.parent?.accountEmail
+			parentEmail: student.parent?.accountEmail,
+			parentId: student.parent?.id
 		};
 	});
 };

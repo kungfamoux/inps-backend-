@@ -337,6 +337,12 @@ const softDelete = async (id) => {
 	});
 };
 
+const hardDelete = async (id) => {
+	await prisma.parent.delete({
+		where: { id },
+	});
+};
+
 const create = async (data) => {
 	return await prisma.parent.create({
 		data,
@@ -360,5 +366,6 @@ module.exports = {
 	findAll,
 	update,
 	softDelete,
+	hardDelete,
 	create,
 };
