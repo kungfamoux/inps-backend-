@@ -1,5 +1,4 @@
 const StudentRepository = require("../repositories/StudentRepository");
-const ParentRepository = require("../repositories/ParentRepository");
 const AuthRepository = require("../../shared/repositories/AuthRepository");
 const generateAdmissionNumber = require("../../utils/generateAdmissionNumber");
 const logger = require("../../utils/logger");
@@ -314,29 +313,13 @@ class AdminStudentService {
 			logger.warn(
 				`Student ${admissionNumber} deleted but parent ${result.parentEmail} still has ${result.otherChildrenCount} other child(ren)`
 			);
-		} else {
-			// Parent has no other children, delete from Firebase as well
-			try {
-				const parent = await ParentRepository.findById(result.parentId);
-				if (parent && parent.firebaseUid) {
-					await AuthRepository.deleteFirebaseUser(parent.firebaseUid);
-					logger.info(`Firebase user deleted for parent with no children: ${result.parentEmail}`);
-					
-					// Also hard delete the parent from database
-					await ParentRepository.hardDelete(result.parentId);
-					logger.info(`Parent record deleted from database: ${result.parentEmail}`);
-				}
-			} catch (error) {
-				logger.error(`Failed to delete parent Firebase user or record: ${error.message}`);
-			}
 		}
 		
 		logger.info(`Student deleted and admission number released: ${admissionNumber}`);
 		return {
 			message: result.message,
 			hasOtherChildren: result.hasOtherChildren,
-			otherChildrenCount: result.otherChildrenCount,
-			parentDeleted: !result.hasOtherChildren
+			otherChildrenCount: result.otherChildrenCount
 		};
 	}
 

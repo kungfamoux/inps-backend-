@@ -188,8 +188,6 @@ const deleteStudent = async (req, res, next) => {
 		// Add warning information if parent has other children
 		if (result.hasOtherChildren) {
 			response.warning = `Parent account still has ${result.otherChildrenCount} other child(ren) registered`;
-		} else if (result.parentDeleted) {
-			response.info = `Parent account was also deleted as it had no other children`;
 		}
 		
 		return res.status(200).json(response);
