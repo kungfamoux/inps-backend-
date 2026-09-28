@@ -29,6 +29,7 @@ const createStudentSchema = z.object({
 	accountEmail: z.string().trim().email("accountEmail must be a valid email"),
 	accountPhone: z.string().trim().min(1, "accountPhone is required"),
 	parentData: z.string().trim().min(1, "parentData is required"),
+	classId: z.string().trim().min(1, "classId is required"),
 });
 
 const getAllStudentsQuerySchema = z.object({

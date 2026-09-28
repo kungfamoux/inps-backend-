@@ -84,6 +84,7 @@ const createStudent = async (req, res, next) => {
 			admissionDate: req.body.admissionDate,
 			graduationDate: req.body.graduationDate,
 			parentData,
+			classId: req.body.classId,
 		};
 
 		const student = await AdminStudentService.createStudent(data, req.files);

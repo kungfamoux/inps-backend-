@@ -4,6 +4,7 @@ const generateAdmissionNumber = require("../../utils/generateAdmissionNumber");
 const logger = require("../../utils/logger");
 const { generateSignedUrl } = require("../../utils/uploadToCloudinary");
 const { sendParentAccountCreationEmail } = require("../../utils/resend");
+const prisma = require("../../lib/prisma");
 
 const signStudentFiles = (student) => {
 	if (!student) return student;
@@ -35,8 +36,6 @@ const signStudentFiles = (student) => {
 	return student;
 };
 
-const prisma = require("../../lib/prisma"); // needed for $transaction only
-
 class AdminStudentService {
 	async createStudent(data, files) {
 		if (!data) throw new Error("Request body is missing"); // enrolle=ment staus should be set to pending from here
@@ -62,6 +61,7 @@ class AdminStudentService {
 			accountPhone,
 			parentData,
 			graduationDate,
+			classId,
 		} = data;
 
 		if (!firstName || !lastName || !gender || !dateOfBirth || !admissionDate) {
@@ -70,6 +70,7 @@ class AdminStudentService {
 
 		if (!accountEmail) throw new Error("Parent account email is required");
 		if (!accountPhone) throw new Error("Parent account phone is required");
+		if (!classId) throw new Error("Class assignment is required");
 
 		const dob = new Date(dateOfBirth);
 
@@ -231,6 +232,14 @@ class AdminStudentService {
 			const admissionNumber = await generateAdmissionNumber(tx);
 			logger.info(`Generated admission number: ${admissionNumber}`);
 
+			// Validate class exists
+			const classRecord = await tx.class.findUnique({
+				where: { id: classId }
+			});
+			if (!classRecord) {
+				throw new Error(`Class not found: ${classId}`);
+			}
+
 			const created = await StudentRepository.create(
 				{
 					admissionNumber,
@@ -259,7 +268,39 @@ class AdminStudentService {
 				tx,
 			);
 
-			logger.info(`Student registered — admissionNumber: ${admissionNumber}`);
+			// Get current academic session and term for enrollment
+			const currentSession = await tx.academicSession.findFirst({
+				where: { status: 'ACTIVE' }
+			});
+			
+			if (!currentSession) {
+				throw new Error("No active academic session found. Please configure the academic calendar first.");
+			}
+
+			const currentTerm = await tx.academicTerm.findFirst({
+				where: { 
+					sessionId: currentSession.id,
+					status: 'CURRENT'
+				}
+			});
+
+			if (!currentTerm) {
+				throw new Error("No current term found. Please configure the academic calendar first.");
+			}
+
+			// Create enrollment automatically
+			await tx.enrollment.create({
+				data: {
+					studentId: created.id,
+					classId: classId,
+					sectionId: null,
+					academicYear: currentSession.session,
+					term: currentTerm.term,
+					status: 'ACTIVE'
+				}
+			});
+
+			logger.info(`Student registered and enrolled — admissionNumber: ${admissionNumber}, classId: ${classId}`);
 			return created;
 		});
 
