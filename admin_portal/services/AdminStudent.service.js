@@ -270,7 +270,7 @@ class AdminStudentService {
 
 			// Get current academic session and term for enrollment
 			const currentSession = await tx.academicSession.findFirst({
-				where: { status: 'ACTIVE' }
+				where: { status: 'CURRENT' }
 			});
 			
 			if (!currentSession) {
