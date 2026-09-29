@@ -140,9 +140,38 @@ const getStudentByAdmissionNumber = async (req, res, next) => {
 
 const updateStudent = async (req, res, next) => {
 	try {
+		let updateData = { ...req.body };
+
+		// Parse parentData if present (comes as JSON string from multipart form)
+		if (req.body.parentData) {
+			try {
+				updateData.parentData = JSON.parse(req.body.parentData);
+			} catch (e) {
+				logger.error(`Failed to parse parentData: ${e.message}`);
+				return res.status(400).json({
+					success: false,
+					message: "Invalid parentData format",
+				});
+			}
+		}
+
+		// Handle file uploads (Multer has already uploaded to Cloudinary)
+		if (req.files?.passportPhoto) {
+			const file = req.files.passportPhoto[0];
+			updateData.passportPhoto = file.path || file.secure_url || file.filename;
+		}
+
+		if (req.files?.admissionDocs) {
+			const docsData = req.files.admissionDocs.map((file) => ({
+				filename: file.filename || file.public_id,
+				url: file.path || file.secure_url,
+			}));
+			updateData.admissionDocs = JSON.stringify(docsData);
+		}
+
 		const student = await AdminStudentService.updateStudent(
 			req.params.admissionNumber,
-			req.body,
+			updateData,
 		);
 		return res.status(200).json({
 			success: true,

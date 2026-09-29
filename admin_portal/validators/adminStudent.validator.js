@@ -88,6 +88,9 @@ const updateStudentSchema = z.object({
 	studentType: z.string().trim().min(1).optional(),
 	admissionDate: z.coerce.date().optional(),
 	graduationDate: z.coerce.date().optional(),
+	accountEmail: z.string().trim().email("accountEmail must be a valid email").optional(),
+	accountPhone: z.string().trim().min(1, "accountPhone is required").optional(),
+	parentData: z.string().trim().min(1, "parentData is required").optional(),
 });
 
 module.exports = {

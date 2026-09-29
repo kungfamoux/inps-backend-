@@ -98,9 +98,39 @@ const getAdmissionDocsUrls = (req) => {
 	return req.files?.admissionDocs?.map((file) => file.path) ?? [];
 };
 
+/**
+ * Uploads a file directly to Cloudinary (for use in update operations)
+ * 
+ * @param {File|Buffer} file - The file to upload
+ * @param {string} folder - The Cloudinary folder (e.g., "inps/students/passports")
+ * @returns {Promise<object>} Cloudinary upload result
+ */
+const uploadToCloudinary = async (file, folder) => {
+	return new Promise((resolve, reject) => {
+		cloudinary.uploader.upload_stream(
+			{
+				folder,
+				resource_type: "auto",
+				type: "authenticated",
+				public_id: `${Date.now()}-${file.name || file.originalname || "file"}`,
+			},
+			(error, result) => {
+				if (error) {
+					logger.error(`Cloudinary upload error: ${error.message}`);
+					reject(error);
+				} else {
+					logger.info(`File uploaded to Cloudinary: ${result.public_id}`);
+					resolve(result);
+				}
+			}
+		).end(file.buffer || file);
+	});
+};
+
 module.exports = {
 	upload,
 	generateSignedUrl,
 	getPassportPhotoUrl,
 	getAdmissionDocsUrls,
+	uploadToCloudinary,
 };

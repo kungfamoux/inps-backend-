@@ -389,7 +389,13 @@ router.get(
  * /api/admin/students/{admissionNumber}:
  *   patch:
  *     summary: Update a student record
- *     description: admissionNumber and parentId cannot be changed via this endpoint.
+ *     description: |
+ *       Multipart form-data request (supports file uploads).
+ *       - Upload passport photo as `passportPhoto` (max 1 file).
+ *       - Upload supporting documents as `admissionDocs` (max 5 files).
+ *       - `parentData` must be a JSON string for parent/guardian updates.
+ *       - admissionNumber and parentId cannot be changed via this endpoint.
+ *       - Account email/phone changes update Firebase auth for all children of the parent.
  *     tags: [Admin - Students]
  *     security:
  *       - bearerAuth: []
@@ -398,6 +404,68 @@ router.get(
  *         name: admissionNumber
  *         required: true
  *         schema: { type: string }
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               middleName:
+ *                 type: string
+ *               gender:
+ *                 type: string
+ *                 enum: [MALE, FEMALE]
+ *               dateOfBirth:
+ *                 type: string
+ *                 format: date
+ *               admissionDate:
+ *                 type: string
+ *                 format: date
+ *               nationality:
+ *                 type: string
+ *               state:
+ *                 type: string
+ *               lga:
+ *                 type: string
+ *               religion:
+ *                 type: string
+ *               healthInfo:
+ *                 type: string
+ *               bloodGroup:
+ *                 type: string
+ *               sportHouse:
+ *                 type: string
+ *               studentType:
+ *                 type: string
+ *               address:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 enum: [ACTIVE, GRADUATED, WITHDRAWN]
+ *               accountEmail:
+ *                 type: string
+ *                 format: email
+ *               accountPhone:
+ *                 type: string
+ *               parentData:
+ *                 type: string
+ *                 description: JSON string of parent details (guardian info, address, marital status)
+ *               passportPhoto:
+ *                 type: string
+ *                 format: binary
+ *                 description: Student passport photograph (max 1 file)
+ *               admissionDocs:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 maxItems: 5
+ *                 description: Supporting admission documents (max 5 files)
  *     responses:
  *       200:
  *         description: Student updated successfully
@@ -410,7 +478,7 @@ router.get(
  *                 message: "Student updated successfully"
  *                 data: { admissionNumber: "INPSE-2024-001", firstName: "Ada", lastName: "Obi", status: ACTIVE }
  *       400:
- *         description: Validation error
+ *         description: Validation error or Firebase update failure
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/ErrorResponse' }
@@ -427,6 +495,7 @@ router.patch(
 	"/:admissionNumber",
 	authenticate,
 	requireAdmin,
+	uploadStudentFiles,
 	validate(updateStudentSchema),
 	updateStudent,
 );

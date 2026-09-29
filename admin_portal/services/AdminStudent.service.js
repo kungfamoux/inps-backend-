@@ -2,7 +2,7 @@ const StudentRepository = require("../repositories/StudentRepository");
 const AuthRepository = require("../../shared/repositories/AuthRepository");
 const generateAdmissionNumber = require("../../utils/generateAdmissionNumber");
 const logger = require("../../utils/logger");
-const { generateSignedUrl } = require("../../utils/uploadToCloudinary");
+const { generateSignedUrl, uploadToCloudinary } = require("../../utils/uploadToCloudinary");
 const { sendParentAccountCreationEmail } = require("../../utils/resend");
 const prisma = require("../../lib/prisma");
 
@@ -351,8 +351,60 @@ class AdminStudentService {
 		const student = await StudentRepository.findByAdmissionNumber(admissionNumber);
 		if (!student) throw new Error(`Student not found: ${admissionNumber}`);
 
+		// Extract parent data if present
+		const parentData = updateData.parentData;
+		delete updateData.parentData;
+
+		// Handle file uploads if present (files are already uploaded by multer)
+		if (updateData.passportPhoto) {
+			try {
+				// Multer already uploaded the file, use the path from the file object
+				const file = updateData.passportPhoto;
+				updateData.passportPhoto = file.path || file.secure_url || file.filename;
+				logger.info(`Passport photo updated for student: ${admissionNumber}`);
+			} catch (error) {
+				logger.error(`Failed to process passport photo: ${error.message}`);
+				throw new Error("Failed to process passport photo");
+			}
+		}
+
+		if (updateData.admissionDocs) {
+			try {
+				const docsArray = Array.isArray(updateData.admissionDocs) 
+					? updateData.admissionDocs 
+					: [updateData.admissionDocs];
+				
+				// Multer already uploaded the files, use the paths from the file objects
+				const docsData = docsArray.map((file) => ({
+					filename: file.filename || file.public_id,
+					url: file.path || file.secure_url,
+				}));
+				
+				updateData.admissionDocs = JSON.stringify(docsData);
+				logger.info(`Admission documents updated for student: ${admissionNumber}`);
+			} catch (error) {
+				logger.error(`Failed to process admission documents: ${error.message}`);
+				throw new Error("Failed to process admission documents");
+			}
+		}
+
+		// Update student
 		const updated = await StudentRepository.update(student.id, updateData);
 		logger.info(`Student updated: ${admissionNumber}`);
+
+		// Update parent data if provided
+		if (parentData && student.parentId) {
+			try {
+				const AdminParentService = require("./AdminParent.service");
+				await AdminParentService.updateParent(student.parentId, parentData);
+				logger.info(`Parent data updated for student: ${admissionNumber}`);
+			} catch (error) {
+				logger.error(`Failed to update parent data: ${error.message}`);
+				// Don't fail the entire update if parent update fails
+				logger.warn(`Student updated but parent update failed for student: ${admissionNumber}`);
+			}
+		}
+
 		return signStudentFiles(updated);
 	}
 
