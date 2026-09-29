@@ -13,7 +13,7 @@ const startDbKeepAlive = (prisma, intervalMs = DEFAULT_INTERVAL_MS) => {
 		});
 	}, intervalMs);
 
-	interval.unref();
+	// Don't unref - we need this to keep the process alive
 	return interval;
 };
 

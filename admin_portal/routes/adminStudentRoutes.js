@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const logger = require("../../utils/logger");
 
 const {
 	createStudent,
@@ -158,7 +159,17 @@ router.post(
 	authenticate,
 	requireAdmin,
 	uploadStudentFiles,
+	(req, res, next) => {
+		console.log("[DEBUG ROUTE] After multer middleware");
+		console.log("[DEBUG ROUTE] Files:", Object.keys(req.files || {}));
+		console.log("[DEBUG ROUTE] Body keys:", Object.keys(req.body || {}));
+		next();
+	},
 	validate(createStudentSchema),
+	(req, res, next) => {
+		console.log("[DEBUG ROUTE] After validation middleware");
+		next();
+	},
 	createStudent,
 );
 

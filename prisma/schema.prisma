@@ -827,6 +827,7 @@ enum TermStatus {
 }
 
 enum SessionStatus {
+  CURRENT
   COMPLETED
   UPCOMING
 }

@@ -14,6 +14,11 @@ const COUNTERS = [
 	{ id: "staff_BUR" },
 	{ id: "staff_STK" },
 	{ id: "staff_SUP" },
+	{ id: "staff_NUR" }, // NURSE
+	{ id: "staff_ICT" }, // ICT
+	{ id: "staff_CLN" }, // CLEANERS
+	{ id: "staff_SEC" }, // SECURITY
+	{ id: "staff_OTH" }, // OTHERS
 	{ id: "invoice" },
 	{ id: "stockin" },
 	{ id: "stockout" },
@@ -553,6 +558,112 @@ const seedSchoolConfiguration = async () => {
 	}
 };
 
+const seedSubjectAssignments = async () => {
+	logger.info("Seeding subject assignments to classes...");
+
+	// Get current academic session and term
+	const currentSession = await prisma.academicSession.findFirst({
+		where: { status: "CURRENT" },
+	});
+
+	if (!currentSession) {
+		logger.warn("  ⚠️  No current academic session found. Skipping subject assignments.");
+		return;
+	}
+
+	const currentTerm = await prisma.academicTerm.findFirst({
+		where: { 
+			sessionId: currentSession.id,
+			status: "CURRENT" 
+		},
+	});
+
+	if (!currentTerm) {
+		logger.warn("  ⚠️  No current term found. Skipping subject assignments.");
+		return;
+	}
+
+	logger.info(`  Using current term: ${currentTerm.term} (ID: ${currentTerm.id})`);
+
+	// Get all classes
+	const classes = await prisma.class.findMany({
+		where: { status: "ACTIVE" }
+	});
+
+	// Get all subjects
+	const primarySubjects = await prisma.subject.findMany({
+		where: { subjectCode: { startsWith: "NRS-" } },
+		select: { id: true, subjectCode: true }
+	});
+
+	const nurserySubjects = await prisma.subject.findMany({
+		where: { subjectCode: { startsWith: "NRS-" } },
+		select: { id: true, subjectCode: true }
+	});
+
+	// Fix: Primary subjects don't start with NRS-, nursery subjects do
+	const actualPrimarySubjects = await prisma.subject.findMany({
+		where: { subjectCode: { not: { startsWith: "NRS-" } } },
+		select: { id: true, subjectCode: true, subjectName: true }
+	});
+
+	const actualNurserySubjects = await prisma.subject.findMany({
+		where: { subjectCode: { startsWith: "NRS-" } },
+		select: { id: true, subjectCode: true, subjectName: true }
+	});
+
+	logger.info(`  Found ${actualPrimarySubjects.length} primary subjects`);
+	logger.info(`  Found ${actualNurserySubjects.length} nursery subjects`);
+
+	let totalAssignments = 0;
+
+	for (const cls of classes) {
+		const className = cls.name.toLowerCase();
+		let subjectsToAssign = [];
+
+		// Determine if class is nursery or primary based on name
+		if (className.includes("daycare") || 
+		    className.includes("pre-nursery") || 
+		    className.includes("nursery")) {
+			subjectsToAssign = actualNurserySubjects;
+		} else {
+			subjectsToAssign = actualPrimarySubjects;
+		}
+
+		// Assign subjects to class for current term
+		for (const subject of subjectsToAssign) {
+			// Check if assignment already exists
+			const existing = await prisma.classSubject.findUnique({
+				where: {
+					classId_subjectId_termId: {
+						classId: cls.id,
+						subjectId: subject.id,
+						termId: currentTerm.id
+					}
+				}
+			});
+
+			if (existing) {
+				continue; // Skip if already assigned
+			}
+
+			await prisma.classSubject.create({
+				data: {
+					classId: cls.id,
+					subjectId: subject.id,
+					termId: currentTerm.id
+				}
+			});
+
+			totalAssignments++;
+		}
+
+		logger.info(`  ✓ Assigned ${subjectsToAssign.length} subjects to ${cls.name}`);
+	}
+
+	logger.info(`  ✓ Total subject assignments created: ${totalAssignments}`);
+};
+
 // MAIN
 
 const seed = async () => {
@@ -564,6 +675,7 @@ const seed = async () => {
 	await seedBehavioralTraits();
 	await seedNurseryAssessmentItems();
 	await seedSchoolConfiguration();
+	await seedSubjectAssignments();
 	logger.info("Seed complete.");
 };
 

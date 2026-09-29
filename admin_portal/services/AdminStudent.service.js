@@ -229,16 +229,20 @@ class AdminStudentService {
 		}
 
 		const student = await prisma.$transaction(async (tx) => {
+			logger.info(`[DEBUG] Starting transaction for student creation`);
 			const admissionNumber = await generateAdmissionNumber(tx);
 			logger.info(`Generated admission number: ${admissionNumber}`);
 
 			// Validate class exists
+			logger.info(`[DEBUG] Looking up class with ID: ${classId}`);
 			const classRecord = await tx.class.findUnique({
 				where: { id: classId }
 			});
 			if (!classRecord) {
+				logger.error(`[DEBUG] Class not found: ${classId}`);
 				throw new Error(`Class not found: ${classId}`);
 			}
+			logger.info(`[DEBUG] Class found: ${classRecord.name}`);
 
 			const created = await StudentRepository.create(
 				{
@@ -267,16 +271,21 @@ class AdminStudentService {
 				},
 				tx,
 			);
+			logger.info(`[DEBUG] Student created with ID: ${created.id}`);
 
 			// Get current academic session and term for enrollment
+			logger.info(`[DEBUG] Looking up current academic session`);
 			const currentSession = await tx.academicSession.findFirst({
 				where: { status: 'CURRENT' }
 			});
 			
 			if (!currentSession) {
+				logger.error(`[DEBUG] No current academic session found`);
 				throw new Error("No active academic session found. Please configure the academic calendar first.");
 			}
+			logger.info(`[DEBUG] Current session found: ${currentSession.session}`);
 
+			logger.info(`[DEBUG] Looking up current term for session: ${currentSession.id}`);
 			const currentTerm = await tx.academicTerm.findFirst({
 				where: { 
 					sessionId: currentSession.id,
@@ -285,20 +294,23 @@ class AdminStudentService {
 			});
 
 			if (!currentTerm) {
+				logger.error(`[DEBUG] No current term found`);
 				throw new Error("No current term found. Please configure the academic calendar first.");
 			}
+			logger.info(`[DEBUG] Current term found: ${currentTerm.term}`);
 
 			// Create enrollment automatically
+			logger.info(`[DEBUG] Creating enrollment for student ${created.id} in class ${classId}`);
 			await tx.enrollment.create({
 				data: {
 					studentId: created.id,
 					classId: classId,
-					sectionId: null,
 					academicYear: currentSession.session,
 					term: currentTerm.term,
 					status: 'ACTIVE'
 				}
 			});
+			logger.info(`[DEBUG] Enrollment created successfully`);
 
 			logger.info(`Student registered and enrolled — admissionNumber: ${admissionNumber}, classId: ${classId}`);
 			return created;

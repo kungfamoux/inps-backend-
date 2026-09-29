@@ -66,6 +66,15 @@ app.use(
 );
 app.use(requestLogger);
 
+// Debug logging for all requests
+app.use((req, res, next) => {
+	if (req.path === '/api/admin/students' && req.method === 'POST') {
+		console.log('[APP DEBUG] POST /api/admin/students received');
+		console.log('[APP DEBUG] Content-Type:', req.get('Content-Type'));
+	}
+	next();
+});
+
 setupSwagger(app);
 
 app.get("/api/health", async (req, res) => {

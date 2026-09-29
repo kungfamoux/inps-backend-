@@ -236,14 +236,27 @@ const hardDeleteAndReleaseAdmissionNumber = async (admissionNumber, staffId) => 
 		// Extract year from admission number (format: INPS-YEAR-SEQUENCE)
 		const year = admissionNumber.split('-')[1];
 
+		// Delete enrollment records first (foreign key constraint)
+		await tx.enrollment.deleteMany({
+			where: { studentId: student.id }
+		});
+
 		// Delete the student (hard delete)
 		await tx.student.delete({
 			where: { admissionNumber }
 		});
 
-		// Add admission number to pool for reuse
-		await tx.admissionNumberPool.create({
-			data: {
+		// Add admission number to pool for reuse (upsert to handle existing entries)
+		await tx.admissionNumberPool.upsert({
+			where: { admissionNumber: student.admissionNumber },
+			update: {
+				isAvailable: true,
+				year: year,
+				releasedAt: new Date(),
+				releasedBy: staffId,
+				studentId: student.id
+			},
+			create: {
 				admissionNumber: student.admissionNumber,
 				isAvailable: true,
 				year: year,

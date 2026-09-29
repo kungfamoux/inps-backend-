@@ -1,6 +1,7 @@
 const AdminStudentService = require("../services/AdminStudent.service");
 const prisma = require("../../lib/prisma");
 const StudentRepository = require("../repositories/StudentRepository");
+const logger = require("../../utils/logger");
 
 const STRIP_FIELDS = new Set([
 	"firebaseUid",
@@ -49,6 +50,10 @@ const sanitize = (data) => {
 
 const createStudent = async (req, res, next) => {
 	try {
+		logger.info(`Registering student: ${req.body.firstName} ${req.body.lastName}`);
+		console.log(`[DEBUG CONTROLLER] Request body classId: ${req.body.classId}`);
+		console.log(`[DEBUG CONTROLLER] Request files: ${JSON.stringify(Object.keys(req.files || {}))}`);
+
 		let parentData;
 
 		try {
@@ -56,7 +61,10 @@ const createStudent = async (req, res, next) => {
 				typeof req.body.parentData === "string"
 					? JSON.parse(req.body.parentData)
 					: req.body.parentData;
-		} catch {
+			console.log(`[DEBUG CONTROLLER] Parent data parsed successfully`);
+		} catch (e) {
+			console.log(`[DEBUG CONTROLLER] Failed to parse parentData: ${e.message}`);
+			logger.error(`[DEBUG CONTROLLER] Failed to parse parentData: ${e.message}`);
 			return res.status(400).json({
 				success: false,
 				message: "Invalid parentData format",
