@@ -70,6 +70,25 @@ class AdminParentService {
 		const parent = await ParentRepository.findById(parentId);
 		if (!parent) throw new Error(`Parent not found: ${parentId}`);
 
+		// If parent doesn't have firebaseUid, create Firebase user
+		if (!parent.firebaseUid) {
+			try {
+				const email = updateData.accountEmail || parent.accountEmail;
+				const phone = updateData.accountPhone || parent.accountPhone;
+				
+				const firebaseUser = await AuthRepository.createFirebaseUser(email, phone);
+				parent.firebaseUid = firebaseUser.uid;
+				
+				// Update parent with firebaseUid
+				await ParentRepository.update(parentId, { firebaseUid: firebaseUser.uid });
+				logger.info(`Firebase user created for existing parent: ${parentId}`);
+			} catch (error) {
+				logger.error(`Firebase user creation failed for parent ${parentId}: ${error.message}`);
+				// Don't fail the entire update if Firebase creation fails
+				logger.warn(`Parent update will proceed without Firebase account for: ${parentId}`);
+			}
+		}
+
 		// If accountEmail is being updated, update Firebase user as well (only if parent has firebaseUid)
 		if (updateData.accountEmail && updateData.accountEmail !== parent.accountEmail) {
 			if (parent.firebaseUid) {
