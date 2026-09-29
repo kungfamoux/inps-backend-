@@ -50,14 +50,14 @@ const findById = async (id, filters = {}) => {
 
 	if (!student) return null;
 
-	// Flatten enrollment class info
+	// Keep enrollment data for display in edit page
 	const studentData = { ...student };
 	if (student.enrollments && student.enrollments.length > 0) {
 		studentData.class = student.enrollments[0].class;
 	} else {
 		studentData.class = null;
 	}
-	delete studentData.enrollments;
+	// Don't delete enrollments - frontend needs enrollment data for transfer
 
 	return studentData;
 };
@@ -107,14 +107,14 @@ const findByAdmissionNumber = async (admissionNumber, filters = {}) => {
 
 	if (!student) return null;
 
-	// Flatten enrollment class info
+	// Keep enrollment data for display in edit page
 	const studentData = { ...student };
 	if (student.enrollments && student.enrollments.length > 0) {
 		studentData.class = student.enrollments[0].class;
 	} else {
 		studentData.class = null;
 	}
-	delete studentData.enrollments;
+	// Don't delete enrollments - frontend needs enrollment data for transfer
 
 	return studentData;
 };
