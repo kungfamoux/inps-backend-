@@ -351,6 +351,12 @@ class AdminStudentService {
 		const student = await StudentRepository.findByAdmissionNumber(admissionNumber);
 		if (!student) throw new Error(`Student not found: ${admissionNumber}`);
 
+		// Extract parent credential fields (accountEmail, accountPhone) if present
+		const accountEmail = updateData.accountEmail;
+		const accountPhone = updateData.accountPhone;
+		delete updateData.accountEmail;
+		delete updateData.accountPhone;
+
 		// Extract parent data if present
 		const parentData = updateData.parentData;
 		delete updateData.parentData;
@@ -393,10 +399,16 @@ class AdminStudentService {
 		logger.info(`Student updated: ${admissionNumber}`);
 
 		// Update parent data if provided
-		if (parentData && student.parentId) {
+		if (student.parentId) {
 			try {
 				const AdminParentService = require("./AdminParent.service");
-				await AdminParentService.updateParent(student.parentId, parentData);
+				
+				// Merge parent credential updates with parentData
+				const parentUpdateData = parentData || {};
+				if (accountEmail) parentUpdateData.accountEmail = accountEmail;
+				if (accountPhone) parentUpdateData.accountPhone = accountPhone;
+				
+				await AdminParentService.updateParent(student.parentId, parentUpdateData);
 				logger.info(`Parent data updated for student: ${admissionNumber}`);
 			} catch (error) {
 				logger.error(`Failed to update parent data: ${error.message}`);
