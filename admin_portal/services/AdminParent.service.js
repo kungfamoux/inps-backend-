@@ -70,25 +70,33 @@ class AdminParentService {
 		const parent = await ParentRepository.findById(parentId);
 		if (!parent) throw new Error(`Parent not found: ${parentId}`);
 
-		// If accountEmail is being updated, update Firebase user as well
+		// If accountEmail is being updated, update Firebase user as well (only if parent has firebaseUid)
 		if (updateData.accountEmail && updateData.accountEmail !== parent.accountEmail) {
-			try {
-				await AuthRepository.updateEmail(parent.firebaseUid, updateData.accountEmail);
-				logger.info(`Firebase email updated for parent: ${parentId}`);
-			} catch (error) {
-				logger.error(`Firebase email update failed for parent ${parentId}: ${error.message}`);
-				throw new Error("Failed to update Firebase email. Please try again.");
+			if (parent.firebaseUid) {
+				try {
+					await AuthRepository.updateEmail(parent.firebaseUid, updateData.accountEmail);
+					logger.info(`Firebase email updated for parent: ${parentId}`);
+				} catch (error) {
+					logger.error(`Firebase email update failed for parent ${parentId}: ${error.message}`);
+					throw new Error("Failed to update Firebase email. Please try again.");
+				}
+			} else {
+				logger.warn(`Parent ${parentId} has no firebaseUid, skipping Firebase email update`);
 			}
 		}
 
-		// If accountPhone is being updated, reset Firebase password to new phone
+		// If accountPhone is being updated, reset Firebase password to new phone (only if parent has firebaseUid)
 		if (updateData.accountPhone && updateData.accountPhone !== parent.accountPhone) {
-			try {
-				await AuthRepository.resetPasswordToPhone(parent.firebaseUid, updateData.accountPhone);
-				logger.info(`Firebase password reset for parent: ${parentId}`);
-			} catch (error) {
-				logger.error(`Firebase password reset failed for parent ${parentId}: ${error.message}`);
-				throw new Error("Failed to reset Firebase password. Please try again.");
+			if (parent.firebaseUid) {
+				try {
+					await AuthRepository.resetPasswordToPhone(parent.firebaseUid, updateData.accountPhone);
+					logger.info(`Firebase password reset for parent: ${parentId}`);
+				} catch (error) {
+					logger.error(`Firebase password reset failed for parent ${parentId}: ${error.message}`);
+					throw new Error("Failed to reset Firebase password. Please try again.");
+				}
+			} else {
+				logger.warn(`Parent ${parentId} has no firebaseUid, skipping Firebase password reset`);
 			}
 		}
 
