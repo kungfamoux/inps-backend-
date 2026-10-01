@@ -11,6 +11,7 @@ const findById = async (id) => {
 			secondaryGuardian: true,
 			address: true,
 			maritalStatus: true,
+			status: true,
 			createdAt: true,
 			updatedAt: true,
 			students: {
@@ -88,6 +89,7 @@ const findByAccountEmail = async (accountEmail) => {
 			secondaryGuardian: true,
 			address: true,
 			maritalStatus: true,
+			status: true,
 			createdAt: true,
 			updatedAt: true,
 			students: {
@@ -180,6 +182,7 @@ const findAll = async (filters = {}) => {
 				secondaryGuardian: true,
 				address: true,
 				maritalStatus: true,
+				status: true,
 				createdAt: true,
 				updatedAt: true,
 				students: {
@@ -268,6 +271,7 @@ const update = async (id, data) => {
 			secondaryGuardian: true,
 			address: true,
 			maritalStatus: true,
+			status: true,
 			createdAt: true,
 			updatedAt: true,
 			students: {
@@ -354,6 +358,7 @@ const create = async (data) => {
 			secondaryGuardian: true,
 			address: true,
 			maritalStatus: true,
+			status: true,
 			createdAt: true,
 			updatedAt: true,
 		},
