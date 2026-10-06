@@ -187,8 +187,9 @@ model Parent {
   primaryGuardian    String // JSON: {relationship, title, firstName, lastName, phone, email, occupation, address}
   secondaryGuardian  String? // JSON: {relationship, firstName, lastName, phone, email, occupation}
   address            String?
-  maritalStatus      String?
+  maritalStatus      MaritalStatus?
   biometricId        String?
+  status             ParentStatus         @default(ACTIVE)
   deletedAt          DateTime?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
@@ -768,6 +769,11 @@ enum MaritalStatus {
   DIVORCED
   WIDOWED
   SEPARATED
+}
+
+enum ParentStatus {
+  ACTIVE
+  INACTIVE
 }
 
 enum Gender {
