@@ -37,7 +37,7 @@ class TeacherStudentService {
 			throw new Error("This action is only available to class teachers");
 		}
 
-		if (!ctx.classAssigned) {
+		if (!ctx.classAssigned || !ctx.classRecord) {
 			throw new Error("Class not yet assigned for this teacher");
 		}
 
@@ -51,13 +51,14 @@ class TeacherStudentService {
 
 		const ctx = await this._getClassTeacherContext(staffId, role);
 
-		const result = await TeacherStudentRepository.findStudentsInSection(
-			ctx.classSection.id,
+		const result = await TeacherStudentRepository.findStudentsInClass(
+			ctx.classRecord.id,
 			filters,
 		);
 
 		return {
-			section: { id: ctx.classSection.id, name: ctx.classSection.name },
+			class: { id: ctx.classRecord.id, name: ctx.classRecord.name },
+			section: { id: ctx.classRecord.id, name: ctx.classRecord.name }, // Keep for backward compatibility
 			role: ctx.role,
 			data: result.data,
 			meta: result.meta,
@@ -67,9 +68,9 @@ class TeacherStudentService {
 	async getStudentByAdmissionNumber(staffId, role, admissionNumber) {
 		const ctx = await this._getClassTeacherContext(staffId, role);
 
-		const student = await TeacherStudentRepository.findStudentInSection(
+		const student = await TeacherStudentRepository.findStudentInClass(
 			admissionNumber,
-			ctx.classSection.id,
+			ctx.classRecord.id,
 		);
 
 		if (!student) {
@@ -82,12 +83,13 @@ class TeacherStudentService {
 	async getTotalStudentsInMyClass(staffId, role) {
 		const ctx = await this._getClassTeacherContext(staffId, role);
 
-		const total = await TeacherStudentRepository.countStudentsInSection(
-			ctx.classSection.id,
+		const total = await TeacherStudentRepository.countStudentsInClass(
+			ctx.classRecord.id,
 		);
 
 		return {
-			section: ctx.classSection.name,
+			class: ctx.classRecord.name,
+			section: ctx.classRecord.name, // Keep for backward compatibility
 			role: ctx.role,
 			total,
 		};
@@ -131,7 +133,7 @@ class TeacherStudentService {
 		const students =
 			await TeacherStudentRepository.findEnrolledStudentsByAdmissionNumbers(
 				admissionNumbers,
-				ctx.classSection.id,
+				ctx.classRecord.id,
 			);
 
 		const map = new Map(students.map((s) => [s.admissionNumber, s]));
@@ -145,7 +147,7 @@ class TeacherStudentService {
 
 			return {
 				studentId: student.id,
-				sectionId: ctx.classSection.id,
+				classId: ctx.classRecord.id,
 				staffId,
 				date: attendanceDate,
 				status,
@@ -175,7 +177,8 @@ class TeacherStudentService {
 
 		return {
 			date,
-			section: ctx.classSection.name,
+			class: ctx.classRecord.name,
+			section: ctx.classRecord.name,
 			role: ctx.role,
 			marked: results.length,
 		};
@@ -191,7 +194,8 @@ class TeacherStudentService {
 
 		return {
 			date,
-			section: ctx.classSection.name,
+			class: ctx.classRecord.name,
+			section: ctx.classRecord.name,
 			role: ctx.role,
 			records,
 		};
@@ -206,7 +210,8 @@ class TeacherStudentService {
 		);
 
 		return {
-			section: ctx.classSection.name,
+			class: ctx.classRecord.name,
+			section: ctx.classRecord.name,
 			role: ctx.role,
 			summary,
 		};
@@ -219,13 +224,13 @@ class TeacherStudentService {
 
 		const tasks = [];
 
-		if (ctx.isClassTeacher && ctx.classAssigned) {
+		if (ctx.isClassTeacher && ctx.classAssigned && ctx.classRecord) {
 			const today = new Date();
 			today.setUTCHours(0, 0, 0, 0);
 
 			const attendanceToday =
 				await TeacherStudentRepository.checkAttendanceExists(
-					ctx.classSection.id,
+					ctx.classRecord.id,
 					today,
 				);
 
@@ -245,7 +250,8 @@ class TeacherStudentService {
 		}
 
 		return {
-			section: ctx.classSection?.name ?? null,
+			class: ctx.classRecord?.name ?? null,
+			section: ctx.classRecord?.name ?? null, // Keep for backward compatibility
 			role: ctx.role,
 			tasks,
 			total: tasks.length,
@@ -272,14 +278,15 @@ class TeacherStudentService {
 		const classPromise =
 			ctx.isClassTeacher && ctx.classAssigned
 				? TeacherStudentRepository.findClassSchedule({
-						sectionId: ctx.classSection.id,
+						classId: ctx.classRecord.id,
 						range,
 						page,
 						limit,
 					})
 						.then((data) => {
 							result.classSchedule = {
-								section: ctx.classSection.name,
+								class: ctx.classRecord.name,
+			section: ctx.classRecord.name,
 								...data,
 							};
 						})
@@ -355,7 +362,7 @@ class TeacherStudentService {
 				status: "PUBLISHED",
 				publishedAt: new Date(),
 				sentAt: new Date(),
-				sectionId: ctx.classSection.id,
+				classId: ctx.classRecord.id,
 			});
 		} catch (recordError) {
 			logger.error(
@@ -365,7 +372,8 @@ class TeacherStudentService {
 
 		return {
 			sent: list.length,
-			section: ctx.classSection.name,
+			class: ctx.classRecord.name,
+			section: ctx.classRecord.name,
 			role: ctx.role,
 		};
 	}
@@ -411,7 +419,8 @@ class TeacherStudentService {
 		return {
 			sent: emails.length,
 			student: admissionNumber,
-			section: ctx.classSection.name,
+			class: ctx.classRecord.name,
+			section: ctx.classRecord.name,
 			role: ctx.role,
 		};
 	}
