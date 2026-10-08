@@ -33,7 +33,7 @@ const {
 	setCurrentConfig: setCurrentSchoolConfig,
 } = require("../controller/SchoolConfigController");
 
-const { authenticate, requireAdmin, validate } = require("../../middleware");
+const { authenticate, requireAdmin, requireRoles, validate } = require("../../middleware");
 const {
 	createSessionSchema,
 	updateSessionSchema,
@@ -137,7 +137,7 @@ router.post(
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.get("/sessions", authenticate, requireAdmin, getAllSessions);
+router.get("/sessions", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER']), getAllSessions);
 
 /**
  * @swagger
@@ -173,7 +173,7 @@ router.get("/sessions", authenticate, requireAdmin, getAllSessions);
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.get("/sessions/current", authenticate, requireAdmin, getCurrentSession);
+router.get("/sessions/current", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER']), getCurrentSession);
 
 /**
  * @swagger
@@ -436,7 +436,7 @@ router.post(
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.get("/terms/current", authenticate, requireAdmin, getCurrentTerm);
+router.get("/terms/current", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER']), getCurrentTerm);
 
 /**
  * @swagger

@@ -14,7 +14,7 @@ const {
 	removeAssistantTeacher,
 } = require("../controller/AdminClassController");
 
-const { authenticate, requireAdmin, validate } = require("../../middleware");
+const { authenticate, requireAdmin, requireRoles, validate } = require("../../middleware");
 const {
 	createClassSchema,
 	getAllClassesQuerySchema,
@@ -133,7 +133,7 @@ router.post(
 router.get(
 	"/",
 	authenticate,
-	requireAdmin,
+	requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER']),
 	validate(getAllClassesQuerySchema, "query"),
 	getAllClasses,
 );

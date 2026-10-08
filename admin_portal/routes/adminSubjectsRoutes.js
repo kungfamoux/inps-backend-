@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { authenticate, requireAdmin, validate } = require("../../middleware");
+const { authenticate, requireAdmin, requireRoles, validate } = require("../../middleware");
 const AdminSubjectsController = require("../controller/AdminSubjectsController");
 const {
 	createSubjectSchema,
@@ -192,7 +192,7 @@ router.get(
 router.get(
 	"/classes/:id/subjects",
 	authenticate,
-	requireAdmin,
+	requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER']),
 	validate(getSubjectsByClassQuerySchema, "query"),
 	AdminSubjectsController.getSubjectsByClass,
 );

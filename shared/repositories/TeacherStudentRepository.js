@@ -41,10 +41,9 @@ const findStudentsInClass = async (classId, filters = {}) => {
 				parent: {
 					select: {
 						accountEmail: true,
-						fatherFirstName: true,
-						fatherPhone: true,
-						motherFirstName: true,
-						motherPhone: true,
+						accountPhone: true,
+						primaryGuardian: true,
+						secondaryGuardian: true,
 					},
 				},
 				enrollments: {
@@ -78,14 +77,8 @@ const findStudentInClass = (admissionNumber, classId) =>
 				select: {
 					accountEmail: true,
 					accountPhone: true,
-					fatherFirstName: true,
-					fatherLastName: true,
-					fatherPhone: true,
-					fatherEmail: true,
-					motherFirstName: true,
-					motherLastName: true,
-					motherPhone: true,
-					motherEmail: true,
+					primaryGuardian: true,
+					secondaryGuardian: true,
 				},
 			},
 			enrollments: {
@@ -329,10 +322,9 @@ const findStudentsWithParentEmails = (classId) =>
 			parent: {
 				select: {
 					accountEmail: true,
-					fatherFirstName: true,
-					fatherLastName: true,
-					motherFirstName: true,
-					motherLastName: true,
+					accountPhone: true,
+					primaryGuardian: true,
+					secondaryGuardian: true,
 				},
 			},
 		},
