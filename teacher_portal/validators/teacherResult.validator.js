@@ -19,7 +19,7 @@ const assignedSubjectsQuerySchema = z.object({
 	term: z.enum(TERM_VALUES),
 });
 
-// GET /api/teacher/results/section/:sectionId/subject/:subjectId/students
+// GET /api/teacher/results/class/:classId/subject/:subjectId/students
 const studentsWithResultsQuerySchema = z.object({
 	termId: id,
 	sessionId: id,
@@ -28,7 +28,7 @@ const studentsWithResultsQuerySchema = z.object({
 // POST /api/teacher/results
 const uploadResultSchema = z.object({
 	studentId: id,
-	sectionId: id,
+	classId: id,
 	subjectId: id,
 	termId: id,
 	sessionId: id,
@@ -48,15 +48,15 @@ const bulkResultRecordSchema = z.object({
 });
 
 const bulkUploadResultsSchema = z.object({
-	sectionId: id,
+	classId: id,
 	subjectId: id,
 	termId: id,
 	sessionId: id,
 	records: z.array(bulkResultRecordSchema).min(1, "records must not be empty"),
 });
 
-// GET /api/teacher/results/section/:sectionId/students
-const sectionStudentsQuerySchema = z.object({
+// GET /api/teacher/results/class/:classId/students
+const classStudentsQuerySchema = z.object({
 	academicYear: z.string().trim().min(1, "academicYear is required"),
 	term: z.enum(TERM_VALUES),
 	search: z.string().trim().min(1).optional(),
@@ -64,7 +64,7 @@ const sectionStudentsQuerySchema = z.object({
 	limit: z.coerce.number().int().min(1).optional(),
 });
 
-// GET /api/teacher/results/section/:sectionId/student/:studentId/subjects
+// GET /api/teacher/results/class/:classId/student/:studentId/subjects
 const studentSubjectsQuerySchema = z.object({
 	academicYear: z.string().trim().min(1, "academicYear is required"),
 	term: z.enum(TERM_VALUES),
@@ -82,7 +82,7 @@ const studentSubjectResultSchema = z.object({
 });
 
 const uploadResultsForStudentSchema = z.object({
-	sectionId: id,
+	classId: id,
 	termId: id,
 	sessionId: id,
 	results: z
@@ -92,7 +92,7 @@ const uploadResultsForStudentSchema = z.object({
 
 // POST /api/teacher/results/recalculate
 const recalculateResultsSchema = z.object({
-	sectionId: id,
+	classId: id,
 	subjectId: id,
 	termId: id,
 	sessionId: id,
@@ -123,7 +123,7 @@ const behavioralRatingSchema = z.object({
 
 const submitBehavioralRatingsSchema = z.object({
 	studentId: id,
-	sectionId: id,
+	classId: id,
 	academicYear: z.string().trim().min(1, "academicYear is required"),
 	term: z.enum(TERM_VALUES),
 	ratings: z.array(behavioralRatingSchema).min(1, "ratings must not be empty"),
@@ -137,7 +137,7 @@ const nurseryAssessmentSchema = z.object({
 
 const submitNurseryAssessmentsSchema = z.object({
 	studentId: id,
-	sectionId: id,
+	classId: id,
 	academicYear: z.string().trim().min(1, "academicYear is required"),
 	term: z.enum(TERM_VALUES),
 	assessments: z
@@ -159,7 +159,7 @@ module.exports = {
 	studentsWithResultsQuerySchema,
 	uploadResultSchema,
 	bulkUploadResultsSchema,
-	sectionStudentsQuerySchema,
+	classStudentsQuerySchema,
 	studentSubjectsQuerySchema,
 	uploadResultsForStudentSchema,
 	recalculateResultsSchema,

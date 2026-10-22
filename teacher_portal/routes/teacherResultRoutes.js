@@ -4,7 +4,7 @@ const router = express.Router();
 const {
 	getMyAssignedSubjects,
 	getMyAssignedClasses,
-	getStudentsInAssignedSection,
+	getStudentsInAssignedClass,
 	getSubjectsForStudent,
 	uploadResultsForStudent,
 	getStudentsWithResults,
@@ -34,7 +34,7 @@ const {
 	studentsWithResultsQuerySchema,
 	uploadResultSchema,
 	bulkUploadResultsSchema,
-	sectionStudentsQuerySchema,
+	classStudentsQuerySchema,
 	studentSubjectsQuerySchema,
 	uploadResultsForStudentSchema,
 	recalculateResultsSchema,
@@ -86,12 +86,12 @@ const {
  *                 success: true
  *                 data:
  *                   - id: "sa_01"
- *                     sectionId: "sec_01"
+ *                     classId: "cls_01"
  *                     subjectId: "sub_01"
  *                     academicYear: "2024/2025"
  *                     term: FIRST_TERM
  *                     status: ACTIVE
- *                     section: { name: "Primary 5A", class: { name: "Primary 5" } }
+ *                     class: { name: "Primary 5", level: PRIMARY_5 }
  *                     subject: { subjectName: Mathematics, subjectCode: MTH }
  *       400:
  *         description: academicYear and term are required
@@ -155,8 +155,7 @@ router.get(
  *               example:
  *                 success: true
  *                 data:
- *                   - sectionId: "sec_01"
- *                     sectionName: "Primary 5A"
+ *                   - classId: "cls_01"
  *                     className: "Primary 5"
  *                     level: PRIMARY_5
  *                     isClassTeacher: true
@@ -186,19 +185,19 @@ router.get(
 
 /**
  * @swagger
- * /api/teacher/results/section/{sectionId}/students:
+ * /api/teacher/results/class/{classId}/students:
  *   get:
- *     summary: Get students in a section this teacher is assigned to
+ *     summary: Get students in a class this teacher is assigned to
  *     description: |
- *       Requires either an active subject assignment in this section for the
- *       given term, or being the section's class (classroom) teacher.
+ *       Requires either an active subject assignment in this class for the
+ *       given term, or being the class teacher.
  *       Use this for the "pick a student" step of the upload flow.
  *     tags: [Teacher - Results]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sectionId
+ *         name: classId
  *         required: true
  *         schema: { type: string }
  *       - in: query
@@ -222,7 +221,7 @@ router.get(
  *         schema: { type: integer, default: 30 }
  *     responses:
  *       200:
- *         description: Paginated list of students in the section
+ *         description: Paginated list of students in the class
  *         content:
  *           application/json:
  *             schema:
@@ -238,7 +237,7 @@ router.get(
  *       400:
  *         description: >
  *           academicYear/term missing, or you are not assigned to this
- *           section for the selected term
+ *           class for the selected term
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/ErrorResponse' }
@@ -250,21 +249,21 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/section/:sectionId/students",
+	"/class/:classId/students",
 	authenticate,
 	requireTeacher,
-	validate(sectionStudentsQuerySchema, "query"),
-	getStudentsInAssignedSection,
+	validate(classStudentsQuerySchema, "query"),
+	getStudentsInAssignedClass,
 );
 
 /**
  * @swagger
- * /api/teacher/results/section/{sectionId}/student/{studentId}/subjects:
+ * /api/teacher/results/class/{classId}/student/{studentId}/subjects:
  *   get:
  *     summary: Get subjects for one student, with existing results
  *     description: |
- *       If this teacher is the section's class (classroom) teacher, returns
- *       every subject actively assigned in the section — the class teacher
+ *       If this teacher is the class teacher, returns
+ *       every subject actively assigned in the class — the class teacher
  *       may upload results for all of them. Otherwise returns only the
  *       subjects this teacher is personally assigned to teach there. Each
  *       subject includes the existing result for the term, if one has been
@@ -275,7 +274,7 @@ router.get(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sectionId
+ *         name: classId
  *         required: true
  *         schema: { type: string }
  *       - in: path
@@ -317,7 +316,7 @@ router.get(
  *                       result: { subjectId: "sub_02", ca1Score: 25, ca2Score: 27, examScore: 35, total: 87, grade: C, subjectTeacherRemark: "Good effort" }
  *       400:
  *         description: >
- *           Required params missing, or you are not assigned to this section
+ *           Required params missing, or you are not assigned to this class
  *           for the selected term
  *         content:
  *           application/json:
@@ -330,7 +329,7 @@ router.get(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/section/:sectionId/student/:studentId/subjects",
+	"/class/:classId/student/:studentId/subjects",
 	authenticate,
 	requireTeacher,
 	validate(studentSubjectsQuerySchema, "query"),
@@ -369,12 +368,12 @@ router.get(
  *         application/json:
  *           schema:
  *             type: object
- *             required: [sectionId, termId, sessionId, results]
+ *             required: [classId, termId, sessionId, results]
  *             properties:
- *               sectionId: { type: string }
+ *               classId:   { type: string }
  *               termId:    { type: string }
  *               sessionId: { type: string }
- *               results:
+ *               records:
  *                 type: array
  *                 minItems: 1
  *                 items:
@@ -398,7 +397,7 @@ router.get(
  *                 message: "2 result(s) uploaded for student"
  *                 data:
  *                   studentId: "stu_01"
- *                   sectionId: "sec_01"
+ *                   classId: "cls_01"
  *                   uploaded: 2
  *                   results:
  *                     - subjectId: "sub_01"
@@ -433,18 +432,18 @@ router.post(
 
 /**
  * @swagger
- * /api/teacher/results/section/{sectionId}/subject/{subjectId}/students:
+ * /api/teacher/results/class/{classId}/subject/{subjectId}/students:
  *   get:
- *     summary: Get students in a section with their existing results for a subject
+ *     summary: Get students in a class with their existing results for a subject
  *     description: |
- *       Returns all students in the section and their current scores for the subject.
- *       Teacher must be assigned to this subject in this section.
+ *       Returns all students in the class and their current scores for the subject.
+ *       Teacher must be assigned to this subject in this class.
  *     tags: [Teacher - Results]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sectionId
+ *         name: classId
  *         required: true
  *         schema: { type: string }
  *       - in: path
@@ -474,7 +473,7 @@ router.post(
  *                   - student: { id: "stu_02", admissionNumber: "INPSE-2024-002", firstName: "Tomi", lastName: "Ade" }
  *                     result: null
  *       400:
- *         description: termId/sessionId missing, or teacher not assigned to this subject in this section
+ *         description: termId/sessionId missing, or teacher not assigned to this subject in this class
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/ErrorResponse' }
@@ -486,7 +485,7 @@ router.post(
  *         $ref: '#/components/responses/ServerError'
  */
 router.get(
-	"/section/:sectionId/subject/:subjectId/students",
+	"/class/:classId/subject/:subjectId/students",
 	authenticate,
 	requireTeacher,
 	validate(studentsWithResultsQuerySchema, "query"),
@@ -515,10 +514,10 @@ router.get(
  *         application/json:
  *           schema:
  *             type: object
- *             required: [studentId, sectionId, subjectId, termId, sessionId, ca1Score, ca2Score, examScore]
+ *             required: [studentId, classId, subjectId, termId, sessionId, ca1Score, ca2Score, examScore]
  *             properties:
  *               studentId:  { type: string }
- *               sectionId:  { type: string }
+ *               classId:   { type: string }
  *               subjectId:  { type: string }
  *               termId:     { type: string }
  *               sessionId:  { type: string }
@@ -584,9 +583,9 @@ router.post(
  *         application/json:
  *           schema:
  *             type: object
- *             required: [sectionId, subjectId, termId, sessionId, records]
+ *             required: [classId, subjectId, termId, sessionId, records]
  *             properties:
- *               sectionId:  { type: string }
+ *               classId:   { type: string }
  *               subjectId:  { type: string }
  *               termId:     { type: string }
  *               sessionId:  { type: string }
@@ -652,9 +651,9 @@ router.post(
  *         application/json:
  *           schema:
  *             type: object
- *             required: [sectionId, subjectId, termId, sessionId]
+ *             required: [classId, subjectId, termId, sessionId]
  *             properties:
- *               sectionId: { type: string }
+ *               classId:   { type: string }
  *               subjectId: { type: string }
  *               termId:    { type: string }
  *               sessionId: { type: string }
@@ -799,8 +798,8 @@ router.get("/traits", authenticate, requireTeacher, getAllTraits);
  *       Score: 1-5 (5=Excellent, 4=Good, 3=Fair, 2=Poor, 1=Very Poor).
  *       Re-submitting updates existing ratings.
  *       The student must be actively enrolled in the caller's own class —
- *       the record is saved against the caller's own section regardless of
- *       the sectionId field's value.
+ *       the record is saved against the caller's own class regardless of
+ *       the classId field's value.
  *     tags: [Teacher - Results]
  *     security:
  *       - bearerAuth: []
@@ -810,10 +809,10 @@ router.get("/traits", authenticate, requireTeacher, getAllTraits);
  *         application/json:
  *           schema:
  *             type: object
- *             required: [studentId, sectionId, academicYear, term, ratings]
+ *             required: [studentId, classId, academicYear, term, ratings]
  *             properties:
  *               studentId:    { type: string }
- *               sectionId:    { type: string, description: "Required by the schema but not used for authorization — the caller's own class section is used instead." }
+ *               classId:     { type: string, description: "Required by the schema but not used for authorization — the caller's own class is used instead." }
  *               academicYear: { type: string, example: "2024/2025" }
  *               term:         { type: string, enum: [FIRST_TERM, SECOND_TERM, THIRD_TERM] }
  *               ratings:
@@ -962,8 +961,8 @@ router.get(
  *       Re-submitting updates existing ratings.
  *       For Daycare, Pre-Nursery, and Nursery 1-3 only.
  *       The student must be actively enrolled in the caller's own class —
- *       the record is saved against the caller's own section regardless of
- *       the sectionId field's value.
+ *       the record is saved against the caller's own class regardless of
+ *       the classId field's value.
  *     tags: [Teacher - Results]
  *     security:
  *       - bearerAuth: []
@@ -973,10 +972,10 @@ router.get(
  *         application/json:
  *           schema:
  *             type: object
- *             required: [studentId, sectionId, academicYear, term, assessments]
+ *             required: [studentId, classId, academicYear, term, assessments]
  *             properties:
  *               studentId:    { type: string }
- *               sectionId:    { type: string, description: "Required by the schema but not used for authorization — the caller's own class section is used instead." }
+ *               classId:     { type: string, description: "Required by the schema but not used for authorization — the caller's own class is used instead." }
  *               academicYear: { type: string, example: "2024/2025" }
  *               term:         { type: string, enum: [FIRST_TERM, SECOND_TERM, THIRD_TERM] }
  *               assessments:

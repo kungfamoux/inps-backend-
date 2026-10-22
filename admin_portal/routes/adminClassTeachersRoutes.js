@@ -15,19 +15,15 @@ const {
 
 /**
  * @swagger
- * /api/admin/classes/{classId}/sections/{sectionId}/teacher:
+ * /api/admin/classes/{classId}/teacher:
  *   patch:
- *     summary: Assign a class teacher to a section
+ *     summary: Assign a class teacher to a class
  *     tags: [Admin - Classes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: classId
- *         required: true
- *         schema: { type: string }
- *       - in: path
- *         name: sectionId
  *         required: true
  *         schema: { type: string }
  *     requestBody:
@@ -49,9 +45,9 @@ const {
  *               example:
  *                 success: true
  *                 message: "Class teacher assigned successfully"
- *                 data: { id: "sec_01", name: "Red", classTeacherId: "staff_01" }
+ *                 data: { id: "cls_01", name: "Primary 1 Red", classTeacherId: "staff_01" }
  *       400:
- *         description: staffId missing, staff not found, not a TEACHER, or already the class teacher of a different section
+ *         description: staffId missing, staff not found, not a TEACHER, or already the class teacher of a different class
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/ErrorResponse' }
@@ -63,7 +59,7 @@ const {
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/:classId/sections/:sectionId/teacher",
+	"/:classId/teacher",
 	authenticate,
 	requireAdmin,
 	validate(assignTeacherSchema),
@@ -72,19 +68,15 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}/sections/{sectionId}/teacher:
+ * /api/admin/classes/{classId}/teacher:
  *   delete:
- *     summary: Remove the class teacher from a section
+ *     summary: Remove the class teacher from a class
  *     tags: [Admin - Classes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: classId
- *         required: true
- *         schema: { type: string }
- *       - in: path
- *         name: sectionId
  *         required: true
  *         schema: { type: string }
  *     responses:
@@ -97,7 +89,7 @@ router.patch(
  *               example:
  *                 success: true
  *                 message: "Class teacher removed"
- *                 data: { id: "sec_01", name: "Red", classTeacherId: null }
+ *                 data: { id: "cls_01", name: "Primary 1 Red", classTeacherId: null }
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  *       403:
@@ -106,7 +98,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.delete(
-	"/:classId/sections/:sectionId/teacher",
+	"/:classId/teacher",
 	authenticate,
 	requireAdmin,
 	removeClassTeacher,
@@ -114,19 +106,15 @@ router.delete(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}/sections/{sectionId}/assistant:
+ * /api/admin/classes/{classId}/assistant:
  *   patch:
- *     summary: Assign an assistant teacher to a section
+ *     summary: Assign an assistant teacher to a class
  *     tags: [Admin - Classes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: classId
- *         required: true
- *         schema: { type: string }
- *       - in: path
- *         name: sectionId
  *         required: true
  *         schema: { type: string }
  *     requestBody:
@@ -148,9 +136,9 @@ router.delete(
  *               example:
  *                 success: true
  *                 message: "Assistant teacher assigned successfully"
- *                 data: { id: "sec_01", name: "Red", assistantTeacherId: "staff_02" }
+ *                 data: { id: "cls_01", name: "Primary 1 Red", assistantTeacherId: "staff_02" }
  *       400:
- *         description: staffId missing, staff not found, not a TEACHER, or already the assistant teacher of a different section
+ *         description: staffId missing, staff not found, not a TEACHER, or already the assistant teacher of a different class
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/ErrorResponse' }
@@ -162,7 +150,7 @@ router.delete(
  *         $ref: '#/components/responses/ServerError'
  */
 router.patch(
-	"/:classId/sections/:sectionId/assistant",
+	"/:classId/assistant",
 	authenticate,
 	requireAdmin,
 	validate(assignTeacherSchema),
@@ -171,19 +159,15 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/classes/{classId}/sections/{sectionId}/assistant:
+ * /api/admin/classes/{classId}/assistant:
  *   delete:
- *     summary: Remove the assistant teacher from a section
+ *     summary: Remove the assistant teacher from a class
  *     tags: [Admin - Classes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: classId
- *         required: true
- *         schema: { type: string }
- *       - in: path
- *         name: sectionId
  *         required: true
  *         schema: { type: string }
  *     responses:
@@ -196,7 +180,7 @@ router.patch(
  *               example:
  *                 success: true
  *                 message: "Assistant teacher removed"
- *                 data: { id: "sec_01", name: "Red", assistantTeacherId: null }
+ *                 data: { id: "cls_01", name: "Primary 1 Red", assistantTeacherId: null }
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  *       403:
@@ -205,7 +189,7 @@ router.patch(
  *         $ref: '#/components/responses/ServerError'
  */
 router.delete(
-	"/:classId/sections/:sectionId/assistant",
+	"/:classId/assistant",
 	authenticate,
 	requireAdmin,
 	removeAssistantTeacher,

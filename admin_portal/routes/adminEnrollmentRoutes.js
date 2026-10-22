@@ -53,9 +53,6 @@ const {
  *                 type: string
  *               classId:
  *                 type: string
- *               sectionId:
- *                 type: string
- *                 description: Optional — can be assigned later via the assign endpoint
  *               academicYear:
  *                 type: string
  *                 example: "2024/2025"
@@ -76,7 +73,6 @@ const {
  *                   id: "enr_01"
  *                   studentId: "stu_01"
  *                   classId: "cls_01"
- *                   sectionId: null
  *                   academicYear: "2024/2025"
  *                   term: FIRST_TERM
  *                   status: ACTIVE
@@ -127,7 +123,6 @@ router.post(
  *                   id: "enr_01"
  *                   studentId: "stu_01"
  *                   classId: "cls_01"
- *                   sectionId: "sec_01"
  *                   academicYear: "2024/2025"
  *                   term: FIRST_TERM
  *                   status: ACTIVE
@@ -388,17 +383,17 @@ router.post(
  *                 type: string
  *     responses:
  *       200:
- *         description: Student assigned to section
+ *         description: Student assigned to class
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               example:
  *                 success: true
- *                 message: "Student assigned to section successfully"
- *                 data: { id: "enr_01", sectionId: "sec_01", status: ACTIVE }
+ *                 message: "Student assigned to class successfully"
+ *                 data: { id: "enr_01", classId: "cls_01", status: ACTIVE }
  *       400:
- *         description: sectionId missing or student is not in the pending pool
+ *         description: classId missing or student is not in the pending pool
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/ErrorResponse' }

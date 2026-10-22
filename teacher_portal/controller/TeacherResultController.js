@@ -32,13 +32,13 @@ const getMyAssignedClasses = async (req, res, next) => {
 	}
 };
 
-const getStudentsInAssignedSection = async (req, res, next) => {
+const getStudentsInAssignedClass = async (req, res, next) => {
 	try {
-		const { sectionId } = req.params;
+		const { classId } = req.params;
 		const { academicYear, term, search, page, limit } = req.query;
-		const result = await TeacherResultService.getStudentsInAssignedSection(
+		const result = await TeacherResultService.getStudentsInAssignedClass(
 			req.staff.id,
-			sectionId,
+			classId,
 			{ academicYear, term, search, page, limit },
 		);
 		return res.status(200).json({ success: true, ...result });
@@ -49,11 +49,11 @@ const getStudentsInAssignedSection = async (req, res, next) => {
 
 const getSubjectsForStudent = async (req, res, next) => {
 	try {
-		const { sectionId, studentId } = req.params;
+		const { classId, studentId } = req.params;
 		const { academicYear, term, termId, sessionId } = req.query;
 		const data = await TeacherResultService.getSubjectsForStudent(
 			req.staff.id,
-			sectionId,
+			classId,
 			studentId,
 			{ academicYear, term, termId, sessionId },
 		);
@@ -83,7 +83,7 @@ const uploadResultsForStudent = async (req, res, next) => {
 
 const getStudentsWithResults = async (req, res, next) => {
 	try {
-		const { sectionId, subjectId } = req.params;
+		const { classId, subjectId } = req.params;
 		const { termId, sessionId } = req.query;
 		if (!termId || !sessionId) {
 			return res.status(400).json({
@@ -93,7 +93,7 @@ const getStudentsWithResults = async (req, res, next) => {
 		}
 		const data = await TeacherResultService.getStudentsWithResults(
 			req.staff.id,
-			sectionId,
+			classId,
 			subjectId,
 			termId,
 			sessionId,
@@ -141,17 +141,17 @@ const bulkUploadResults = async (req, res, next) => {
 
 const recalculateResults = async (req, res, next) => {
 	try {
-		const { sectionId, subjectId, termId, sessionId } = req.body;
+		const { classId, subjectId, termId, sessionId } = req.body;
 
-		if (!sectionId || !subjectId || !termId || !sessionId) {
+		if (!classId || !subjectId || !termId || !sessionId) {
 			return res.status(400).json({
 				success: false,
-				message: "sectionId, subjectId, termId, and sessionId are required",
+				message: "classId, subjectId, termId, and sessionId are required",
 			});
 		}
 
 		const data = await TeacherResultService.recalculateResults(req.staff.id, {
-			sectionId,
+			classId,
 			subjectId,
 			termId,
 			sessionId,
@@ -348,7 +348,7 @@ const addHeadTeacherRemark = async (req, res, next) => {
 module.exports = {
 	getMyAssignedSubjects,
 	getMyAssignedClasses,
-	getStudentsInAssignedSection,
+	getStudentsInAssignedClass,
 	getSubjectsForStudent,
 	uploadResultsForStudent,
 	getStudentsWithResults,

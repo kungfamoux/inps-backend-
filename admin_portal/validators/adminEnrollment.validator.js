@@ -8,7 +8,7 @@ const enrollStudentSchema = z.object({
 	term: z.enum(TERM_VALUES),
 });
 
-// GET /class/:classId and /section/:sectionId share the same shape:
+// GET /class/:classId:
 // academicYear and term are required query params, status optional.
 const enrollmentListQuerySchema = z.object({
 	academicYear: z.string().trim().min(1, "academicYear is required"),

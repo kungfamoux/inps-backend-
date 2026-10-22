@@ -218,11 +218,11 @@ router.patch(
 
 /**
  * @swagger
- * /api/admin/results/section/{sectionId}/verify-all:
+ * /api/admin/results/class/{classId}/verify-all:
  *   patch:
- *     summary: Verify all results for an entire section in a term
+ *     summary: Verify all results for an entire class in a term
  *     description: >
- *       Bulk verification — verifies every unverified result for all students in the section.
+ *       Bulk verification — verifies every unverified result for all students in the class.
  *       Route requires ADMIN, but the service additionally enforces that the
  *       authenticated staff member's role is HEAD_TEACHER — an ADMIN who is
  *       not also flagged HEAD_TEACHER receives a 400.
@@ -231,7 +231,7 @@ router.patch(
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sectionId
+ *         name: classId
  *         required: true
  *         schema: { type: string }
  *     requestBody:
@@ -246,14 +246,14 @@ router.patch(
  *               sessionId: { type: string }
  *     responses:
  *       200:
- *         description: All results verified for section
+ *         description: All results verified for class
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               example:
  *                 success: true
- *                 message: "112 result(s) verified for section"
+ *                 message: "112 result(s) verified for class"
  *                 data: { verified: 112, students: ["stu_01", "stu_02"] }
  *       400:
  *         description: termId/sessionId missing, staff not found, or not a head teacher

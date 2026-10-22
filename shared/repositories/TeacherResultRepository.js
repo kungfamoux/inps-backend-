@@ -12,6 +12,183 @@ const findAssignedSubjects = (staffId, academicYear, term) =>
 		},
 	});
 
+// Get all classes a teacher is assigned to (for class-based workflow)
+const findAssignedClasses = (staffId, academicYear, term) =>
+	prisma.subjectAssignment.findMany({
+		where: { teacherId: staffId, academicYear, term, status: "ACTIVE" },
+		include: {
+			subject: { select: { id: true, subjectName: true, subjectCode: true } },
+			class: { select: { id: true, name: true, level: true } },
+		},
+	});
+
+// Check if teacher has any subject assignment in a class
+const hasAssignmentInClass = (staffId, classId, academicYear, term) =>
+	prisma.subjectAssignment.findFirst({
+		where: { teacherId: staffId, classId, academicYear, term, status: "ACTIVE" },
+	});
+
+// Check if teacher is the class teacher
+const isClassTeacher = (staffId, classId) =>
+	prisma.class.findFirst({
+		where: {
+			id: classId,
+			OR: [
+				{ classTeacherId: staffId },
+				{ assistantTeacherId: staffId },
+			],
+		},
+	});
+
+// Find class by teacher (for class teacher verification)
+const findClassByTeacher = (staffId) =>
+	prisma.class.findFirst({
+		where: {
+			OR: [
+				{ classTeacherId: staffId },
+				{ assistantTeacherId: staffId },
+			],
+			status: "ACTIVE",
+		},
+	});
+
+// Find subject by ID
+const findSubjectById = (subjectId) =>
+	prisma.subject.findUnique({
+		where: { id: subjectId },
+	});
+
+// Find subject assignment for a teacher
+const findSubjectAssignment = (staffId, classId, subjectId, academicYear, term) =>
+	prisma.subjectAssignment.findFirst({
+		where: {
+			teacherId: staffId,
+			classId,
+			subjectId,
+			academicYear,
+			term,
+			status: "ACTIVE",
+		},
+	});
+
+// Find any subject assignment in a class (for class teachers)
+const findAnySubjectAssignmentInClass = (classId, subjectId, academicYear, term) =>
+	prisma.subjectAssignment.findFirst({
+		where: {
+			classId,
+			subjectId,
+			academicYear,
+			term,
+			status: "ACTIVE",
+		},
+	});
+
+// Find subjects for a student by teacher
+const findSubjectsForStudentByTeacher = async (
+	staffId,
+	classId,
+	studentId,
+	academicYear,
+	term,
+	termId,
+	sessionId,
+	isClassTeacher,
+) => {
+	const where = {
+		classId,
+		academicYear,
+		term,
+		status: "ACTIVE",
+	};
+
+	if (!isClassTeacher) {
+		where.teacherId = staffId;
+	}
+
+	const assignments = await prisma.subjectAssignment.findMany({
+		where,
+		include: {
+			subject: {
+				select: {
+					id: true,
+					subjectName: true,
+					subjectCode: true,
+					isActive: true,
+				},
+			},
+		},
+	});
+
+	const subjectIds = assignments.map((a) => a.subjectId);
+
+	const results = await prisma.result.findMany({
+		where: {
+			studentId,
+			subjectId: { in: subjectIds },
+			termId,
+			sessionId,
+		},
+	});
+
+	const resultMap = new Map(
+		results.map((r) => [r.subjectId, r]),
+	);
+
+	return assignments.map((assignment) => ({
+		subject: assignment.subject,
+		result: resultMap.get(assignment.subjectId) || null,
+	}));
+};
+
+// Find student with enrollments
+const findStudentWithEnrollments = (studentId) =>
+	prisma.student.findUnique({
+		where: { id: studentId },
+		include: {
+			enrollments: {
+				where: { status: "ACTIVE" },
+				include: { class: true },
+			},
+		},
+	});
+
+// Check if teacher has teaching relationship with student
+const hasTeachingRelationship = async (staffId, studentId) => {
+	const student = await findStudentWithEnrollments(studentId);
+	if (!student) return false;
+
+	const classIds = student.enrollments.map((e) => e.classId);
+
+	const hasAssignment = await prisma.subjectAssignment.findFirst({
+		where: {
+			teacherId: staffId,
+			classId: { in: classIds },
+			status: "ACTIVE",
+		},
+	});
+
+	if (hasAssignment) return true;
+
+	const isClassTeacher = await prisma.class.findFirst({
+		where: {
+			id: { in: classIds },
+			OR: [
+				{ classTeacherId: staffId },
+				{ assistantTeacherId: staffId },
+			],
+		},
+	});
+
+	return !!isClassTeacher;
+};
+
+// Get term by ID
+const getTerm = (termId) =>
+	prisma.academicTerm.findUnique({
+		where: { id: termId },
+		include: { session: true },
+	});
+
 // Get all students in a class with their result for a specific subject/term
 const findStudentsWithResults = async (
 	classId,
@@ -421,6 +598,7 @@ const verifyAllResultsForClass = async (classId, termId, sessionId, staffId) => 
 module.exports = {
 	// Results
 	findAssignedSubjects,
+	findAssignedClasses,
 	findStudentsWithResults,
 	buildResultUpsert,
 	upsertResult,
@@ -455,4 +633,16 @@ module.exports = {
 	verifyResult,
 	verifyAllResultsForStudent,
 	verifyAllResultsForClass,
+
+	// Helper methods
+	hasAssignmentInClass,
+	isClassTeacher,
+	findClassByTeacher,
+	findSubjectById,
+	findSubjectAssignment,
+	findAnySubjectAssignmentInClass,
+	findSubjectsForStudentByTeacher,
+	findStudentWithEnrollments,
+	hasTeachingRelationship,
+	getTerm,
 };

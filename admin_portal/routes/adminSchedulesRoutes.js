@@ -37,7 +37,7 @@ const {
  *             type: object
  *             required: [classId, subjectId, staffId, dayOfWeek, startTime, endTime]
  *             properties:
- *               sectionId:  { type: string }
+ *               classId:   { type: string }
  *               subjectId:  { type: string }
  *               staffId:    { type: string }
  *               dayOfWeek:  { type: string, example: "Monday" }
@@ -78,20 +78,20 @@ router.post(
 
 /**
  * @swagger
- * /api/admin/schedules/section/{sectionId}:
+ * /api/admin/schedules/class/{classId}:
  *   get:
- *     summary: Get full timetable for a section
+ *     summary: Get full timetable for a class
  *     tags: [Admin - Schedules]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: sectionId
+ *         name: classId
  *         required: true
  *         schema: { type: string }
  *     responses:
  *       200:
- *         description: Section timetable ordered by day and time
+ *         description: Class timetable ordered by day and time
  *         content:
  *           application/json:
  *             schema:

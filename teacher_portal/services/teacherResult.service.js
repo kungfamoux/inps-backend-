@@ -68,34 +68,26 @@ class TeacherResultService {
 		return assignment;
 	}
 
-	// A teacher can act on a section either because they teach a subject
-	// at the class level (which covers all sections in that class) or because
-	// they are its class (classroom) teacher — the latter isn't term-scoped,
-	// so it's checked independently of academicYear/term.
-	async _verifySectionAssignment(staffId, sectionId, academicYear, term) {
-		// Get the section's class information
-		const section = await TeacherResultRepository.findSectionSummary(sectionId);
-		if (!section) {
-			throw new Error("Section not found");
-		}
-
+	// A teacher can act on a class either because they teach a subject
+	// in that class or because they are its class teacher
+	async _verifyClassAssignment(staffId, classId, academicYear, term) {
 		const [hasSubject, isClassTeacher] = await Promise.all([
 			TeacherResultRepository.hasAssignmentInClass(
 				staffId,
-				section.classId,
+				classId,
 				academicYear,
 				term,
 			),
-			TeacherResultRepository.isSectionClassTeacher(staffId, sectionId),
+			TeacherResultRepository.isClassTeacher(staffId, classId),
 		]);
 
 		if (!hasSubject && !isClassTeacher) {
 			throw new Error(
-				"You are not assigned to this section for the selected term",
+				"You are not assigned to this class for the selected term",
 			);
 		}
 
-		return { isClassTeacher, classId: section.classId };
+		return { isClassTeacher };
 	}
 
 	async _verifyClassTeacher(staffId) {
@@ -167,75 +159,68 @@ class TeacherResultService {
 		}
 
 		const [assignments, classroom] = await Promise.all([
-			TeacherResultRepository.findAssignedSections(staffId, academicYear, term),
+			TeacherResultRepository.findAssignedClasses(staffId, academicYear, term),
 			TeacherResultRepository.findClassByTeacher(staffId),
 		]);
 
-		const bySection = new Map();
+		const byClass = new Map();
 		for (const a of assignments) {
-			if (!bySection.has(a.sectionId)) {
-				bySection.set(a.sectionId, {
-					sectionId: a.sectionId,
-					sectionName: a.section.name,
-					className: a.section.class.name,
-					level: a.section.class.level,
+			if (!byClass.has(a.classId)) {
+				byClass.set(a.classId, {
+					classId: a.classId,
+					className: a.class.name,
+					level: a.class.level,
 					isClassTeacher: false,
 					subjects: [],
 				});
 			}
-			bySection.get(a.sectionId).subjects.push({
+			byClass.get(a.classId).subjects.push({
 				id: a.subject.id,
 				subjectName: a.subject.subjectName,
 				subjectCode: a.subject.subjectCode,
 			});
 		}
 
-		// Surface the teacher's classroom section even when they hold no
+		// Surface the teacher's classroom even when they hold no
 		// subject assignment there, so a class teacher can still reach the
 		// "upload all subjects for this student" flow for their own class.
 		if (classroom) {
-			if (bySection.has(classroom.id)) {
-				bySection.get(classroom.id).isClassTeacher = true;
+			if (byClass.has(classroom.id)) {
+				byClass.get(classroom.id).isClassTeacher = true;
 			} else {
-				const section = await TeacherResultRepository.findSectionSummary(
-					classroom.id,
-				);
-				if (section) {
-					bySection.set(section.id, {
-						sectionId: section.id,
-						sectionName: section.name,
-						className: section.class.name,
-						level: section.class.level,
-						isClassTeacher: true,
-						subjects: [],
-					});
-				}
+				byClass.set(classroom.id, {
+					classId: classroom.id,
+					className: classroom.name,
+					level: classroom.level,
+					isClassTeacher: true,
+					subjects: [],
+				});
 			}
 		}
 
-		return [...bySection.values()];
+		return [...byClass.values()];
 	}
 
-	async getStudentsInAssignedSection(staffId, sectionId, filters = {}) {
+	async getStudentsInAssignedClass(staffId, classId, filters = {}) {
 		const { academicYear, term } = filters;
 		if (!academicYear || !term) {
 			throw new Error("academicYear and term are required");
 		}
 
-		await this._verifySectionAssignment(staffId, sectionId, academicYear, term);
+		await this._verifyClassAssignment(staffId, classId, academicYear, term);
 
-		return TeacherStudentRepository.findStudentsInSection(sectionId, filters);
+		return TeacherStudentRepository.findStudentsInClass(classId, filters);
 	}
 
-	async getSubjectsForStudent(staffId, sectionId, studentId, filters = {}) {
+	async getSubjectsForStudent(staffId, classId, studentId, filters = {}) {
 		const { academicYear, term, termId, sessionId } = filters;
 		if (!academicYear || !term || !termId || !sessionId) {
 			throw new Error("academicYear, term, termId, and sessionId are required");
 		}
 
-		const { isClassTeacher, classId } = await this._verifySectionAssignment(
+		const { isClassTeacher } = await this._verifyClassAssignment(
 			staffId,
-			sectionId,
+			classId,
 			academicYear,
 			term,
 		);
@@ -255,16 +240,15 @@ class TeacherResultService {
 	}
 
 	// Uploads scores for one student across every subject submitted in a
-	// single call. A class (classroom) teacher for the section may submit any
-	// subject actively assigned there, since their remit covers the whole
-	// student; any other teacher may only submit subjects they are personally
-	// assigned to teach in this section/term — a teacher cannot smuggle in a
-	// subject they don't teach just because one other subject in the same
-	// request is legitimate.
+	// single call. A class teacher may submit any subject actively assigned
+	// in the class, since their remit covers the whole student; any other
+	// teacher may only submit subjects they are personally assigned to teach
+	// in this class/term — a teacher cannot smuggle in a subject they don't
+	// teach just because one other subject in the same request is legitimate.
 	async uploadResultsForStudent(staffId, studentId, data) {
-		const { sectionId, termId, sessionId, results } = data;
+		const { classId, termId, sessionId, results } = data;
 
-		if (!sectionId || !termId || !sessionId || !results?.length) {
+		if (!classId || !termId || !sessionId || !results?.length) {
 			throw new Error("Fill all required fields");
 		}
 
@@ -274,9 +258,9 @@ class TeacherResultService {
 		}
 
 		const term = await this._getTerm(termId);
-		const { isClassTeacher, classId } = await this._verifySectionAssignment(
+		const { isClassTeacher } = await this._verifyClassAssignment(
 			staffId,
-			sectionId,
+			classId,
 			term.session.session,
 			term.term,
 		);
@@ -295,7 +279,7 @@ class TeacherResultService {
 					);
 				if (!assignment) {
 					throw new Error(
-						"This subject is not assigned to this section for the selected term",
+						"This subject is not assigned to this class for the selected term",
 					);
 				}
 			} else {
@@ -327,7 +311,7 @@ class TeacherResultService {
 
 		return {
 			studentId,
-			sectionId,
+			classId,
 			uploaded: uploaded.length,
 			results: uploaded.map((r) =>
 				sanitizeResultResponse(r, { rankingsPending: true }),
@@ -337,27 +321,27 @@ class TeacherResultService {
 
 	async getStudentsWithResults(
 		staffId,
-		sectionId,
+		classId,
 		subjectId,
 		termId,
 		sessionId,
 	) {
 		logger.info(
-			`Fetching students with results - section: ${sectionId}, subject: ${subjectId}`,
+			`Fetching students with results - class: ${classId}, subject: ${subjectId}`,
 		);
 
 		const term = await this._getTerm(termId);
 
 		await this._verifySubjectAssignment(
 			staffId,
-			sectionId,
+			classId,
 			subjectId,
 			term.session.session,
 			term.term,
 		);
 
 		return TeacherResultRepository.findStudentsWithResults(
-			sectionId,
+			classId,
 			subjectId,
 			termId,
 			sessionId,
@@ -369,14 +353,14 @@ class TeacherResultService {
 	async uploadResult(staffId, data) {
 		const {
 			studentId,
-			sectionId,
+			classId,
 			subjectId,
 			termId,
 			sessionId,
 			subjectTeacherRemark,
 		} = data;
 
-		if (!studentId || !sectionId || !subjectId || !termId || !sessionId) {
+		if (!studentId || !classId || !subjectId || !termId || !sessionId) {
 			throw new Error("Fill all required fields");
 		}
 
@@ -389,7 +373,7 @@ class TeacherResultService {
 
 		await this._verifySubjectAssignment(
 			staffId,
-			sectionId,
+			classId,
 			subjectId,
 			term.session.session,
 			term.term,
@@ -415,9 +399,9 @@ class TeacherResultService {
 
 	// Bulk upload — subjectTeacherRemark per student is optional.
 	async bulkUploadResults(staffId, data) {
-		const { sectionId, subjectId, termId, sessionId, records } = data;
+		const { classId, subjectId, termId, sessionId, records } = data;
 
-		if (!sectionId || !subjectId || !termId || !sessionId || !records?.length) {
+		if (!classId || !subjectId || !termId || !sessionId || !records?.length) {
 			throw new Error("Fill all required fields");
 		}
 
@@ -428,14 +412,14 @@ class TeacherResultService {
 
 		await this._verifySubjectAssignment(
 			staffId,
-			sectionId,
+			classId,
 			subjectId,
 			term.session.session,
 			term.term,
 		);
 
 		logger.info(
-			`Bulk uploading results - subject: ${subjectId}, section: ${sectionId}, records: ${records.length}`,
+			`Bulk uploading results - subject: ${subjectId}, class: ${classId}, records: ${records.length}`,
 		);
 
 		const resultRecords = records.map((record) => ({
@@ -453,19 +437,19 @@ class TeacherResultService {
 			await TeacherResultRepository.bulkUpsertResults(resultRecords);
 
 		await TeacherResultRepository.computePositions(
-			sectionId,
+			classId,
 			subjectId,
 			termId,
 			sessionId,
 		);
 		await TeacherResultRepository.computeClassAverage(
-			sectionId,
+			classId,
 			subjectId,
 			termId,
 			sessionId,
 		);
 		await TeacherResultRepository.computeOverallPositions(
-			sectionId,
+			classId,
 			termId,
 			sessionId,
 		);
@@ -481,9 +465,9 @@ class TeacherResultService {
 	}
 
 	async recalculateResults(staffId, data) {
-		const { sectionId, subjectId, termId, sessionId } = data;
+		const { classId, subjectId, termId, sessionId } = data;
 
-		if (!sectionId || !subjectId || !termId || !sessionId) {
+		if (!classId || !subjectId || !termId || !sessionId) {
 			throw new Error("Fill all required fields");
 		}
 
@@ -491,7 +475,7 @@ class TeacherResultService {
 
 		await this._verifySubjectAssignment(
 			staffId,
-			sectionId,
+			classId,
 			subjectId,
 			term.session.session,
 			term.term,
@@ -573,7 +557,7 @@ class TeacherResultService {
 		const classRecord = await this._verifyClassTeacher(staffId);
 		const inClass = student.enrollments.some(
 			(enrollment) =>
-				enrollment.sectionId === classRecord.id &&
+				enrollment.classId === classRecord.id &&
 				enrollment.status === "ACTIVE",
 		);
 
@@ -612,7 +596,7 @@ class TeacherResultService {
 
 		const inClass = student.enrollments.some(
 			(enrollment) =>
-				enrollment.sectionId === classRecord.id &&
+				enrollment.classId === classRecord.id &&
 				enrollment.status === "ACTIVE",
 		);
 
@@ -633,7 +617,7 @@ class TeacherResultService {
 
 			return {
 				studentId,
-				sectionId: classRecord.id,
+				classId: classRecord.id,
 				traitId: rating.traitId,
 				staffId,
 				academicYear,
@@ -689,7 +673,7 @@ class TeacherResultService {
 
 		const inClass = student.enrollments.some(
 			(enrollment) =>
-				enrollment.sectionId === classRecord.id &&
+				enrollment.classId === classRecord.id &&
 				enrollment.status === "ACTIVE",
 		);
 
@@ -709,7 +693,7 @@ class TeacherResultService {
 
 			return {
 				studentId,
-				sectionId: classRecord.id,
+				classId: classRecord.id,
 				itemId: assessment.itemId,
 				staffId,
 				academicYear,

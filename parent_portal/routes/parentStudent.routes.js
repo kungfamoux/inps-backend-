@@ -424,9 +424,9 @@ router.get(
  *   get:
  *     summary: View a child's class timetable
  *     description: |
- *       Returns the full weekly timetable for the child's enrolled section.
+ *       Returns the full weekly timetable for the child's enrolled class.
  *       Grouped by day of week.
- *       e.g. Primary 1 Yellow: Mathematics on Monday at 08:00 by Mr. Obi
+ *       e.g. Primary 1: Mathematics on Monday at 08:00 by Mr. Obi
  *     tags: [Parent Portal]
  *     security:
  *       - bearerAuth: []

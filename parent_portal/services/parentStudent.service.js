@@ -249,8 +249,8 @@ class ParentStudentService {
 	}
 
 	// TIMETABLE
-	// Shows the class schedule for the child's enrolled section.
-	// e.g. Primary 1 Yellow: Mathematics on Monday at 08:00 by Mr. Obi
+	// Shows the class schedule for the child's enrolled class.
+	// e.g. Primary 1: Mathematics on Monday at 08:00 by Mr. Obi
 
 	async getChildTimetable(parentId, studentId) {
 		logger.info(`Fetching timetable for student: ${studentId}`);

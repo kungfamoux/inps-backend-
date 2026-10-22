@@ -1,6 +1,6 @@
 // Regression test for a real bug found and fixed in this session:
 // enrollStudentWithCount used to relabel EVERY error (including an invalid
-// sectionId) as "Student already enrolled for this term". The fix itself
+// classId) as "Student already enrolled for this term". The fix itself
 // then had its own bug — it checked err.meta.target, which doesn't exist
 // in this Prisma version's driver-adapter error shape — so it silently
 // failed to recognize the real duplicate case. Both are covered here.
@@ -40,7 +40,6 @@ describe("enrollStudentWithCount", () => {
 		const enrollment = await EnrollmentRepository.enrollStudentWithCount({
 			studentId: testStudentId,
 			classId: testClassId,
-			sectionId: null,
 			academicYear: "2099/2100",
 			term: "FIRST_TERM",
 			status: "ACTIVE",
@@ -53,7 +52,6 @@ describe("enrollStudentWithCount", () => {
 			EnrollmentRepository.enrollStudentWithCount({
 				studentId: testStudentId,
 				classId: testClassId,
-				sectionId: null,
 				academicYear: "2099/2100",
 				term: "FIRST_TERM",
 				status: "ACTIVE",
@@ -61,12 +59,11 @@ describe("enrollStudentWithCount", () => {
 		).rejects.toThrow("Student already enrolled for this term");
 	});
 
-	test("an invalid sectionId is NOT mislabeled as a duplicate enrollment", async () => {
+	test("an invalid classId is NOT mislabeled as a duplicate enrollment", async () => {
 		await expect(
 			EnrollmentRepository.enrollStudentWithCount({
 				studentId: testStudentId,
-				classId: testClassId,
-				sectionId: "totally-bogus-section-id",
+				classId: "totally-bogus-class-id",
 				academicYear: "2099/2101",
 				term: "FIRST_TERM",
 				status: "ACTIVE",
@@ -79,7 +76,6 @@ describe("enrollStudentWithCount", () => {
 			EnrollmentRepository.enrollStudentWithCount({
 				studentId: "nonexistent-student-id-xyz",
 				classId: testClassId,
-				sectionId: null,
 				academicYear: "2099/2102",
 				term: "FIRST_TERM",
 				status: "ACTIVE",
