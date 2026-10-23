@@ -172,7 +172,7 @@ const recordManualPaymentSchema = z.object({
 	}),
 	referenceNumber: z.string().trim().optional(),
 	notes: z.string().trim().optional(),
-	proofOfPaymentId: z.string().trim().min(1, "Proof of payment is required"),
+	proofOfPaymentId: z.string().trim().optional(),
 });
 
 module.exports = {

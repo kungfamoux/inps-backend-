@@ -318,6 +318,7 @@ const sanitizeInvoiceRecord = (inv) => {
 	return {
 		invoiceId: inv.id,
 		invoiceNumber: inv.invoiceNumber,
+		studentId: inv.studentId,
 		studentName: `${inv.student.firstName} ${inv.student.lastName}`,
 		admissionNumber: inv.student.admissionNumber,
 		class: inv.student.enrollments?.[0]?.class?.name ?? null,

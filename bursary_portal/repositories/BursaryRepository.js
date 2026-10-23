@@ -64,6 +64,7 @@ const findFeeCollections = async (filters = {}) => {
 			select: {
 				id: true,
 				invoiceNumber: true,
+				studentId: true,
 				amount: true,
 				amountPaid: true,
 				balance: true,
@@ -77,6 +78,7 @@ const findFeeCollections = async (filters = {}) => {
 				},
 				student: {
 					select: {
+						id: true,
 						admissionNumber: true,
 						firstName: true,
 						lastName: true,
