@@ -106,6 +106,7 @@ model Staff {
   stockOuts          StockOut[]
   subjectAssignments SubjectAssignment[]
   financialRecord    StaffFinancial?
+  recordedPayments   Payment[]      @relation("PaymentRecorder")
 }
 
 model StaffFinancial {
@@ -509,26 +510,33 @@ model Invoice {
 }
 
 model Payment {
-  id            String         @id @default(uuid())
-  invoiceId     String
-  studentId     String
-  parentId      String?
-  amount        Float
-  category      IncomeCategory
-  paymentMethod String
-  paystackRef   String?        @unique
-  transactionId String?
-  status        PaymentStatus  @default(PENDING)
-  paymentDate   DateTime
-  deletedAt     DateTime?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  invoice       Invoice        @relation(fields: [invoiceId], references: [id])
-  parent        Parent?        @relation(fields: [parentId], references: [id])
-  student       Student        @relation(fields: [studentId], references: [id])
+  id               String         @id @default(uuid())
+  invoiceId        String
+  studentId        String
+  parentId         String?
+  amount           Float
+  category         IncomeCategory
+  paymentMethod    String
+  paymentChannel   PaymentChannel?
+  paystackRef      String?        @unique
+  transactionId    String?
+  referenceNumber  String?
+  proofOfPaymentId String?
+  notes            String?
+  recordedBy       String?
+  status           PaymentStatus  @default(PENDING)
+  paymentDate      DateTime
+  deletedAt        DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  invoice          Invoice        @relation(fields: [invoiceId], references: [id])
+  parent           Parent?        @relation(fields: [parentId], references: [id])
+  student          Student        @relation(fields: [studentId], references: [id])
+  recordedByStaff  Staff?         @relation("PaymentRecorder", fields: [recordedBy], references: [id])
 
   @@index([studentId])
   @@index([status])
+  @@index([paymentChannel])
 }
 
 model BookPrice {
@@ -867,6 +875,14 @@ enum PaymentStatus {
   COMPLETED
   FAILED
   REFUNDED
+}
+
+enum PaymentChannel {
+  CASH
+  BANK_TRANSFER
+  POS
+  FORM_OF_TRANSFER
+  PAYSTACK
 }
 
 enum HolidayType {

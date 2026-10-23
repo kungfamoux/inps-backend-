@@ -7,6 +7,7 @@ const {
 	getFeeOverview,
 	getPaymentHistory,
 	getOutstandingInvoiceIds,
+	uploadPaymentProof,
 } = require("../controller/ParentFeeController");
 
 const {
@@ -14,12 +15,14 @@ const {
 	verifyPaystackSignature,
 	webhookLimiter,
 	validate,
+	paymentProofUpload,
 } = require("../../middleware");
 
 const {
 	verifyPaymentSchema,
 	initializeFeePaymentSchema,
 	paymentHistoryQuerySchema,
+	uploadPaymentProofSchema,
 } = require("../validators/parentFee.validator");
 
 /**
@@ -421,6 +424,64 @@ router.post(
 	authenticateParent,
 	validate(initializeFeePaymentSchema),
 	initializeFeePayment,
+);
+
+/**
+ * @swagger
+ * /api/parent/fees/{studentId}/upload-proof:
+ *   post:
+ *     summary: Upload proof of payment for manual payment
+ *     description: >
+ *       Parents must upload proof of payment (bank transfer receipt, cash receipt, etc.)
+ *       before bursary can record the payment. File is stored in Cloudinary.
+ *     tags: [Parent Fees]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: studentId
+ *         required: true
+ *         schema: { type: string }
+ *         description: The ID of the student
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - proofOfPayment
+ *             properties:
+ *               proofOfPayment:
+ *                 type: string
+ *                 format: binary
+ *                 description: Proof of payment image (receipt, transfer confirmation, etc.)
+ *     responses:
+ *       200:
+ *         description: Proof uploaded successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 message: "Proof uploaded successfully"
+ *                 data: { publicId: "inps/payments/proof/abc123" }
+ *       400:
+ *         description: No file uploaded or invalid file
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/ErrorResponse' }
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.post(
+	"/:studentId/upload-proof",
+	authenticateParent,
+	paymentProofUpload,
+	uploadPaymentProof,
 );
 
 module.exports = router;

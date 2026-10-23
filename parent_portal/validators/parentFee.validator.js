@@ -42,8 +42,13 @@ const paymentHistoryQuerySchema = z.object({
 	search: z.string().trim().optional(),
 });
 
+const uploadPaymentProofSchema = z.object({
+	// No body validation - file is handled by multer middleware
+});
+
 module.exports = {
 	verifyPaymentSchema,
 	initializeFeePaymentSchema,
 	paymentHistoryQuerySchema,
+	uploadPaymentProofSchema,
 };

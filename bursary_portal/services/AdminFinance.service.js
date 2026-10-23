@@ -1,6 +1,7 @@
 const AcademicRepository = require("../../shared/repositories/AcademicRepository");
 const FinanceRepository = require("../repositories/FinanceRepository");
 const logger = require("../../utils/logger");
+const { computeInvoiceStatus } = require("../../utils/invoiceStatus");
 
 class AdminFinanceService {
 	// BILL / FEE STRUCTURE
@@ -292,6 +293,117 @@ class AdminFinanceService {
 	async getAllInvoices(filters = {}) {
 		logger.info(`Fetching invoices — filters: ${JSON.stringify(filters)}`);
 		return FinanceRepository.findAllInvoices(filters);
+	}
+
+	// MANUAL PAYMENT RECORDING
+
+	async recordManualPayment(data) {
+		const {
+			studentId,
+			invoiceIds,
+			amount,
+			paymentDate,
+			paymentChannel,
+			referenceNumber,
+			notes,
+			proofOfPaymentId,
+			recordedBy,
+		} = data;
+
+		logger.info(
+			`Recording manual payment — student: ${studentId}, invoices: ${invoiceIds.join(", ")}`,
+		);
+
+		// Validate invoices belong to student and are outstanding
+		const validInvoices = await FinanceRepository.findInvoicesForStudent(
+			studentId,
+			invoiceIds,
+		);
+
+		if (validInvoices.length !== invoiceIds.length) {
+			throw new Error("One or more invoices are invalid or already paid");
+		}
+
+		const totalAmount = validInvoices.reduce((s, i) => s + i.balance, 0);
+
+		if (amount > totalAmount) {
+			throw new Error(
+				`Amount exceeds outstanding balance of ${totalAmount}`,
+			);
+		}
+
+		try {
+			await prisma.$transaction(async (tx) => {
+				let remainingAmount = amount;
+
+				for (const invoice of validInvoices) {
+					if (remainingAmount <= 0) break;
+
+					const share = Math.min(invoice.balance, remainingAmount);
+					const { newAmountPaid, newBalance, newStatus } =
+						computeInvoiceStatus(invoice, share);
+
+					// Update invoice
+					await tx.invoice.update({
+						where: { id: invoice.id },
+						data: {
+							amountPaid: newAmountPaid,
+							balance: newBalance,
+							status: newStatus,
+						},
+					});
+
+					// Create payment record
+					await tx.payment.create({
+						data: {
+							invoiceId: invoice.id,
+							studentId,
+							parentId: invoice.parentId,
+							amount: share,
+							category: "FEES",
+							paymentMethod: "manual",
+							paymentChannel,
+							referenceNumber,
+							proofOfPaymentId,
+							notes,
+							recordedBy,
+							status: "COMPLETED",
+							paymentDate: new Date(paymentDate),
+						},
+					});
+
+					remainingAmount -= share;
+				}
+
+				// Create income record
+				await tx.incomeRecord.create({
+					data: {
+						category: "FEES",
+						amount,
+						description: `Manual payment via ${paymentChannel} — student: ${studentId}`,
+						date: new Date(paymentDate),
+					},
+				});
+			});
+
+			logger.info(
+				`Manual payment recorded successfully — student: ${studentId}`,
+			);
+
+			return {
+				studentId,
+				amount,
+				invoicesUpdated: validInvoices.length,
+				paymentChannel,
+			};
+		} catch (error) {
+			logger.error(`Manual payment recording failed: ${error.message}`);
+			throw error;
+		}
+	}
+
+	async getPaymentById(paymentId) {
+		return FinanceRepository.getPaymentById(paymentId);
 	}
 }
 

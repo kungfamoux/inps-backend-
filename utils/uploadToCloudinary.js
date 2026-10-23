@@ -33,6 +33,10 @@ const storage = new CloudinaryStorage({
 			folder = "inps/students/docs";
 		}
 
+		if (file.fieldname === "proofOfPayment") {
+			folder = "inps/payments/proof";
+		}
+
 		return {
 			folder,
 			resource_type: "auto",

@@ -18,6 +18,9 @@ const {
 	getAllIncomeRecords,
 	getFinancialSummary,
 	getRecentPayments,
+	recordManualPayment,
+	uploadPaymentProof,
+	getPaymentProof,
 } = require("../controller/AdminFinanceController");
 const {
 	getFeeCollections,
@@ -33,6 +36,7 @@ const {
 	authenticate,
 	requireRoles,
 	reportLimiter,
+	paymentProofUpload,
 } = require("../../middleware");
 const { validate } = require("../../middleware/validate");
 const {
@@ -45,6 +49,7 @@ const {
 	addIncomeRecordSchema,
 	getAllIncomeRecordsQuerySchema,
 	getRecentPaymentsQuerySchema,
+	recordManualPaymentSchema,
 } = require("../validators/finance.validator");
 const {
 	generateInvoicesSchema,
@@ -938,6 +943,170 @@ router.get(
 	requireRoles(["ADMIN", "BURSARY"]),
 	validate(getRecentPaymentsQuerySchema, "query"),
 	getRecentPayments,
+);
+
+/**
+ * @swagger
+ * /api/finance/payments/manual:
+ *   post:
+ *     summary: Record a manual payment (cash, bank transfer, etc.)
+ *     description: >
+ *       Bursary staff record offline payments after verifying proof of payment.
+ *       Updates invoice balances and creates income records.
+ *     tags: [Finance]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - studentId
+ *               - invoiceIds
+ *               - amount
+ *               - paymentDate
+ *               - paymentChannel
+ *               - proofOfPaymentId
+ *             properties:
+ *               studentId: { type: string }
+ *               invoiceIds: { type: array, items: { type: string } }
+ *               amount: { type: number }
+ *               paymentDate: { type: string, format: date }
+ *               paymentChannel: { type: string, enum: [cash, bank_transfer, pos, form_of_transfer] }
+ *               referenceNumber: { type: string }
+ *               notes: { type: string }
+ *               proofOfPaymentId: { type: string }
+ *     responses:
+ *       201:
+ *         description: Payment recorded successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 message: "Manual payment recorded successfully"
+ *                 data: { studentId: "stu_abc123", amount: 75000, invoicesUpdated: 2, paymentChannel: "bank_transfer" }
+ *       400:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/ErrorResponse' }
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.post(
+	"/payments/manual",
+	authenticate,
+	requireRoles(["BURSARY"]),
+	validate(recordManualPaymentSchema),
+	recordManualPayment,
+);
+
+/**
+ * @swagger
+ * /api/finance/payments/upload-proof:
+ *   post:
+ *     summary: Upload proof of payment image
+ *     description: >
+ *       Upload proof of payment (receipt, transfer confirmation) to Cloudinary.
+ *       Returns Cloudinary public_id for use in manual payment recording.
+ *     tags: [Finance]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - proofOfPayment
+ *             properties:
+ *               proofOfPayment:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Proof uploaded successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 message: "Proof uploaded successfully"
+ *                 data: { publicId: "inps/payments/proof/abc123" }
+ *       400:
+ *         description: No file uploaded
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/ErrorResponse' }
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.post(
+	"/payments/upload-proof",
+	authenticate,
+	requireRoles(["BURSARY"]),
+	paymentProofUpload,
+	uploadPaymentProof,
+);
+
+/**
+ * @swagger
+ * /api/finance/payments/:paymentId/proof:
+ *   get:
+ *     summary: Get signed URL for payment proof
+ *     description: >
+ *       Generates a temporary signed URL to view proof of payment image.
+ *       URL expires in 1 hour.
+ *     tags: [Finance]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: paymentId
+ *         required: true
+ *         schema: { type: string }
+ *         description: The ID of the payment
+ *     responses:
+ *       200:
+ *         description: Signed URL generated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 data: { signedUrl: "https://res.cloudinary.com/...", expiresAt: "2026-10-23T12:00:00.000Z" }
+ *       404:
+ *         description: No proof found
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/ErrorResponse' }
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.get(
+	"/payments/:paymentId/proof",
+	authenticate,
+	requireRoles(["BURSARY"]),
+	getPaymentProof,
 );
 
 // BURSARY DASHBOARD (stats, collections, debtors, invoice generation)

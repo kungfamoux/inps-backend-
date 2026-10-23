@@ -18,6 +18,9 @@ const { loginLimiter } = require("./loginLimiter");
 const { apiLimiter, webhookLimiter, reportLimiter } = require("./rateLimiter");
 const { verifyPaystackSignature } = require("./verifyPaystackSignature");
 const { validate } = require("./validate");
+const { upload } = require("../utils/uploadToCloudinary");
+
+const paymentProofUpload = upload.single("proofOfPayment");
 
 module.exports = {
 	authenticate,
@@ -35,4 +38,5 @@ module.exports = {
 	verifyPaystackSignature,
 	authenticateParent,
 	validate,
+	paymentProofUpload,
 };

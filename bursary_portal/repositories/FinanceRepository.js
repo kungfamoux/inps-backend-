@@ -170,6 +170,7 @@ const getTotalIncome = () =>
 const findRecentPayments = async (filters = {}) => {
 	const where = {};
 	if (filters.status) where.status = filters.status;
+	if (filters.paymentChannel) where.paymentChannel = filters.paymentChannel;
 
 	const page = parseInt(filters.page) || 1;
 	const limit = parseInt(filters.limit) || 20;
@@ -191,6 +192,12 @@ const findRecentPayments = async (filters = {}) => {
 						invoiceNumber: true,
 						academicYear: true,
 						term: true,
+					},
+				},
+				recordedByStaff: {
+					select: {
+						firstName: true,
+						lastName: true,
 					},
 				},
 			},
@@ -286,6 +293,52 @@ const findAllInvoices = async (filters = {}) => {
 	};
 };
 
+// MANUAL PAYMENT HELPERS
+
+const findInvoiceByIds = (invoiceIds) =>
+	prisma.invoice.findMany({
+		where: { id: { in: invoiceIds }, deletedAt: null },
+		include: { student: true, bill: true },
+	});
+
+const findInvoicesForStudent = (studentId, invoiceIds) =>
+	prisma.invoice.findMany({
+		where: {
+			id: { in: invoiceIds },
+			studentId,
+			deletedAt: null,
+			status: { in: ["PENDING", "PARTIAL", "OVERDUE"] },
+		},
+		include: { bill: true },
+	});
+
+const getPaymentById = (paymentId) =>
+	prisma.payment.findUnique({
+		where: { id: paymentId },
+		include: {
+			student: {
+				select: {
+					admissionNumber: true,
+					firstName: true,
+					lastName: true,
+				},
+			},
+			invoice: {
+				select: {
+					invoiceNumber: true,
+					academicYear: true,
+					term: true,
+				},
+			},
+			recordedByStaff: {
+				select: {
+					firstName: true,
+					lastName: true,
+				},
+			},
+		},
+	});
+
 module.exports = {
 	createBill,
 	findBillByUniqueFields,
@@ -309,4 +362,7 @@ module.exports = {
 	findRecentPayments,
 	getTotalPayments,
 	findAllInvoices,
+	findInvoiceByIds,
+	findInvoicesForStudent,
+	getPaymentById,
 };

@@ -86,6 +86,8 @@ const NURSERY_RATING_VALUES = ["Y", "N", "S"]; // enum NurseryRating
 
 const ATTENDANCE_STATUS_VALUES = ["PRESENT", "ABSENT", "EXCUSED", "LATE"]; // enum AttendanceStatus
 
+const PAYMENT_CHANNEL_VALUES = ["cash", "bank_transfer", "pos", "form_of_transfer", "paystack"]; // enum PaymentChannel
+
 module.exports = {
 	TERM_VALUES,
 	SCHOOL_LEVEL_VALUES,
@@ -114,4 +116,5 @@ module.exports = {
 	COMMUNICATION_TYPE_VALUES,
 	NURSERY_RATING_VALUES,
 	ATTENDANCE_STATUS_VALUES,
+	PAYMENT_CHANNEL_VALUES,
 };

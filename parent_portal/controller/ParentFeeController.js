@@ -186,10 +186,40 @@ const verifyFeePayment = async (req, res, next) => {
 	}
 };
 
+const uploadPaymentProof = async (req, res, next) => {
+	try {
+		const parentId = req.parent.id;
+		const { studentId } = req.params;
+
+		// Validate student belongs to parent
+		const ParentRepository = require("../repositories/ParentRepository");
+		await ParentRepository.assertStudentBelongsToParent(studentId, parentId);
+
+		const proofFile = req.files?.proofOfPayment?.[0];
+		if (!proofFile) {
+			return res.status(400).json({
+				success: false,
+				message: "Proof of payment image is required",
+			});
+		}
+
+		const publicId = proofFile.path; // Cloudinary public_id
+
+		return res.status(200).json({
+			success: true,
+			message: "Proof uploaded successfully",
+			data: { publicId },
+		});
+	} catch (error) {
+		return next(error);
+	}
+};
+
 module.exports = {
 	verifyFeePayment,
 	initializeFeePayment,
 	getFeeOverview,
 	getPaymentHistory,
 	getOutstandingInvoiceIds,
+	uploadPaymentProof,
 };

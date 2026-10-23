@@ -6,6 +6,7 @@ const {
 	BILL_SCOPE_VALUES,
 	EXPENSE_CATEGORY_VALUES,
 	INCOME_CATEGORY_VALUES,
+	PAYMENT_CHANNEL_VALUES,
 } = require("../../utils/enums");
 
 const termEnumOptional = () =>
@@ -148,7 +149,30 @@ const getRecentPaymentsQuerySchema = z.object({
 			}),
 		})
 		.optional(),
+	paymentChannel: z
+		.enum(PAYMENT_CHANNEL_VALUES, {
+			errorMap: () => ({
+				message: `paymentChannel must be one of: ${PAYMENT_CHANNEL_VALUES.join(", ")}`,
+			}),
+		})
+		.optional(),
 	...paginationQueryFields,
+});
+
+// POST /api/finance/payments/manual
+const recordManualPaymentSchema = z.object({
+	studentId: z.string().trim().min(1, "studentId is required"),
+	invoiceIds: z.array(z.string().trim().min(1)).min(1, "At least one invoice ID is required"),
+	amount: z.coerce.number().positive("amount must be positive"),
+	paymentDate: dateString,
+	paymentChannel: z.enum(PAYMENT_CHANNEL_VALUES, {
+		errorMap: () => ({
+			message: `paymentChannel must be one of: ${PAYMENT_CHANNEL_VALUES.join(", ")}`,
+		}),
+	}),
+	referenceNumber: z.string().trim().optional(),
+	notes: z.string().trim().optional(),
+	proofOfPaymentId: z.string().trim().min(1, "Proof of payment is required"),
 });
 
 module.exports = {
@@ -161,4 +185,5 @@ module.exports = {
 	addIncomeRecordSchema,
 	getAllIncomeRecordsQuerySchema,
 	getRecentPaymentsQuerySchema,
+	recordManualPaymentSchema,
 };

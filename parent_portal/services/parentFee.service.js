@@ -298,6 +298,22 @@ class ParentFeeService {
 			studentId,
 		};
 	}
+
+	async uploadPaymentProof(parentId, studentId, file) {
+		logger.info(`Uploading payment proof — student: ${studentId}`);
+
+		// Upload to Cloudinary is handled by multer middleware
+		// Just validate and return the public_id
+		const student = await ParentRepository.assertStudentBelongsToParent(
+			studentId,
+			parentId,
+		);
+
+		return {
+			publicId: file.path,
+			studentId,
+		};
+	}
 }
 
 module.exports = new ParentFeeService();
