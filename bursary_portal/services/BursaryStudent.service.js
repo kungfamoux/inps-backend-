@@ -1,6 +1,7 @@
 const BursaryRepository = require("../repositories/BursaryRepository");
 const FinanceRepository = require("../repositories/FinanceRepository");
 const { sanitizeInvoiceRecord } = require("../../utils/sanitizers");
+const { sendInvoiceNotificationEmail } = require("../../utils/resend");
 
 const logger = require("../../utils/logger");
 
@@ -155,12 +156,68 @@ class BursaryStudentService {
 			`Invoice generation complete — created: ${created}, skipped: ${skipped}`,
 		);
 
+		// Send email notifications to parents
+		// Group invoices by parent
+		const invoicesByParent = new Map();
+		toCreate.forEach(({ bill, student }, index) => {
+			const invoice = invoiceData[index];
+			if (!invoicesByParent.has(student.parent?.id)) {
+				invoicesByParent.set(student.parent?.id, {
+					parent: student.parent,
+					invoices: []
+				});
+			}
+			invoicesByParent.get(student.parent?.id).invoices.push({
+				...invoice,
+				studentName: `${student.firstName} ${student.lastName}`,
+				billName: bill.name
+			});
+		});
+
+		// Send emails to each parent
+		let emailSentCount = 0;
+		let emailFailedCount = 0;
+		for (const [parentId, { parent, invoices }] of invoicesByParent.entries()) {
+			if (!parent || !parent.accountEmail) {
+				logger.warn(`No parent or email for parentId: ${parentId}, skipping email`);
+				continue;
+			}
+
+			// Send one email per invoice (simpler approach)
+			for (const invoice of invoices) {
+				try {
+					await sendInvoiceNotificationEmail({
+						to: parent.accountEmail,
+						parentName: `${parent.primaryGuardian?.firstName || 'Parent'} ${parent.primaryGuardian?.lastName || ''}`,
+						studentName: invoice.studentName,
+						invoiceNumber: invoice.invoiceNumber,
+						billName: invoice.billName,
+						amount: invoice.amount.toLocaleString(),
+						dueDate: invoice.dueDate.toLocaleDateString(),
+						status: invoice.status,
+						academicYear,
+						term,
+					});
+					emailSentCount++;
+					logger.info(`Invoice notification sent to ${parent.accountEmail} for ${invoice.invoiceNumber}`);
+				} catch (emailError) {
+					emailFailedCount++;
+					logger.error(`Failed to send invoice notification to ${parent.accountEmail}: ${emailError.message}`);
+					// Don't fail the entire operation if email fails
+				}
+			}
+		}
+
+		logger.info(`Email notifications sent: ${emailSentCount}, failed: ${emailFailedCount}`);
+
 		return {
 			academicYear,
 			term,
 			billsProcessed: bills.length,
 			created,
 			skipped,
+			emailSent: emailSentCount,
+			emailFailed: emailFailedCount,
 		};
 	}
 }

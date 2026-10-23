@@ -190,7 +190,13 @@ const findActiveStudentsWithEnrollment = (academicYear, term) =>
 				include: { class: { select: { id: true, name: true } } },
 				take: 1,
 			},
-			parent: { select: { id: true } },
+			parent: {
+				select: {
+					id: true,
+					accountEmail: true,
+					primaryGuardian: true,
+				}
+			},
 		},
 	});
 

@@ -8,6 +8,7 @@ const staffAccountCreationHtml = load("staff-account-creation.html");
 const parentAccountCreationHtml = load("parent-account-creation.html");
 const passwordResetHtml = load("password-reset.html");
 const feePaymentConfirmationHtml = load("fee-payment-confirmation.html");
+const invoiceNotificationHtml = load("invoice-notification.html");
 
 const toText = (value) => (value ?? "").toString();
 
@@ -116,10 +117,36 @@ const feePaymentConfirmationTemplate = ({
 	return fillBranding(html, { portalLink });
 };
 
+const invoiceNotificationTemplate = ({
+	parentName,
+	studentName,
+	invoiceNumber,
+	billName,
+	amount,
+	dueDate,
+	status,
+	academicYear,
+	term,
+	portalLink,
+} = {}) => {
+	const html = invoiceNotificationHtml
+		.replace("[PARENT_NAME]", toText(parentName))
+		.replace("[STUDENT_NAME]", toText(studentName))
+		.replace("[INVOICE_NUMBER]", toText(invoiceNumber))
+		.replace("[BILL_NAME]", toText(billName))
+		.replace("[AMOUNT]", toText(amount))
+		.replace("[DUE_DATE]", toText(dueDate))
+		.replace("[STATUS]", toText(status))
+		.replace("[ACADEMIC_YEAR]", toText(academicYear))
+		.replace("[TERM]", toText(term));
+	return fillBranding(html, { portalLink });
+};
+
 module.exports = {
 	brandedEmailTemplate,
 	staffAccountCreationTemplate,
 	parentAccountCreationTemplate,
 	passwordResetTemplate,
 	feePaymentConfirmationTemplate,
+	invoiceNotificationTemplate,
 };

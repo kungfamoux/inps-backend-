@@ -171,10 +171,44 @@ const sendFeePaymentConfirmationEmail = async ({
 	});
 };
 
+/**
+ * Sends an invoice notification to a parent when an invoice is generated.
+ */
+const sendInvoiceNotificationEmail = async ({
+	to,
+	parentName,
+	studentName,
+	invoiceNumber,
+	billName,
+	amount,
+	dueDate,
+	status,
+	academicYear,
+	term,
+}) => {
+	const html = invoiceNotificationTemplate({
+		parentName,
+		studentName,
+		invoiceNumber,
+		billName,
+		amount,
+		dueDate,
+		status,
+		academicYear,
+		term,
+	});
+	await sendHtmlEmail({
+		to,
+		subject: `New Invoice Generated: ${invoiceNumber}`,
+		html,
+	});
+};
+
 module.exports = {
 	sendBrandedEmail,
 	sendStaffAccountCreationEmail,
 	sendParentAccountCreationEmail,
 	sendPasswordResetEmail,
 	sendFeePaymentConfirmationEmail,
+	sendInvoiceNotificationEmail,
 };
