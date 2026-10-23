@@ -254,7 +254,7 @@ router.get("/sessions/:id", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER',
 router.get(
 	"/sessions/:id/terms",
 	authenticate,
-	requireAdmin,
+	requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER', 'BURSARY']),
 	getTermsBySession,
 );
 
