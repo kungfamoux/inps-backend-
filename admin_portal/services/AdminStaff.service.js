@@ -11,6 +11,7 @@ const {
 	sendStaffAccountCreationEmail,
 	sendPasswordResetEmail,
 } = require("../../utils/resend");
+const UserManagementService = require("../../shared/services/UserManagementService");
 
 if (!process.env.FIREBASE_API_KEY) {
 	throw new Error("FIREBASE_API_KEY is not set in environment variables");
@@ -73,39 +74,34 @@ class AdminStaffService {
 
 		let firebaseUser;
 		let isLinkedExistingAccount = false;
+
+		// Step 1: Create or link Firebase user
 		try {
 			firebaseUser = await AuthRepository.createFirebaseUser(email, phone);
-			logger.info(
-				`Firebase user created for ${email} — uid: ${firebaseUser.uid}`,
-			);
+			logger.info(`Firebase user created for ${email} — uid: ${firebaseUser.uid}`);
 		} catch (error) {
 			if (error.code !== "auth/email-already-exists") {
 				logger.error(`Firebase creation failed for ${email}: ${error.message}`);
 				throw error;
 			}
 
-			// This email is already registered in Firebase — but Firebase auth is
-			// shared across staff and parent portals, so this may just be someone
-			// who is already a parent. Only block if a Staff row already uses
-			// this Firebase account; otherwise link the new staff role to it.
+			// Email already exists - check if it's linked to another staff
 			const existingUser = await AuthRepository.getFirebaseUserByEmail(email);
-			const existingStaff = await StaffRepository.findByFirebaseUid(
-				existingUser.uid,
-			);
+			const existingStaff = await StaffRepository.findByFirebaseUid(existingUser.uid);
 
 			if (existingStaff) {
 				logger.warn(`Staff creation failed — email already exists: ${email}`);
 				throw new Error("A staff account with this email already exists");
 			}
 
-			logger.info(
-				`Linking staff role to existing Firebase account for ${email} — uid: ${existingUser.uid}`,
-			);
+			// Link to existing Firebase account (might be a parent account)
+			logger.info(`Linking staff to existing Firebase account for ${email}`);
 			await AuthRepository.resetPasswordToPhone(existingUser.uid, phone);
 			firebaseUser = existingUser;
 			isLinkedExistingAccount = true;
 		}
 
+		// Step 2: Create staff in database with transaction
 		try {
 			const staff = await prisma.$transaction(async (tx) => {
 				const staffId = await generateStaffId(role, tx);
@@ -161,24 +157,24 @@ class AdminStaffService {
 
 			return sanitizeStaff(staff);
 		} catch (error) {
-			logger.error(
-				`Prisma staff creation failed for ${email}: ${error.message}`,
-			);
+			logger.error(`Staff DB creation failed for ${email}: ${error.message}`);
 
-			// Only delete the Firebase account if we created it fresh — never
-			// delete one we linked to, since it may still be a valid parent account.
-			if (isLinkedExistingAccount) {
-				logger.warn(
-					`Skipping Firebase rollback — uid ${firebaseUser.uid} belongs to a pre-existing (e.g. parent) account`,
-				);
-			} else {
+			// Rollback: Delete Firebase user if we created it fresh
+			if (!isLinkedExistingAccount) {
 				logger.warn(`Rolling back Firebase user uid: ${firebaseUser.uid}`);
-				await AuthRepository.deleteFirebaseUser(firebaseUser.uid).catch((e) => {
+				try {
+					await AuthRepository.deleteFirebaseUser(firebaseUser.uid);
+					logger.info(`Firebase rollback successful for uid: ${firebaseUser.uid}`);
+				} catch (rollbackError) {
 					logger.error(
-						`Firebase rollback failed for uid ${firebaseUser.uid}: ${e.message}. Manual cleanup required.`,
+						`Firebase rollback failed for uid ${firebaseUser.uid}: ${rollbackError.message}. Manual cleanup required.`,
 					);
-				});
+					throw new Error(
+						`Staff creation failed and Firebase rollback failed. Manual cleanup needed for Firebase UID: ${firebaseUser.uid}`,
+					);
+				}
 			}
+
 			throw error;
 		}
 	}
@@ -348,12 +344,8 @@ class AdminStaffService {
 			}
 		}
 
-		await AuthRepository.disableFirebaseUser(staff.firebaseUid);
-
-		const updated = await StaffRepository.update(staff.id, {
-			deletedAt: new Date(),
-			status: "INACTIVE",
-		});
+		// Use UserManagementService for atomic Firebase+DB deactivation
+		const updated = await UserManagementService.deactivateStaff(staffId);
 
 		logger.info(`Staff account deactivated: ${staffId}`);
 		return sanitizeStaff(updated);
@@ -366,15 +358,24 @@ class AdminStaffService {
 		if (!staff) throw new Error("Staff member not found");
 		if (!staff.deletedAt) throw new Error("Staff account is already active");
 
-		await AuthRepository.enableFirebaseUser(staff.firebaseUid);
-
-		const updated = await StaffRepository.update(staff.id, {
-			deletedAt: null,
-			status: "ACTIVE",
-		});
+		// Use UserManagementService for atomic Firebase+DB reactivation
+		const updated = await UserManagementService.reactivateStaff(staffId);
 
 		logger.info(`Staff account reactivated: ${staffId}`);
 		return sanitizeStaff(updated);
+	}
+
+	async deleteStaffAccount(staffId) {
+		logger.info(`Deleting staff account: ${staffId}`);
+
+		const staff = await StaffRepository.findById(staffId);
+		if (!staff) throw new Error("Staff member not found");
+
+		// Use UserManagementService for atomic Firebase+DB deletion
+		const deleted = await UserManagementService.deleteStaff(staffId);
+
+		logger.info(`Staff account deleted: ${staffId}`);
+		return sanitizeStaff(deleted);
 	}
 }
 

@@ -10,6 +10,7 @@ const {
 	resetPasswordToDefault,
 	deactivateStaffAccount,
 	reactivateStaffAccount,
+	deleteStaffAccount,
 	getStaffFinancial,
 	updateStaffFinancial,
 } = require("../controller/AdminStaffController");
@@ -507,6 +508,59 @@ router.patch(
 	authenticate,
 	requireAdmin,
 	reactivateStaffAccount,
+);
+
+/**
+ * @swagger
+ * /api/admin/staff/{id}/delete:
+ *   delete:
+ *     summary: Permanently delete a staff account (Admin only)
+ *     description: |
+ *       Permanently deletes a staff account from both Firebase and the database.
+ *       This action cannot be undone. Firebase account deletion is atomic with database deletion.
+ *       Blocked if Firebase account is shared with a parent account.
+ *     tags: [Admin - Staff]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Staff ID
+ *     responses:
+ *       200:
+ *         description: Staff account deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 message: "Staff account deleted successfully"
+ *       400:
+ *         description: Cannot delete (shared account or other constraint)
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/ErrorResponse' }
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       404:
+ *         description: Staff not found
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/ErrorResponse' }
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.delete(
+	"/:id/delete",
+	authenticate,
+	requireAdmin,
+	deleteStaffAccount,
 );
 
 /**

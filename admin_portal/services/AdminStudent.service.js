@@ -5,6 +5,7 @@ const logger = require("../../utils/logger");
 const { generateSignedUrl, uploadToCloudinary } = require("../../utils/uploadToCloudinary");
 const { sendParentAccountCreationEmail } = require("../../utils/resend");
 const prisma = require("../../lib/prisma");
+const UserManagementService = require("../../shared/services/UserManagementService");
 
 const signStudentFiles = (student) => {
 	if (!student) return student;
@@ -133,99 +134,56 @@ class AdminStudentService {
 			);
 		} else {
 			isNewParent = true;
-			let firebaseUser;
-			let firebaseUserCreated = false;
-			
-			try {
-				firebaseUser = await AuthRepository.createFirebaseUser(
-					accountEmail,
-					accountPhone,
-				);
-				firebaseUserCreated = true;
-				logger.info(
-					`Firebase parent account created — uid: ${firebaseUser.uid}`,
-				);
-			} catch (error) {
-				if (error.code === "auth/email-already-exists") {
-					logger.warn(
-						`Parent Firebase account already exists: ${accountEmail}. Fetching existing user and creating parent record.`,
-					);
-					// Fetch existing Firebase user by email
-					try {
-						firebaseUser = await AuthRepository.getUserByEmail(accountEmail);
-						logger.info(`Retrieved existing Firebase user — uid: ${firebaseUser.uid}`);
-					} catch (fetchError) {
-						logger.error(`Failed to fetch existing Firebase user: ${fetchError.message}`);
-						throw new Error("A parent account with this email already exists in Firebase, but could not be retrieved");
-					}
-				} else {
-					logger.error(`Firebase parent creation failed: ${error.message}`);
-					throw error;
-				}
+
+			// Check if new guardian structure is provided, otherwise fall back to old structure
+			let primaryGuardian, secondaryGuardian;
+
+			if (safeParentData.primaryGuardian) {
+				// New guardian structure
+				primaryGuardian = JSON.stringify({
+					relationship: safeParentData.primaryGuardian.relationship || "Father",
+					title: safeParentData.primaryGuardian.title || "Mr.",
+					firstName: safeParentData.primaryGuardian.firstName || "",
+					lastName: safeParentData.primaryGuardian.lastName || "",
+					phone: safeParentData.primaryGuardian.phone || accountPhone,
+					email: safeParentData.primaryGuardian.email || accountEmail,
+					occupation: safeParentData.primaryGuardian.occupation || null,
+					address: safeParentData.primaryGuardian.address || null,
+				});
+				secondaryGuardian = safeParentData.secondaryGuardian ? JSON.stringify(safeParentData.secondaryGuardian) : null;
+			} else {
+				// Backward compatibility: convert old structure to new guardian structure
+				primaryGuardian = JSON.stringify({
+					relationship: "Father",
+					title: "Mr.",
+					firstName: safeParentData.fatherFirstName || "",
+					lastName: safeParentData.fatherLastName || "",
+					phone: safeParentData.fatherPhone || accountPhone,
+					email: safeParentData.fatherEmail || accountEmail,
+					occupation: safeParentData.fatherOccupation || null,
+					address: null,
+				});
+				secondaryGuardian = (safeParentData.motherFirstName || safeParentData.motherLastName) ? JSON.stringify({
+					relationship: "Mother",
+					firstName: safeParentData.motherFirstName || "",
+					lastName: safeParentData.motherLastName || "",
+					phone: safeParentData.motherPhone || "",
+					email: safeParentData.motherEmail || "",
+					occupation: safeParentData.motherOccupation || null,
+				}) : null;
 			}
 
-			try {
-				// Check if new guardian structure is provided, otherwise fall back to old structure
-				let primaryGuardian, secondaryGuardian;
-				
-				if (safeParentData.primaryGuardian) {
-					// New guardian structure
-					primaryGuardian = JSON.stringify({
-						relationship: safeParentData.primaryGuardian.relationship || "Father",
-						title: safeParentData.primaryGuardian.title || "Mr.",
-						firstName: safeParentData.primaryGuardian.firstName || "",
-						lastName: safeParentData.primaryGuardian.lastName || "",
-						phone: safeParentData.primaryGuardian.phone || accountPhone,
-						email: safeParentData.primaryGuardian.email || accountEmail,
-						occupation: safeParentData.primaryGuardian.occupation || null,
-						address: safeParentData.primaryGuardian.address || null,
-					});
-					secondaryGuardian = safeParentData.secondaryGuardian ? JSON.stringify(safeParentData.secondaryGuardian) : null;
-				} else {
-					// Backward compatibility: convert old structure to new guardian structure
-					primaryGuardian = JSON.stringify({
-						relationship: "Father",
-						title: "Mr.",
-						firstName: safeParentData.fatherFirstName || "",
-						lastName: safeParentData.fatherLastName || "",
-						phone: safeParentData.fatherPhone || accountPhone,
-						email: safeParentData.fatherEmail || accountEmail,
-						occupation: safeParentData.fatherOccupation || null,
-						address: null,
-					});
-					secondaryGuardian = (safeParentData.motherFirstName || safeParentData.motherLastName) ? JSON.stringify({
-						relationship: "Mother",
-						firstName: safeParentData.motherFirstName || "",
-						lastName: safeParentData.motherLastName || "",
-						phone: safeParentData.motherPhone || "",
-						email: safeParentData.motherEmail || "",
-						occupation: safeParentData.motherOccupation || null,
-					}) : null;
-				}
-				
-				parent = await StudentRepository.createParent({
-					firebaseUid: firebaseUser.uid,
-					accountEmail,
-					accountPhone,
-					primaryGuardian,
-					secondaryGuardian,
-					address: safeParentData.address ?? null,
-					maritalStatus: safeParentData.maritalStatus ?? null,
-				});
-				logger.info(`New parent created — id: ${parent.id}`);
-			} catch (error) {
-				logger.error(`Parent DB creation failed: ${error.message}`);
-				// Only rollback Firebase user if we created it (not if it already existed)
-				if (firebaseUserCreated) {
-					logger.warn(`Rolling back Firebase user: ${firebaseUser.uid}`);
-					await AuthRepository.deleteFirebaseUser(firebaseUser.uid).catch((e) => {
-						logger.error(
-							`Firebase rollback failed for uid ${firebaseUser.uid}: ${e.message}. Manual cleanup required.`,
-						);
-					});
-				}
-				throw error;
-			}
+			// Use UserManagementService for atomic Firebase+DB parent creation
+			parent = await UserManagementService.createParent({
+				accountEmail,
+				accountPhone,
+				primaryGuardian,
+				secondaryGuardian,
+				address: safeParentData.address ?? null,
+				maritalStatus: safeParentData.maritalStatus ?? null,
+			});
+
+			logger.info(`New parent created — id: ${parent.id}`);
 		}
 
 		const student = await prisma.$transaction(async (tx) => {
@@ -423,15 +381,9 @@ class AdminStudentService {
 	async deleteStudent(admissionNumber, staffId) {
 		logger.info(`Deleting student and releasing admission number: ${admissionNumber}`);
 
-		const result = await StudentRepository.hardDeleteAndReleaseAdmissionNumber(admissionNumber, staffId);
-		
-		// Log warning if parent has other children
-		if (result.hasOtherChildren) {
-			logger.warn(
-				`Student ${admissionNumber} deleted but parent ${result.parentEmail} still has ${result.otherChildrenCount} other child(ren)`
-			);
-		}
-		
+		// Use UserManagementService for atomic Firebase+DB student deletion
+		const result = await UserManagementService.deleteStudent(admissionNumber, staffId, { deleteParentIfLastChild: false });
+
 		logger.info(`Student deleted and admission number released: ${admissionNumber}`);
 		return {
 			message: result.message,

@@ -1,6 +1,7 @@
 const ParentRepository = require("../repositories/ParentRepository");
 const AuthRepository = require("../../shared/repositories/AuthRepository");
 const logger = require("../../utils/logger");
+const UserManagementService = require("../../shared/services/UserManagementService");
 
 class AdminParentService {
 	async getAllParents(filters = {}) {
@@ -41,25 +42,9 @@ class AdminParentService {
 			secondaryGuardian: parentData.secondaryGuardian ? JSON.stringify(parentData.secondaryGuardian) : null,
 		};
 
-		// Create Firebase user first
-		let firebaseUid;
-		try {
-			const firebaseUser = await AuthRepository.createFirebaseUser(
-				parentData.accountEmail,
-				parentData.accountPhone
-			);
-			firebaseUid = firebaseUser.uid;
-			logger.info(`Firebase user created for parent: ${parentData.accountEmail}`);
-		} catch (error) {
-			logger.error(`Firebase user creation failed for ${parentData.accountEmail}: ${error.message}`);
-			throw new Error("Failed to create Firebase user. Please try again.");
-		}
+		// Use UserManagementService for atomic Firebase+DB creation
+		const parent = await UserManagementService.createParent(dbData);
 
-		// Add firebaseUid to parent data
-		dbData.firebaseUid = firebaseUid;
-
-		// Create parent in database
-		const parent = await ParentRepository.create(dbData);
 		logger.info(`Parent created: ${parent.id}`);
 		return parent;
 	}
@@ -70,36 +55,14 @@ class AdminParentService {
 		const parent = await ParentRepository.findById(parentId);
 		if (!parent) throw new Error(`Parent not found: ${parentId}`);
 
-		// If parent doesn't have firebaseUid, create Firebase user with the NEW email if provided
-		if (!parent.firebaseUid) {
-			try {
-				// Use the new email if it's being updated, otherwise use current email
-				const email = updateData.accountEmail || parent.accountEmail;
-				const phone = updateData.accountPhone || parent.accountPhone;
-				
-				const firebaseUser = await AuthRepository.createFirebaseUser(email, phone);
-				parent.firebaseUid = firebaseUser.uid;
-				
-				// Update parent with firebaseUid
-				await ParentRepository.update(parentId, { firebaseUid: firebaseUser.uid });
-				logger.info(`Firebase user created for existing parent: ${parentId} with email: ${email}`);
-			} catch (error) {
-				logger.error(`Firebase user creation failed for parent ${parentId}: ${error.message}`);
-				// Don't fail the entire update if Firebase creation fails
-				logger.warn(`Parent update will proceed without Firebase account for: ${parentId}`);
-			}
-		}
-
-		// If accountEmail is being updated, update Firebase user as well (only if parent has firebaseUid)
+		// If accountEmail is being updated, use UserManagementService for atomic Firebase+DB update
 		if (updateData.accountEmail && updateData.accountEmail !== parent.accountEmail) {
 			if (parent.firebaseUid) {
-				try {
-					await AuthRepository.updateEmail(parent.firebaseUid, updateData.accountEmail);
-					logger.info(`Firebase email updated for parent: ${parentId}`);
-				} catch (error) {
-					logger.error(`Firebase email update failed for parent ${parentId}: ${error.message}`);
-					throw new Error("Failed to update Firebase email. Please try again.");
-				}
+				const updated = await UserManagementService.updateParentEmail(parentId, updateData.accountEmail);
+				// Update parent object to reflect the change
+				parent.accountEmail = updateData.accountEmail;
+				// Remove accountEmail from updateData to avoid double update
+				delete updateData.accountEmail;
 			} else {
 				logger.warn(`Parent ${parentId} has no firebaseUid, skipping Firebase email update`);
 			}
@@ -144,24 +107,17 @@ class AdminParentService {
 		const hasStudents = parent.students && parent.students.length > 0;
 		const studentCount = hasStudents ? parent.students.length : 0;
 
-		// Hard delete parent from database
-		await ParentRepository.hardDelete(parentId);
-
-		// Delete Firebase user
-		try {
-			await AuthRepository.deleteFirebaseUser(parent.firebaseUid);
-			logger.info(`Firebase user deleted for parent: ${parentId}`);
-		} catch (error) {
-			logger.error(`Firebase user deletion failed for parent ${parentId}: ${error.message}`);
-			// Don't throw error - parent is already deleted in DB
+		if (hasStudents) {
+			throw new Error(
+				`Cannot delete parent with ${studentCount} linked student(s). Please delete or reassign students first.`,
+			);
 		}
 
+		// Use UserManagementService for atomic Firebase+DB deletion
+		const result = await UserManagementService.deleteParent(parentId);
+
 		logger.info(`Parent deleted: ${parentId}`);
-		return { 
-			message: "Parent deleted successfully",
-			hasStudents,
-			studentCount
-		};
+		return result;
 	}
 }
 
