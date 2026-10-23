@@ -365,9 +365,17 @@ const create = async (data) => {
 	});
 };
 
+const findByFirebaseUid = async (firebaseUid) => {
+	const parent = await prisma.parent.findFirst({
+		where: { firebaseUid },
+	});
+	return parent;
+};
+
 module.exports = {
 	findById,
 	findByAccountEmail,
+	findByFirebaseUid,
 	findAll,
 	update,
 	softDelete,

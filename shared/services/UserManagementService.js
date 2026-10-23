@@ -159,8 +159,13 @@ class UserManagementService {
 			await AuthRepository.deleteFirebaseUser(staff.firebaseUid);
 			logger.info(`[UserManagement] Firebase user deleted for staff: ${staffId}`);
 		} catch (error) {
-			logger.error(`[UserManagement] Firebase deletion failed for staff ${staffId}: ${error.message}`);
-			throw new Error(`Firebase user deletion failed: ${error.message}`);
+			// If Firebase user doesn't exist, log warning but continue with DB deletion
+			if (error.message && error.message.includes("no user record")) {
+				logger.warn(`[UserManagement] Firebase user does not exist for ${staff.firebaseUid}, skipping Firebase deletion`);
+			} else {
+				logger.error(`[UserManagement] Firebase deletion failed for staff ${staffId}: ${error.message}`);
+				throw new Error(`Firebase user deletion failed: ${error.message}`);
+			}
 		}
 
 		// Step 2: Delete staff from database
@@ -171,7 +176,7 @@ class UserManagementService {
 		} catch (error) {
 			logger.error(`[UserManagement] Staff DB deletion failed for ${staffId}: ${error.message}`);
 
-			// Rollback: Recreate Firebase user
+			// Rollback: Recreate Firebase user (only if we successfully deleted it)
 			logger.warn(`[UserManagement] Rolling back Firebase recreation for uid: ${staff.firebaseUid}`);
 			try {
 				await AuthRepository.createFirebaseUser(staff.email, staff.phone);
@@ -501,8 +506,13 @@ class UserManagementService {
 			await AuthRepository.deleteFirebaseUser(parent.firebaseUid);
 			logger.info(`[UserManagement] Firebase user deleted for parent: ${parentId}`);
 		} catch (error) {
-			logger.error(`[UserManagement] Firebase deletion failed for parent ${parentId}: ${error.message}`);
-			throw new Error(`Firebase user deletion failed: ${error.message}`);
+			// If Firebase user doesn't exist, log warning but continue with DB deletion
+			if (error.message && error.message.includes("no user record")) {
+				logger.warn(`[UserManagement] Firebase user does not exist for ${parent.firebaseUid}, skipping Firebase deletion`);
+			} else {
+				logger.error(`[UserManagement] Firebase deletion failed for parent ${parentId}: ${error.message}`);
+				throw new Error(`Firebase user deletion failed: ${error.message}`);
+			}
 		}
 
 		// Step 2: Delete parent from database
