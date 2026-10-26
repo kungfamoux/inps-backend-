@@ -219,6 +219,9 @@ const uploadPaymentProof = async (req, res, next) => {
 			});
 		}
 
+		// Default payment date to today if not provided
+		const effectivePaymentDate = paymentDate || new Date().toISOString().split('T')[0];
+
 		const publicId = proofFile.path; // Cloudinary public_id
 
 		const data = await ParentFeeService.uploadPaymentProof(
@@ -227,7 +230,7 @@ const uploadPaymentProof = async (req, res, next) => {
 			{
 				proofFile: { path: publicId },
 				referenceNumber,
-				paymentDate,
+				paymentDate: effectivePaymentDate,
 				invoiceIds,
 			},
 		);

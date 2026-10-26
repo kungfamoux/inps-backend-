@@ -328,6 +328,9 @@ class ParentFeeService {
 
 		const totalAmount = validInvoices.reduce((s, i) => s + i.balance, 0);
 
+		// Default payment date to today if not provided
+		const effectivePaymentDate = paymentDate ? new Date(paymentDate) : new Date();
+
 		// Create Payment records with PENDING status
 		const paymentRecords = [];
 		for (const invoice of validInvoices) {
@@ -342,7 +345,7 @@ class ParentFeeService {
 					paymentChannel: "bank_transfer",
 					referenceNumber: referenceNumber || null,
 					proofOfPaymentId: proofFile.path,
-					paymentDate: new Date(paymentDate),
+					paymentDate: effectivePaymentDate,
 					status: "PENDING",
 				},
 			});

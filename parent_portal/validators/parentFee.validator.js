@@ -53,7 +53,7 @@ const paymentHistoryQuerySchema = z.object({
 
 const uploadPaymentProofSchema = z.object({
 	referenceNumber: z.string().trim().optional(),
-	paymentDate: dateString,
+	paymentDate: dateString.optional(),
 	invoiceIds: z.array(z.string().trim().min(1, "Invoice ID cannot be empty")).min(1, "At least one invoice ID is required"),
 });
 
