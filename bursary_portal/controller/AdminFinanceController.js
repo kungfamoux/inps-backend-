@@ -307,6 +307,66 @@ const getPaymentProof = async (req, res, next) => {
 	}
 };
 
+// Pending Payment Approval/Rejection
+
+const getPendingPayments = async (req, res, next) => {
+	try {
+		const { page, limit, status } = req.query;
+		const result = await AdminFinanceService.getPendingPayments({
+			page,
+			limit,
+			status,
+		});
+		return res.status(200).json({ success: true, ...result });
+	} catch (error) {
+		return next(error);
+	}
+};
+
+const approvePayment = async (req, res, next) => {
+	try {
+		const body = sanitizeBody(req.body);
+		const staffId = req.staff?.id;
+
+		const data = {
+			...body,
+			recordedBy: staffId,
+		};
+
+		const result = await AdminFinanceService.approvePayment(data);
+
+		return res.status(200).json({
+			success: true,
+			message: "Payment approved successfully",
+			data: result,
+		});
+	} catch (error) {
+		return next(error);
+	}
+};
+
+const rejectPayment = async (req, res, next) => {
+	try {
+		const body = sanitizeBody(req.body);
+		const staffId = req.staff?.id;
+
+		const data = {
+			...body,
+			recordedBy: staffId,
+		};
+
+		const result = await AdminFinanceService.rejectPayment(data);
+
+		return res.status(200).json({
+			success: true,
+			message: "Payment rejected successfully",
+			data: result,
+		});
+	} catch (error) {
+		return next(error);
+	}
+};
+
 module.exports = {
 	createBill,
 	getAllBills,
@@ -327,4 +387,7 @@ module.exports = {
 	recordManualPayment,
 	uploadPaymentProof,
 	getPaymentProof,
+	getPendingPayments,
+	approvePayment,
+	rejectPayment,
 };

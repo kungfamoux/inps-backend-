@@ -299,18 +299,63 @@ class ParentFeeService {
 		};
 	}
 
-	async uploadPaymentProof(parentId, studentId, file) {
+	async uploadPaymentProof(parentId, studentId, data) {
 		logger.info(`Uploading payment proof — student: ${studentId}`);
 
-		// Upload to Cloudinary is handled by multer middleware
-		// Just validate and return the public_id
+		const { proofFile, referenceNumber, paymentDate, invoiceIds } = data;
+
+		// Validate student belongs to parent
 		const student = await ParentRepository.assertStudentBelongsToParent(
 			studentId,
 			parentId,
 		);
 
+		// Get parent details
+		const parent = await prisma.parent.findUnique({
+			where: { id: parentId },
+		});
+
+		// Validate invoices belong to student and are outstanding
+		const FinanceRepository = require("../../bursary_portal/repositories/FinanceRepository");
+		const validInvoices = await FinanceRepository.findInvoicesForStudent(
+			studentId,
+			invoiceIds,
+		);
+
+		if (validInvoices.length !== invoiceIds.length) {
+			throw new Error("One or more invoices are invalid or already paid");
+		}
+
+		const totalAmount = validInvoices.reduce((s, i) => s + i.balance, 0);
+
+		// Create Payment records with PENDING status
+		const paymentRecords = [];
+		for (const invoice of validInvoices) {
+			const payment = await prisma.payment.create({
+				data: {
+					invoiceId: invoice.id,
+					studentId,
+					parentId: parent.id,
+					amount: invoice.balance,
+					category: "FEES",
+					paymentMethod: "manual",
+					paymentChannel: "bank_transfer",
+					referenceNumber: referenceNumber || null,
+					proofOfPaymentId: proofFile.path,
+					paymentDate: new Date(paymentDate),
+					status: "PENDING",
+				},
+			});
+			paymentRecords.push(payment);
+		}
+
+		logger.info(
+			`Payment proof uploaded — created ${paymentRecords.length} pending payment records`,
+		);
+
 		return {
-			publicId: file.path,
+			payments: paymentRecords,
+			totalAmount,
 			studentId,
 		};
 	}

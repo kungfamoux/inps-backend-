@@ -1,6 +1,15 @@
 const { z } = require("zod");
 const { PAYMENT_STATUS_VALUES } = require("../../utils/enums");
 
+// Date string validator (same as finance.validator)
+const dateString = z
+	.string()
+	.trim()
+	.min(1, "date is required")
+	.refine((value) => !Number.isNaN(Date.parse(value)), {
+		message: "date must be a valid date string",
+	});
+
 // Paystack transaction reference — used by both the frontend verify
 // endpoint and the server-to-server webhook (validated after signature check).
 const verifyPaymentSchema = z.object({
@@ -43,7 +52,9 @@ const paymentHistoryQuerySchema = z.object({
 });
 
 const uploadPaymentProofSchema = z.object({
-	// No body validation - file is handled by multer middleware
+	referenceNumber: z.string().trim().optional(),
+	paymentDate: dateString,
+	invoiceIds: z.array(z.string().trim().min(1, "Invoice ID cannot be empty")).min(1, "At least one invoice ID is required"),
 });
 
 module.exports = {

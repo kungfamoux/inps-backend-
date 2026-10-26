@@ -190,6 +190,7 @@ const uploadPaymentProof = async (req, res, next) => {
 	try {
 		const parentId = req.parent.id;
 		const { studentId } = req.params;
+		const body = sanitizeBody(req.body);
 
 		// Validate student belongs to parent
 		const ParentRepository = require("../repositories/ParentRepository");
@@ -203,12 +204,38 @@ const uploadPaymentProof = async (req, res, next) => {
 			});
 		}
 
+		const { referenceNumber, paymentDate, invoiceIds } = body;
+
+		if (!invoiceIds || !Array.isArray(invoiceIds) || invoiceIds.length === 0) {
+			return res.status(400).json({
+				success: false,
+				message: "Validation failed",
+				errors: [
+					{
+						field: "invoiceIds",
+						message: "At least one invoice ID is required",
+					},
+				],
+			});
+		}
+
 		const publicId = proofFile.path; // Cloudinary public_id
+
+		const data = await ParentFeeService.uploadPaymentProof(
+			parentId,
+			studentId,
+			{
+				proofFile: { path: publicId },
+				referenceNumber,
+				paymentDate,
+				invoiceIds,
+			},
+		);
 
 		return res.status(200).json({
 			success: true,
 			message: "Proof uploaded successfully",
-			data: { publicId },
+			data,
 		});
 	} catch (error) {
 		return next(error);

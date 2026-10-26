@@ -21,6 +21,9 @@ const {
 	recordManualPayment,
 	uploadPaymentProof,
 	getPaymentProof,
+	getPendingPayments,
+	approvePayment,
+	rejectPayment,
 } = require("../controller/AdminFinanceController");
 const {
 	getFeeCollections,
@@ -50,6 +53,9 @@ const {
 	getAllIncomeRecordsQuerySchema,
 	getRecentPaymentsQuerySchema,
 	recordManualPaymentSchema,
+	approvePaymentSchema,
+	rejectPaymentSchema,
+	getPendingPaymentsQuerySchema,
 } = require("../validators/finance.validator");
 const {
 	generateInvoicesSchema,
@@ -1061,6 +1067,145 @@ router.post(
 	requireRoles(["BURSARY"]),
 	paymentProofUpload,
 	uploadPaymentProof,
+);
+
+/**
+ * @swagger
+ * /api/finance/payments/pending:
+ *   get:
+ *     summary: Get pending payments for review
+ *     description: Returns all PENDING payments that require bursary approval
+ *     tags: [Finance]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema: { type: integer, default: 1 }
+ *       - in: query
+ *         name: limit
+ *         schema: { type: integer, default: 20 }
+ *     responses:
+ *       200:
+ *         description: Pending payments retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 data: [...]
+ *                 meta: { total: 10, page: 1, limit: 20, totalPages: 1 }
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ */
+router.get(
+	"/payments/pending",
+	authenticate,
+	requireRoles(["BURSARY"]),
+	validate(getPendingPaymentsQuerySchema),
+	getPendingPayments,
+);
+
+/**
+ * @swagger
+ * /api/finance/payments/:paymentId/approve:
+ *   post:
+ *     summary: Approve a pending payment
+ *     description: Changes payment status to COMPLETED and updates invoice balance
+ *     tags: [Finance]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: paymentId
+ *         required: true
+ *         schema: { type: string }
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               notes:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Payment approved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 message: "Payment approved successfully"
+ *                 data: { paymentId: "...", status: "COMPLETED" }
+ *       400:
+ *         $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ */
+router.post(
+	"/payments/:paymentId/approve",
+	authenticate,
+	requireRoles(["BURSARY"]),
+	validate(approvePaymentSchema),
+	approvePayment,
+);
+
+/**
+ * @swagger
+ * /api/finance/payments/:paymentId/reject:
+ *   post:
+ *     summary: Reject a pending payment
+ *     description: Changes payment status to FAILED without updating invoice
+ *     tags: [Finance]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: paymentId
+ *         required: true
+ *         schema: { type: string }
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [reason]
+ *             properties:
+ *               reason:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Payment rejected
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 message: "Payment rejected successfully"
+ *                 data: { paymentId: "...", status: "FAILED" }
+ *       400:
+ *         $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ */
+router.post(
+	"/payments/:paymentId/reject",
+	authenticate,
+	requireRoles(["BURSARY"]),
+	validate(rejectPaymentSchema),
+	rejectPayment,
 );
 
 /**

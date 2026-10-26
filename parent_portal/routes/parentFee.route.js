@@ -481,6 +481,7 @@ router.post(
 	"/:studentId/upload-proof",
 	authenticateParent,
 	paymentProofUpload,
+	validate(uploadPaymentProofSchema),
 	uploadPaymentProof,
 );
 

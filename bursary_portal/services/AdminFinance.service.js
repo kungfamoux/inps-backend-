@@ -2,6 +2,7 @@ const AcademicRepository = require("../../shared/repositories/AcademicRepository
 const FinanceRepository = require("../repositories/FinanceRepository");
 const logger = require("../../utils/logger");
 const { computeInvoiceStatus } = require("../../utils/invoiceStatus");
+const prisma = require("../../lib/prisma");
 
 class AdminFinanceService {
 	// BILL / FEE STRUCTURE
@@ -404,6 +405,176 @@ class AdminFinanceService {
 
 	async getPaymentById(paymentId) {
 		return FinanceRepository.getPaymentById(paymentId);
+	}
+
+	// Pending Payment Approval/Rejection
+
+	async getPendingPayments(filters = {}) {
+		logger.info(`Fetching pending payments — filters: ${JSON.stringify(filters)}`);
+		const { page = 1, limit = 20, status = "PENDING" } = filters;
+
+		const where = {
+			status,
+			deletedAt: null,
+		};
+
+		const [payments, total] = await Promise.all([
+			prisma.payment.findMany({
+				where,
+				include: {
+					student: {
+						select: {
+							id: true,
+							firstName: true,
+							lastName: true,
+							admissionNumber: true,
+						},
+					},
+					invoice: {
+						select: {
+							id: true,
+							invoiceNumber: true,
+							amount: true,
+							status: true,
+							bill: {
+								select: {
+									name: true,
+								},
+							},
+						},
+					},
+					parent: {
+						select: {
+							id: true,
+							primaryGuardian: {
+								select: {
+									firstName: true,
+									lastName: true,
+									email: true,
+									phone: true,
+								},
+							},
+						},
+					},
+				},
+				orderBy: { createdAt: "desc" },
+				skip: (page - 1) * limit,
+				take: limit,
+			}),
+			prisma.payment.count({ where }),
+		]);
+
+		return {
+			data: payments,
+			meta: {
+				total,
+				page: Number(page),
+				limit: Number(limit),
+				totalPages: Math.ceil(total / limit),
+			},
+		};
+	}
+
+	async approvePayment(data) {
+		const { paymentId, notes, recordedBy } = data;
+
+		logger.info(`Approving payment — paymentId: ${paymentId}`);
+
+		const payment = await prisma.payment.findUnique({
+			where: { id: paymentId },
+			include: { invoice: true },
+		});
+
+		if (!payment) {
+			throw new Error("Payment not found");
+		}
+
+		if (payment.status !== "PENDING") {
+			throw new Error("Payment is not in PENDING status");
+		}
+
+		// Use transaction for atomicity
+		await prisma.$transaction(async (tx) => {
+			// Update invoice
+			const { newAmountPaid, newBalance, newStatus } = computeInvoiceStatus(
+				payment.invoice,
+				payment.amount,
+			);
+
+			await tx.invoice.update({
+				where: { id: payment.invoiceId },
+				data: {
+					amountPaid: newAmountPaid,
+					balance: newBalance,
+					status: newStatus,
+				},
+			});
+
+			// Update payment
+			await tx.payment.update({
+				where: { id: paymentId },
+				data: {
+					status: "COMPLETED",
+					notes,
+					recordedBy,
+				},
+			});
+
+			// Create income record
+			await tx.incomeRecord.create({
+				data: {
+					category: "FEES",
+					amount: payment.amount,
+					description: `Payment approved — ${payment.invoice.invoiceNumber}`,
+					date: payment.paymentDate,
+				},
+			});
+		});
+
+		logger.info(`Payment approved successfully — paymentId: ${paymentId}`);
+
+		return {
+			paymentId,
+			status: "COMPLETED",
+			invoiceId: payment.invoiceId,
+			amount: payment.amount,
+		};
+	}
+
+	async rejectPayment(data) {
+		const { paymentId, reason, recordedBy } = data;
+
+		logger.info(`Rejecting payment — paymentId: ${paymentId}`);
+
+		const payment = await prisma.payment.findUnique({
+			where: { id: paymentId },
+		});
+
+		if (!payment) {
+			throw new Error("Payment not found");
+		}
+
+		if (payment.status !== "PENDING") {
+			throw new Error("Payment is not in PENDING status");
+		}
+
+		// Update payment status
+		await prisma.payment.update({
+			where: { id: paymentId },
+			data: {
+				status: "FAILED",
+				notes: reason,
+				recordedBy,
+			},
+		});
+
+		logger.info(`Payment rejected successfully — paymentId: ${paymentId}`);
+
+		return {
+			paymentId,
+			status: "FAILED",
+			reason,
+		};
 	}
 }
 

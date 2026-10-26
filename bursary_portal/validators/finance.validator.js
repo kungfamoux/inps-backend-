@@ -175,6 +175,21 @@ const recordManualPaymentSchema = z.object({
 	proofOfPaymentId: z.string().trim().optional(),
 });
 
+const approvePaymentSchema = z.object({
+	paymentId: z.string().trim().min(1, "Payment ID is required"),
+	notes: z.string().trim().optional(),
+});
+
+const rejectPaymentSchema = z.object({
+	paymentId: z.string().trim().min(1, "Payment ID is required"),
+	reason: z.string().trim().min(1, "Rejection reason is required"),
+});
+
+const getPendingPaymentsQuerySchema = z.object({
+	...paginationQueryFields,
+	status: z.enum(PAYMENT_STATUS_VALUES).optional(),
+});
+
 module.exports = {
 	createBillSchema,
 	updateBillSchema,
@@ -186,4 +201,7 @@ module.exports = {
 	getAllIncomeRecordsQuerySchema,
 	getRecentPaymentsQuerySchema,
 	recordManualPaymentSchema,
+	approvePaymentSchema,
+	rejectPaymentSchema,
+	getPendingPaymentsQuerySchema,
 };
