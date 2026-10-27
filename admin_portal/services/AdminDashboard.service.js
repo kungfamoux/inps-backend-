@@ -2,6 +2,7 @@ const StudentRepository = require("../repositories/StudentRepository");
 const StaffRepository = require("../repositories/StaffRepository");
 const ClassRepository = require("../repositories/ClassRepository");
 const EnrollmentRepository = require("../repositories/EnrollmentRepository");
+const prisma = require("../../lib/prisma");
 const logger = require("../../utils/logger");
 
 class AdminDashboardService {
@@ -108,6 +109,64 @@ class AdminDashboardService {
 			return upcomingBirthdays;
 		} catch (error) {
 			logger.error("Error fetching upcoming birthdays:", error);
+			throw error;
+		}
+	}
+
+	async getUpcomingEvents() {
+		try {
+			logger.info("Fetching upcoming calendar events");
+
+			const today = new Date();
+			const thirtyDaysLater = new Date();
+			thirtyDaysLater.setDate(today.getDate() + 30);
+
+			const currentSession = await prisma.academicSession.findFirst({
+				where: { status: 'CURRENT' },
+			});
+
+			if (!currentSession) {
+				logger.warn("No current academic session found");
+				return [];
+			}
+
+			const calendar = await prisma.schoolCalendar.findFirst({
+				where: {
+					academicYear: currentSession.session,
+				},
+				include: {
+					holidays: {
+						where: {
+							startDate: {
+								gte: today,
+							},
+							deletedAt: null,
+						},
+						orderBy: { startDate: 'asc' },
+						take: 10,
+					},
+				},
+			});
+
+			const events = [];
+
+			if (calendar && calendar.holidays) {
+				calendar.holidays.forEach(holiday => {
+					events.push({
+						id: holiday.id,
+						title: holiday.name,
+						startDate: holiday.startDate,
+						endDate: holiday.endDate,
+						type: 'HOLIDAY',
+						holidayType: holiday.type,
+					});
+				});
+			}
+
+			logger.info(`Found ${events.length} upcoming events`);
+			return events;
+		} catch (error) {
+			logger.error("Error fetching upcoming events:", error);
 			throw error;
 		}
 	}

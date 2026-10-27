@@ -18,7 +18,17 @@ const getUpcomingBirthdays = async (req, res, next) => {
 	}
 };
 
+const getUpcomingEvents = async (req, res, next) => {
+	try {
+		const events = await AdminDashboardService.getUpcomingEvents();
+		return res.status(200).json({ success: true, data: events });
+	} catch (error) {
+		return next(error);
+	}
+};
+
 module.exports = {
 	getDashboardStats,
 	getUpcomingBirthdays,
+	getUpcomingEvents,
 };

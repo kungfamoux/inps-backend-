@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { getDashboardStats, getUpcomingBirthdays } = require("../controller/AdminDashboardController");
+const { getDashboardStats, getUpcomingBirthdays, getUpcomingEvents } = require("../controller/AdminDashboardController");
 
 const { authenticate, requireAdmin } = require("../../middleware");
 
@@ -68,5 +68,7 @@ const { authenticate, requireAdmin } = require("../../middleware");
 router.get("/stats", authenticate, requireAdmin, getDashboardStats);
 
 router.get("/birthdays", authenticate, requireAdmin, getUpcomingBirthdays);
+
+router.get("/events", authenticate, requireAdmin, getUpcomingEvents);
 
 module.exports = router;
