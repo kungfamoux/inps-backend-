@@ -62,6 +62,55 @@ class AdminDashboardService {
 			throw error;
 		}
 	}
+
+	async getUpcomingBirthdays() {
+		try {
+			logger.info("Fetching upcoming student birthdays");
+
+			const today = new Date();
+			const todayMonth = today.getMonth();
+			const todayDay = today.getDate();
+
+			// Get students with birthdays in the next 30 days
+			const students = await StudentRepository.getUpcomingBirthdays(5);
+
+			const upcomingBirthdays = students.map(student => {
+				const birthDate = new Date(student.dateOfBirth);
+				const birthMonth = birthDate.getMonth();
+				const birthDay = birthDate.getDate();
+
+				// Calculate days until birthday
+				let daysUntilBirthday;
+				const nextBirthday = new Date(today.getFullYear(), birthMonth, birthDay);
+
+				if (nextBirthday < today) {
+					// Birthday already passed this year, calculate for next year
+					nextBirthday.setFullYear(today.getFullYear() + 1);
+				}
+
+				const diffTime = nextBirthday - today;
+				daysUntilBirthday = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+				return {
+					studentId: student.id,
+					admissionNumber: student.admissionNumber,
+					firstName: student.firstName,
+					middleName: student.middleName,
+					lastName: student.lastName,
+					dateOfBirth: student.dateOfBirth,
+					class: student.class?.name || null,
+					daysUntilBirthday,
+					birthdayDate: nextBirthday.toISOString().split('T')[0],
+				};
+			});
+
+			logger.info(`Found ${upcomingBirthdays.length} upcoming birthdays`);
+			return upcomingBirthdays;
+		} catch (error) {
+			logger.error("Error fetching upcoming birthdays:", error);
+			throw error;
+		}
+	}
 }
 
 module.exports = new AdminDashboardService();

@@ -441,6 +441,67 @@ const findResultsBySubject = async (subjectId, filters = {}) => {
 	};
 };
 
+const getUpcomingBirthdays = async (limit = 5) => {
+	const today = new Date();
+	const todayMonth = today.getMonth();
+	const todayDay = today.getDate();
+
+	const students = await prisma.student.findMany({
+		where: {
+			status: "ACTIVE",
+			dateOfBirth: { not: null },
+		},
+		select: {
+			id: true,
+			admissionNumber: true,
+			firstName: true,
+			middleName: true,
+			lastName: true,
+			dateOfBirth: true,
+		},
+		include: {
+			enrollments: {
+				where: { status: "ACTIVE" },
+				include: { class: true },
+				take: 1,
+				orderBy: { createdAt: "desc" },
+			},
+		},
+		orderBy: { dateOfBirth: "asc" },
+		take: limit * 2,
+	});
+
+	const upcomingBirthdays = students
+		.map(student => {
+			const studentData = { ...student };
+			if (student.enrollments && student.enrollments.length > 0) {
+				studentData.class = student.enrollments[0].class;
+			} else {
+				studentData.class = null;
+			}
+			delete studentData.enrollments;
+			return studentData;
+		})
+		.filter(student => {
+			const birthDate = new Date(student.dateOfBirth);
+			const birthMonth = birthDate.getMonth();
+			const birthDay = birthDate.getDate();
+
+			const nextBirthday = new Date(today.getFullYear(), birthMonth, birthDay);
+			if (nextBirthday < today) {
+				nextBirthday.setFullYear(today.getFullYear() + 1);
+			}
+
+			const diffTime = nextBirthday - today;
+			const daysUntilBirthday = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+			return daysUntilBirthday <= 30 && daysUntilBirthday >= 0;
+		})
+		.slice(0, limit);
+
+	return upcomingBirthdays;
+};
+
 module.exports = {
 	create,
 	findById,
@@ -459,4 +520,5 @@ module.exports = {
 	findAllResults,
 	findSubjectByCode,
 	findResultsBySubject,
+	getUpcomingBirthdays,
 };

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { getDashboardStats } = require("../controller/AdminDashboardController");
+const { getDashboardStats, getUpcomingBirthdays } = require("../controller/AdminDashboardController");
 
 const { authenticate, requireAdmin } = require("../../middleware");
 
@@ -66,5 +66,7 @@ const { authenticate, requireAdmin } = require("../../middleware");
  *         description: Internal server error
  */
 router.get("/stats", authenticate, requireAdmin, getDashboardStats);
+
+router.get("/birthdays", authenticate, requireAdmin, getUpcomingBirthdays);
 
 module.exports = router;
