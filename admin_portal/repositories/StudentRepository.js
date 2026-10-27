@@ -451,15 +451,6 @@ const getUpcomingBirthdays = async (limit = 5) => {
 			status: "ACTIVE",
 			dateOfBirth: { not: null },
 		},
-		select: {
-			id: true,
-			admissionNumber: true,
-			firstName: true,
-			middleName: true,
-			lastName: true,
-			gender: true,
-			dateOfBirth: true,
-		},
 		include: {
 			enrollments: {
 				where: { status: "ACTIVE" },
