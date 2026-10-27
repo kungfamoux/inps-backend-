@@ -28,7 +28,7 @@ const searchQuerySchema = z.object({
 
 // More flexible schema for entity-specific search endpoints
 const entitySearchSchema = z.object({
-	q: z.string().trim().min(2, "Search query must be at least 2 characters"),
+	q: z.string().trim().min(2, "Search query must be at least 2 characters").optional(),
 	page: z.string().optional(),
 	limit: z.string().optional(),
 	status: z.string().optional(),

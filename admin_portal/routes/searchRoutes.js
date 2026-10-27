@@ -8,7 +8,7 @@ const {
 	validate,
 } = require("../../middleware");
 const AdminSearchController = require("../controller/SearchController");
-const { searchQuerySchema } = require("../validators/search.validator");
+const { searchQuerySchema, entitySearchSchema } = require("../validators/search.validator");
 
 /**
  * @swagger
@@ -174,7 +174,7 @@ router.get(
 	authenticate,
 	requireAdmin,
 	reportLimiter,
-	validate(searchQuerySchema, "query"),
+	validate(entitySearchSchema, "query"),
 	AdminSearchController.searchStudents,
 );
 
@@ -183,7 +183,7 @@ router.get(
 	authenticate,
 	requireAdmin,
 	reportLimiter,
-	validate(searchQuerySchema, "query"),
+	validate(entitySearchSchema, "query"),
 	AdminSearchController.searchStaff,
 );
 
@@ -192,7 +192,7 @@ router.get(
 	authenticate,
 	requireAdmin,
 	reportLimiter,
-	validate(searchQuerySchema, "query"),
+	validate(entitySearchSchema, "query"),
 	AdminSearchController.searchParents,
 );
 
@@ -201,7 +201,7 @@ router.get(
 	authenticate,
 	requireAdmin,
 	reportLimiter,
-	validate(searchQuerySchema, "query"),
+	validate(entitySearchSchema, "query"),
 	AdminSearchController.searchClasses,
 );
 
@@ -210,7 +210,7 @@ router.get(
 	authenticate,
 	requireAdmin,
 	reportLimiter,
-	validate(searchQuerySchema, "query"),
+	validate(entitySearchSchema, "query"),
 	AdminSearchController.searchSubjects,
 );
 
