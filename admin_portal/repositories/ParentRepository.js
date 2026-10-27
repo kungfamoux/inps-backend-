@@ -19,6 +19,7 @@ const findById = async (id) => {
 					admissionNumber: true,
 					firstName: true,
 					lastName: true,
+					gender: true,
 					status: true,
 					enrollments: {
 						where: { status: "ACTIVE" },
@@ -96,6 +97,7 @@ const findByAccountEmail = async (accountEmail) => {
 					admissionNumber: true,
 					firstName: true,
 					lastName: true,
+					gender: true,
 					status: true,
 					enrollments: {
 						where: { status: "ACTIVE" },
@@ -277,6 +279,7 @@ const update = async (id, data) => {
 					admissionNumber: true,
 					firstName: true,
 					lastName: true,
+					gender: true,
 					status: true,
 					enrollments: {
 						where: { status: "ACTIVE" },
