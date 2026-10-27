@@ -457,6 +457,7 @@ const getUpcomingBirthdays = async (limit = 5) => {
 			firstName: true,
 			middleName: true,
 			lastName: true,
+			gender: true,
 			dateOfBirth: true,
 		},
 		include: {
