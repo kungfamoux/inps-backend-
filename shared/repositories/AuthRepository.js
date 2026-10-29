@@ -11,7 +11,7 @@ const createFirebaseUser = async (email, phone) => {
 	}
 	return admin
 		.auth()
-		.createUser({ email, password: defaultPassword, emailVerified: false });
+		.createUser({ email, password: defaultPassword, emailVerified: true });
 };
 
 const verifyIdToken = async (idToken) => {
