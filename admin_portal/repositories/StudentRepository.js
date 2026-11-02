@@ -135,36 +135,28 @@ const findAll = async (filters = {}) => {
 		prisma.student.findMany({
 			where,
 			select: {
+				// Only select fields needed for the list view
 				id: true,
 				admissionNumber: true,
 				firstName: true,
 				middleName: true,
 				lastName: true,
 				gender: true,
-				dateOfBirth: true,
-				admissionDate: true,
-				nationality: true,
-				state: true,
-				lga: true,
-				religion: true,
-				healthInfo: true,
-				sportHouse: true,
-				bloodGroup: true,
-				studentType: true,
-				address: true,
-				passportPhoto: true,
-				parentId: true,
 				status: true,
-				createdAt: true,
-				updatedAt: true,
-				parent: true,
+				// Only select class name from enrollment
 				enrollments: {
-					where: { 
+					where: {
 						status: "ACTIVE",
 						academicYear: academicYear,
 						term: term
 					},
-					include: { class: true },
+					select: {
+						class: {
+							select: {
+								name: true,
+							}
+						}
+					},
 					take: 1,
 					orderBy: { createdAt: "desc" },
 				},

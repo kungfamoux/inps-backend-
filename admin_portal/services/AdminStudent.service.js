@@ -395,8 +395,9 @@ class AdminStudentService {
 	async getAllStudents(params) {
 		logger.info("Fetching all students");
 		const result = await StudentRepository.findAll(params);
+		// Skip signStudentFiles for list view - no photos displayed in list
 		return {
-			data: result.data.map(signStudentFiles),
+			data: result.data,
 			meta: result.meta
 		};
 	}

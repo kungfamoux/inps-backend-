@@ -41,7 +41,7 @@ const searchStaff = (q, filters = {}) => {
 
 const searchStudents = (q, filters = {}) => {
 	const where = { deletedAt: null };
-	
+
 	// Add text search if query provided
 	if (q && q.trim()) {
 		where.OR = [
@@ -50,7 +50,7 @@ const searchStudents = (q, filters = {}) => {
 			{ admissionNumber: { contains: q, mode: "insensitive" } },
 		];
 	}
-	
+
 	// Add basic filters
 	if (filters.status) where.status = filters.status;
 	if (filters.classId) where.enrollments = {
@@ -59,7 +59,7 @@ const searchStudents = (q, filters = {}) => {
 			status: 'ACTIVE'
 		}
 	};
-	
+
 	const page = parseInt(filters.page) || 1;
 	const limit = parseInt(filters.limit) || 20;
 	const skip = (page - 1) * limit;
@@ -72,12 +72,11 @@ const searchStudents = (q, filters = {}) => {
 			firstName: true,
 			lastName: true,
 			status: true,
-			passportPhoto: true,
 			gender: true,
 			enrollments: {
 				where: { status: "ACTIVE" },
-				include: {
-					class: { select: { name: true, id: true } },
+				select: {
+					class: { select: { name: true } },
 				},
 				take: 1,
 				orderBy: { createdAt: "desc" },
