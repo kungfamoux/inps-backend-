@@ -279,7 +279,15 @@ const countStudents = (filters = {}) => {
  * Used in createStudent for the sibling check.
  */
 const findParentByAccountEmail = (accountEmail) =>
-	prisma.parent.findUnique({ where: { accountEmail } });
+	prisma.parent.findFirst({
+		where: {
+			accountEmail: {
+				mode: 'insensitive',
+				equals: accountEmail
+			},
+			deletedAt: null
+		}
+	});
 
 /**
  * Finds a duplicate student based on personal details and parent email.

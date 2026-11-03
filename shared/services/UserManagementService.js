@@ -410,6 +410,13 @@ class UserManagementService {
 					const existingParent = await ParentRepository.findByFirebaseUid(existingUser.uid);
 
 					if (existingParent) {
+						// Check if parent is soft-deleted
+						if (existingParent.deletedAt) {
+							// Reactivate the deleted parent
+							await ParentRepository.update(existingParent.id, { deletedAt: null });
+							logger.info(`[UserManagement] Reactivated parent account: ${accountEmail}`);
+							return existingParent;
+						}
 						logger.warn(`[UserManagement] Parent creation failed — email already exists: ${accountEmail}`);
 						throw new Error("A parent account with this email already exists");
 					}
