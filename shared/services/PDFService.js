@@ -1,5 +1,5 @@
 const PDFDocument = require('pdfkit');
-const logger = require('../utils/logger');
+const logger = require('../../utils/logger');
 
 /**
  * PDF Service for generating various PDF documents
