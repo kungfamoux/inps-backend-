@@ -12,6 +12,7 @@ const {
 	getAllResults,
 	getStudentSubjects,
 	getResultsBySubject,
+	checkNearMatches,
 } = require("../controller/AdminStudentController");
 
 const { authenticate, requireAdmin, validate } = require("../../middleware");
@@ -221,6 +222,64 @@ router.get(
 	requireAdmin,
 	validate(getAllStudentsQuerySchema, "query"),
 	getAllStudents,
+);
+
+/**
+ * @swagger
+ * /api/admin/students/check-near-matches:
+ *   get:
+ *     summary: Check for near-matching students based on name and parent email
+ *     description: |
+ *       Returns students with similar names under the same parent account.
+ *       Used to warn admins about potential duplicates before creation.
+ *     tags: [Admin - Students]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: firstName
+ *         required: true
+ *         schema: { type: string }
+ *       - in: query
+ *         name: lastName
+ *         required: true
+ *         schema: { type: string }
+ *       - in: query
+ *         name: accountEmail
+ *         required: true
+ *         schema: { type: string, format: email }
+ *     responses:
+ *       200:
+ *         description: List of near-matching students
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example:
+ *                 success: true
+ *                 count: 2
+ *                 data:
+ *                   - admissionNumber: "INPS-2026-027"
+ *                     firstName: "Franklyn"
+ *                     lastName: "Achi-Ugochukwu"
+ *                     dateOfBirth: "2017-05-09T00:00:00.000Z"
+ *       400:
+ *         description: Missing required parameters
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/ErrorResponse' }
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.get(
+	"/check-near-matches",
+	authenticate,
+	requireAdmin,
+	checkNearMatches,
 );
 
 /**

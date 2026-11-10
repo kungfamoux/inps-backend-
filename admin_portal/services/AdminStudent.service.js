@@ -88,6 +88,20 @@ class AdminStudentService {
 			if (existingStudent) {
 				throw new Error("A student with these details already exists");
 			}
+
+			// Check for near matches (similar names) and log warning
+			const nearMatches = await StudentRepository.findNearMatchStudents({
+				firstName,
+				lastName,
+				accountEmail
+			});
+
+			if (nearMatches.length > 0) {
+				logger.warn(
+					`[Student Creation] Potential duplicate detected for ${firstName} ${lastName}. Found ${nearMatches.length} similar student(s) under parent ${accountEmail}:`,
+					nearMatches.map(s => `${s.admissionNumber} - ${s.firstName} ${s.middleName || ''} ${s.lastName}`)
+				);
+			}
 		}
 		const admDate = new Date(admissionDate);
 		let gradDate = null;

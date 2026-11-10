@@ -307,6 +307,41 @@ const findDuplicateStudent = ({ firstName, lastName, dateOfBirth, accountEmail }
 	});
 
 /**
+ * Finds near-match students based on similar names and parent email.
+ * Used to warn admins about potential duplicates before creation.
+ * Returns students with similar first/last names under the same parent.
+ */
+const findNearMatchStudents = ({ firstName, lastName, accountEmail }) =>
+	prisma.student.findMany({
+		where: {
+			OR: [
+				// Match first name, similar last name
+				{
+					firstName: { mode: 'insensitive', equals: firstName },
+					lastName: { mode: 'insensitive', contains: lastName.substring(0, 3) },
+					parent: { accountEmail: { mode: 'insensitive', equals: accountEmail } },
+					deletedAt: null,
+				},
+				// Similar first name, match last name
+				{
+					firstName: { mode: 'insensitive', contains: firstName.substring(0, 3) },
+					lastName: { mode: 'insensitive', equals: lastName },
+					parent: { accountEmail: { mode: 'insensitive', equals: accountEmail } },
+					deletedAt: null,
+				},
+			],
+		},
+		take: 5,
+		include: {
+			parent: {
+				select: {
+					accountEmail: true,
+				},
+			},
+		},
+	});
+
+/**
  * Creates a new parent record.
  * Used in createStudent after Firebase user creation succeeds.
  */
@@ -505,6 +540,7 @@ module.exports = {
 	countStudents,
 	findParentByAccountEmail,
 	findDuplicateStudent,
+	findNearMatchStudents,
 	createParent,
 	createStudentWithAdmissionNumber,
 	findResultsByStudentAndTerm,

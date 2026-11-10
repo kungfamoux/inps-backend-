@@ -297,6 +297,33 @@ const getResultsBySubject = async (req, res, next) => {
 	}
 };
 
+const checkNearMatches = async (req, res, next) => {
+	try {
+		const { firstName, lastName, accountEmail } = req.query;
+
+		if (!firstName || !lastName || !accountEmail) {
+			return res.status(400).json({
+				success: false,
+				message: "firstName, lastName, and accountEmail are required"
+			});
+		}
+
+		const nearMatches = await StudentRepository.findNearMatchStudents({
+			firstName,
+			lastName,
+			accountEmail
+		});
+
+		return res.status(200).json({
+			success: true,
+			data: sanitize(nearMatches),
+			count: nearMatches.length
+		});
+	} catch (error) {
+		return next(error);
+	}
+};
+
 module.exports = {
 	createStudent,
 	getAllStudents,
@@ -307,4 +334,5 @@ module.exports = {
 	getAllResults,
 	getStudentSubjects,
 	getResultsBySubject,
+	checkNearMatches,
 };
