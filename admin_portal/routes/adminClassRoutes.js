@@ -12,6 +12,7 @@ const {
 	assignAssistantTeacher,
 	removeClassTeacher,
 	removeAssistantTeacher,
+	downloadClassListPDF,
 } = require("../controller/AdminClassController");
 
 const { authenticate, requireAdmin, requireRoles, validate } = require("../../middleware");
@@ -546,6 +547,58 @@ router.delete(
 	authenticate,
 	requireAdmin,
 	removeAssistantTeacher,
+);
+
+/**
+ * @swagger
+ * /api/admin/classes/{id}/class-list-pdf:
+ *   get:
+ *     summary: Download class list as PDF
+ *     description: Generates and downloads a PDF containing the list of students in the class
+ *     tags: [Classes]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: academicYear
+ *         schema:
+ *           type: string
+ *         description: Academic year (default: 2026/2027)
+ *       - in: query
+ *         name: term
+ *         schema:
+ *           type: string
+ *         description: Term (default: FIRST_TERM)
+ *     responses:
+ *       200:
+ *         description: PDF file
+ *         content:
+ *           application/pdf:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         $ref: '#/components/responses/ForbiddenError'
+ *       404:
+ *         description: Class not found
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/ErrorResponse' }
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
+router.get(
+	"/:id/class-list-pdf",
+	authenticate,
+	requireAdmin,
+	downloadClassListPDF,
 );
 
 module.exports = router;

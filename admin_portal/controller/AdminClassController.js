@@ -1,4 +1,5 @@
 const AdminClassService = require("../services/AdminClass.service");
+const PDFService = require("../../shared/services/PDFService");
 
 // CLASSES
 const createClass = async (req, res, next) => {
@@ -139,6 +140,46 @@ const removeAssistantTeacher = async (req, res, next) => {
 	}
 };
 
+const downloadClassListPDF = async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const { academicYear, term } = req.query;
+
+		// Get class details
+		const classData = await AdminClassService.getClassById(id);
+
+		// Get students in the class
+		const studentsData = await AdminClassService.getStudentsByClass(id, {
+			status: 'ACTIVE',
+			academicYear: academicYear || '2026/2027',
+			term: term || 'FIRST_TERM',
+		});
+
+		// Generate PDF
+		const pdfBuffer = await PDFService.generateClassListPDF(
+			{
+				...classData,
+				academicYear: academicYear || '2026/2027',
+				term: term || 'FIRST_TERM',
+			},
+			studentsData.data || []
+		);
+
+		// Set response headers
+		res.setHeader('Content-Type', 'application/pdf');
+		res.setHeader(
+			'Content-Disposition',
+			`attachment; filename="${classData.name.replace(/\s+/g, '_')}_Class_List.pdf"`
+		);
+		res.setHeader('Content-Length', pdfBuffer.length);
+
+		// Send PDF
+		return res.send(pdfBuffer);
+	} catch (error) {
+		return next(error);
+	}
+};
+
 module.exports = {
 	createClass,
 	getAllClasses,
@@ -151,4 +192,5 @@ module.exports = {
 	assignAssistantTeacher,
 	removeClassTeacher,
 	removeAssistantTeacher,
+	downloadClassListPDF,
 };
