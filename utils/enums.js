@@ -88,6 +88,8 @@ const ATTENDANCE_STATUS_VALUES = ["PRESENT", "ABSENT", "EXCUSED", "LATE"]; // en
 
 const PAYMENT_CHANNEL_VALUES = ["cash", "bank_transfer", "pos", "form_of_transfer", "paystack"]; // enum PaymentChannel
 
+const DRUG_REQUEST_STATUS_VALUES = ["PENDING", "COMPLETED", "CANCELLED"]; // enum DrugRequestStatus
+
 module.exports = {
 	TERM_VALUES,
 	SCHOOL_LEVEL_VALUES,
@@ -117,4 +119,5 @@ module.exports = {
 	NURSERY_RATING_VALUES,
 	ATTENDANCE_STATUS_VALUES,
 	PAYMENT_CHANNEL_VALUES,
+	DRUG_REQUEST_STATUS_VALUES,
 };

@@ -1,0 +1,4070 @@
+{
+  "timestamp": "2026-08-18T12:21:16.942Z",
+  "tables": {
+    "Counter": [
+      {
+        "id": "staff_HTR",
+        "value": 0
+      },
+      {
+        "id": "staff_STK",
+        "value": 0
+      },
+      {
+        "id": "staff_SUP",
+        "value": 0
+      },
+      {
+        "id": "stockin",
+        "value": 0
+      },
+      {
+        "id": "stockout",
+        "value": 0
+      },
+      {
+        "id": "staff_BUR",
+        "value": 1
+      },
+      {
+        "id": "invoice",
+        "value": 270
+      },
+      {
+        "id": "staff_TCH",
+        "value": 5
+      },
+      {
+        "id": "student_admission",
+        "value": 697
+      },
+      {
+        "id": "staff_ADM",
+        "value": 3
+      }
+    ],
+    "SchoolConfiguration": [
+      {
+        "id": "b62b0e64-1974-4a98-8194-ecfe8838fb73",
+        "academicYear": "2024/2025",
+        "term": "FIRST_TERM",
+        "maxStudentsPerClass": 30,
+        "minAverageScore": 55,
+        "minAttendancePercentage": 75,
+        "maxFailedSubjects": 3,
+        "passMark": 55,
+        "creditMark": 70,
+        "distinctionMark": 90,
+        "createdAt": "2026-08-10T13:22:09.903Z",
+        "updatedAt": "2026-08-10T13:22:09.903Z"
+      },
+      {
+        "id": "364af2e2-13f8-416d-b64e-9027a2c71050",
+        "academicYear": "2024/2025",
+        "term": "SECOND_TERM",
+        "maxStudentsPerClass": 30,
+        "minAverageScore": 55,
+        "minAttendancePercentage": 75,
+        "maxFailedSubjects": 3,
+        "passMark": 55,
+        "creditMark": 70,
+        "distinctionMark": 90,
+        "createdAt": "2026-08-10T13:22:10.221Z",
+        "updatedAt": "2026-08-10T13:22:10.221Z"
+      },
+      {
+        "id": "1127a40c-d68e-4c0b-890d-dddc603e9b0b",
+        "academicYear": "2024/2025",
+        "term": "THIRD_TERM",
+        "maxStudentsPerClass": 30,
+        "minAverageScore": 55,
+        "minAttendancePercentage": 75,
+        "maxFailedSubjects": 3,
+        "passMark": 55,
+        "creditMark": 70,
+        "distinctionMark": 90,
+        "createdAt": "2026-08-10T13:22:10.525Z",
+        "updatedAt": "2026-08-10T13:22:10.525Z"
+      }
+    ],
+    "SchoolConfig": [
+      {
+        "id": "singleton",
+        "currentSessionId": "4fdda2fc-0877-48ae-ba14-5421fe7d886a",
+        "currentTermId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281",
+        "academicYear": "2026/2027",
+        "currentTerm": "FIRST_TERM",
+        "updatedAt": "2026-08-15T11:26:18.069Z",
+        "createdAt": "2026-08-09T21:27:28.786Z"
+      }
+    ],
+    "SchoolCalendar": [],
+    "Holiday": [],
+    "BehavioralTrait": [
+      {
+        "id": "3bb7fd24-b568-4cc2-be7f-d0f9b6f7f549",
+        "name": "Punctuality",
+        "domain": "SOCIAL_BEHAVIOUR"
+      },
+      {
+        "id": "0156eaf5-a5bc-426e-91e7-1488850fb5e7",
+        "name": "Class Attendance",
+        "domain": "SOCIAL_BEHAVIOUR"
+      },
+      {
+        "id": "832f54e0-e501-4148-a2c4-d20d4fbf000f",
+        "name": "Carrying out of Assignment",
+        "domain": "SOCIAL_BEHAVIOUR"
+      },
+      {
+        "id": "0a045491-426b-4e4f-a037-cc194b248ecc",
+        "name": "Perseverance",
+        "domain": "SOCIAL_BEHAVIOUR"
+      },
+      {
+        "id": "077f67b2-0e08-466a-a530-d5eb3e3e4a0f",
+        "name": "Self Control",
+        "domain": "SOCIAL_BEHAVIOUR"
+      },
+      {
+        "id": "81b45a6d-7fdf-4f83-848e-1e6f6c67a919",
+        "name": "Self Confidence",
+        "domain": "SOCIAL_BEHAVIOUR"
+      },
+      {
+        "id": "6842af22-891a-4e57-be1c-3591be30e823",
+        "name": "Leadership",
+        "domain": "SOCIAL_BEHAVIOUR"
+      },
+      {
+        "id": "f68db565-882a-4a8b-a408-414438311fca",
+        "name": "Obedience",
+        "domain": "SOCIAL_BEHAVIOUR"
+      },
+      {
+        "id": "70eae29b-46d2-49ff-9020-86432c368547",
+        "name": "Relationship with others",
+        "domain": "SOCIAL_BEHAVIOUR"
+      },
+      {
+        "id": "9abe7f31-e143-4a1c-9f6f-c78b45d5f591",
+        "name": "Honesty",
+        "domain": "SOCIAL_BEHAVIOUR"
+      },
+      {
+        "id": "aeea4385-db98-4b14-b6ab-8719fd2506f9",
+        "name": "Neatness",
+        "domain": "MANIPULATIVE_SKILLS"
+      },
+      {
+        "id": "23bca05a-bff5-4dc3-b38a-667f3ff52196",
+        "name": "Game & Sports",
+        "domain": "MANIPULATIVE_SKILLS"
+      },
+      {
+        "id": "a54a4b93-7f79-4384-a418-e7a1b367a25f",
+        "name": "Manual Skills",
+        "domain": "MANIPULATIVE_SKILLS"
+      }
+    ],
+    "NurseryAssessmentItem": [
+      {
+        "id": "5d98d72f-7dc0-4a87-9b1c-21e21504853d",
+        "category": "READING_ACTIVITIES",
+        "description": "I can recognise my name",
+        "sortOrder": 1
+      },
+      {
+        "id": "17196180-c265-4716-836c-ae9fcf2009ee",
+        "category": "READING_ACTIVITIES",
+        "description": "I can match objects or picture",
+        "sortOrder": 2
+      },
+      {
+        "id": "ade68cff-2dc2-424e-8c08-bb48e0bc2619",
+        "category": "READING_ACTIVITIES",
+        "description": "I can spot differences in objects",
+        "sortOrder": 3
+      },
+      {
+        "id": "3afb605a-1921-43fe-b402-3efb08df6dd4",
+        "category": "READING_ACTIVITIES",
+        "description": "I can recognise the letters",
+        "sortOrder": 4
+      },
+      {
+        "id": "8a23983f-247c-47d6-b732-88990a46d534",
+        "category": "READING_ACTIVITIES",
+        "description": "I know the colours",
+        "sortOrder": 5
+      },
+      {
+        "id": "67f4a6d3-d6c0-47f6-ad6a-b58020f62d5b",
+        "category": "READING_ACTIVITIES",
+        "description": "I can read Lady bird Book I",
+        "sortOrder": 6
+      },
+      {
+        "id": "2ea95819-2a9a-4df3-9197-8e4486b53524",
+        "category": "READING_ACTIVITIES",
+        "description": "I can read Lady bird Book II",
+        "sortOrder": 7
+      },
+      {
+        "id": "d5543e48-b223-4efc-b4cc-f1bff62867b7",
+        "category": "NUMBER_ACTIVITIES",
+        "description": "I can count numbers",
+        "sortOrder": 1
+      },
+      {
+        "id": "de9e8391-b39f-4cf2-8c40-9a44245eb1de",
+        "category": "NUMBER_ACTIVITIES",
+        "description": "I can recognise numbers",
+        "sortOrder": 2
+      },
+      {
+        "id": "606736e3-fb71-4e85-83ef-58e6c80552ed",
+        "category": "NUMBER_ACTIVITIES",
+        "description": "I can do simple addition",
+        "sortOrder": 3
+      },
+      {
+        "id": "41cd63b1-2a42-4fa0-9fdc-83dfee935521",
+        "category": "NUMBER_ACTIVITIES",
+        "description": "I can do simple subtraction",
+        "sortOrder": 4
+      },
+      {
+        "id": "45cd3661-26a8-4fba-84b1-32dd99255839",
+        "category": "WRITING_ACTIVITIES",
+        "description": "I can write",
+        "sortOrder": 1
+      },
+      {
+        "id": "b93d63c8-61ce-44e0-bcff-8f1b178d29f9",
+        "category": "WRITING_ACTIVITIES",
+        "description": "I can write my name",
+        "sortOrder": 2
+      },
+      {
+        "id": "2695d4e8-6290-4f42-b6f6-26fd9872679b",
+        "category": "WRITING_ACTIVITIES",
+        "description": "I can write patterns",
+        "sortOrder": 3
+      },
+      {
+        "id": "a046fb3b-33ca-45d8-b408-0e636550a248",
+        "category": "WRITING_ACTIVITIES",
+        "description": "I can write small letters",
+        "sortOrder": 4
+      },
+      {
+        "id": "a62a73f2-f29c-4a1e-8d21-e302c6229c67",
+        "category": "SOCIAL_DEVELOPMENT",
+        "description": "I know my first and last name",
+        "sortOrder": 1
+      },
+      {
+        "id": "577cd7bc-69a9-4b60-ae36-8202c747ec3c",
+        "category": "SOCIAL_DEVELOPMENT",
+        "description": "I can say my Daddy's name",
+        "sortOrder": 2
+      },
+      {
+        "id": "f8261949-dcf2-4da0-9f52-5e7d88c769a4",
+        "category": "SOCIAL_DEVELOPMENT",
+        "description": "I can say my Mummy's name",
+        "sortOrder": 3
+      },
+      {
+        "id": "4e625918-6750-46ce-b879-bfff13f67410",
+        "category": "SOCIAL_DEVELOPMENT",
+        "description": "I know where I live",
+        "sortOrder": 4
+      },
+      {
+        "id": "da09aea5-d456-44e1-8605-9681a0584c82",
+        "category": "SOCIAL_DEVELOPMENT",
+        "description": "I know how old I am",
+        "sortOrder": 5
+      },
+      {
+        "id": "745e0183-f110-4e33-84c4-131ba3256ed3",
+        "category": "SOCIAL_DEVELOPMENT",
+        "description": "I know myself as a boy or a girl",
+        "sortOrder": 6
+      },
+      {
+        "id": "3456a56c-9ff9-4aff-bf8f-29d6dd37c839",
+        "category": "SOCIAL_DEVELOPMENT",
+        "description": "I like school",
+        "sortOrder": 7
+      },
+      {
+        "id": "cde8a625-0771-4838-9f3d-d05da7a6fc89",
+        "category": "SOCIAL_DEVELOPMENT",
+        "description": "I make friends in the school",
+        "sortOrder": 8
+      },
+      {
+        "id": "65c6cf20-6ad3-4f5f-a828-a3ac809f2557",
+        "category": "SOCIAL_DEVELOPMENT",
+        "description": "I am shy",
+        "sortOrder": 9
+      },
+      {
+        "id": "26cea268-9883-4030-99e6-1d14b5cea57a",
+        "category": "SOCIAL_DEVELOPMENT",
+        "description": "I use forms of polite usage (please, thank you)",
+        "sortOrder": 10
+      },
+      {
+        "id": "0d0d142c-760d-4380-8c83-7096bbee69c8",
+        "category": "INTELLECTUAL_DEVELOPMENT",
+        "description": "Express curiosity",
+        "sortOrder": 1
+      },
+      {
+        "id": "8d404e2e-0da1-4677-9f05-c7005e1194bb",
+        "category": "INTELLECTUAL_DEVELOPMENT",
+        "description": "Uses equipment and material for constructive purpose",
+        "sortOrder": 2
+      },
+      {
+        "id": "b5bdc12b-a2a9-43cf-bf91-21a8f95a147d",
+        "category": "INTELLECTUAL_DEVELOPMENT",
+        "description": "Listens and responds to music",
+        "sortOrder": 3
+      },
+      {
+        "id": "43781111-d5db-4783-b9ed-5fe1fe942e13",
+        "category": "INTELLECTUAL_DEVELOPMENT",
+        "description": "Memorizes and sings songs",
+        "sortOrder": 4
+      },
+      {
+        "id": "8e530867-44ac-4c9c-bc2f-a354e9876c86",
+        "category": "INTELLECTUAL_DEVELOPMENT",
+        "description": "Shows ability to pay attention",
+        "sortOrder": 5
+      },
+      {
+        "id": "03898d62-8c7d-4d6c-8d70-8e3518d92bad",
+        "category": "INTELLECTUAL_DEVELOPMENT",
+        "description": "I can name objects",
+        "sortOrder": 6
+      },
+      {
+        "id": "8673e1d0-44a5-4c1f-892f-ad63b38f2459",
+        "category": "INTELLECTUAL_DEVELOPMENT",
+        "description": "I can answer simple questions",
+        "sortOrder": 7
+      },
+      {
+        "id": "f966dd5a-d282-4b59-9619-c5708444590e",
+        "category": "INTELLECTUAL_DEVELOPMENT",
+        "description": "I can ask questions",
+        "sortOrder": 8
+      },
+      {
+        "id": "c6f955aa-f6f0-4703-9879-34b8bbe8856c",
+        "category": "INTELLECTUAL_DEVELOPMENT",
+        "description": "I can describe pictures",
+        "sortOrder": 9
+      },
+      {
+        "id": "e9f64a6f-2f2a-4b36-848b-9d962bf0b516",
+        "category": "INTELLECTUAL_DEVELOPMENT",
+        "description": "I can retell a story",
+        "sortOrder": 10
+      }
+    ],
+    "Subject": [
+      {
+        "id": "19fce94b-d813-44ef-a72c-773c928830ab",
+        "subjectName": "jjjklmm",
+        "subjectCode": "h hknjknk",
+        "isActive": false,
+        "createdAt": "2026-08-10T13:16:25.562Z",
+        "deletedAt": "2026-08-10T13:16:55.188Z"
+      },
+      {
+        "id": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "subjectName": "English Studies",
+        "subjectCode": "ENG",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:20.548Z",
+        "deletedAt": null
+      },
+      {
+        "id": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "subjectName": "Mathematics",
+        "subjectCode": "MTH",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:21.869Z",
+        "deletedAt": null
+      },
+      {
+        "id": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "subjectName": "Christian Religious Studies",
+        "subjectCode": "CRS",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:22.884Z",
+        "deletedAt": null
+      },
+      {
+        "id": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "subjectName": "Physical and Health Education",
+        "subjectCode": "PHE",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:24.732Z",
+        "deletedAt": null
+      },
+      {
+        "id": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "subjectName": "Home Economics",
+        "subjectCode": "HEC",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:25.616Z",
+        "deletedAt": null
+      },
+      {
+        "id": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "subjectName": "Igbo Studies",
+        "subjectCode": "IGB",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:26.509Z",
+        "deletedAt": null
+      },
+      {
+        "id": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "subjectName": "Social Studies",
+        "subjectCode": "SST",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:27.676Z",
+        "deletedAt": null
+      },
+      {
+        "id": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "subjectName": "Civic Education",
+        "subjectCode": "CIV",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:28.568Z",
+        "deletedAt": null
+      },
+      {
+        "id": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "subjectName": "Cultural and Creative Art",
+        "subjectCode": "CCA",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:30.380Z",
+        "deletedAt": null
+      },
+      {
+        "id": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "subjectName": "Handwriting & Dictation",
+        "subjectCode": "HWD",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:31.306Z",
+        "deletedAt": null
+      },
+      {
+        "id": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "subjectName": "Computer Studies",
+        "subjectCode": "CMP",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:32.225Z",
+        "deletedAt": null
+      },
+      {
+        "id": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "subjectName": "Music",
+        "subjectCode": "MUS",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:33.099Z",
+        "deletedAt": null
+      },
+      {
+        "id": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "subjectName": "Phonics",
+        "subjectCode": "PHO",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:34.130Z",
+        "deletedAt": null
+      },
+      {
+        "id": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "subjectName": "French",
+        "subjectCode": "FRN",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:35.040Z",
+        "deletedAt": null
+      },
+      {
+        "id": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "subjectName": "English Studies",
+        "subjectCode": "NRS-ENG",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:36.191Z",
+        "deletedAt": null
+      },
+      {
+        "id": "4f55d940-1285-4839-b479-65ea569643de",
+        "subjectName": "Mathematics",
+        "subjectCode": "NRS-MTH",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:37.078Z",
+        "deletedAt": null
+      },
+      {
+        "id": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "subjectName": "Igbo",
+        "subjectCode": "NRS-IGB",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:37.978Z",
+        "deletedAt": null
+      },
+      {
+        "id": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "subjectName": "Science",
+        "subjectCode": "NRS-SCI",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:38.920Z",
+        "deletedAt": null
+      },
+      {
+        "id": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "subjectName": "Social Norms",
+        "subjectCode": "NRS-SOC",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:39.847Z",
+        "deletedAt": null
+      },
+      {
+        "id": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "subjectName": "C.R.S",
+        "subjectCode": "NRS-CRS",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:40.793Z",
+        "deletedAt": null
+      },
+      {
+        "id": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "subjectName": "Health Habit",
+        "subjectCode": "NRS-HLT",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:41.736Z",
+        "deletedAt": null
+      },
+      {
+        "id": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "subjectName": "Creative Arts",
+        "subjectCode": "NRS-CRT",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:43.043Z",
+        "deletedAt": null
+      },
+      {
+        "id": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "subjectName": "Hand Writing",
+        "subjectCode": "NRS-HWR",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:44.179Z",
+        "deletedAt": null
+      },
+      {
+        "id": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "subjectName": "Phonics",
+        "subjectCode": "NRS-PHO",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:45.644Z",
+        "deletedAt": null
+      },
+      {
+        "id": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "subjectName": "General Knowledge",
+        "subjectCode": "NRS-GNK",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:46.564Z",
+        "deletedAt": null
+      },
+      {
+        "id": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "subjectName": "Colouring",
+        "subjectCode": "NRS-COL",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:47.473Z",
+        "deletedAt": null
+      },
+      {
+        "id": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "subjectName": "Agric Science",
+        "subjectCode": "AGR",
+        "isActive": false,
+        "createdAt": "2026-08-10T13:21:29.459Z",
+        "deletedAt": "2026-08-15T11:07:31.583Z"
+      },
+      {
+        "id": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "subjectName": "Basic Science",
+        "subjectCode": "BSC",
+        "isActive": true,
+        "createdAt": "2026-08-10T13:21:23.762Z",
+        "deletedAt": null
+      }
+    ],
+    "SubjectLevel": [
+      {
+        "subjectId": "19fce94b-d813-44ef-a72c-773c928830ab",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "19fce94b-d813-44ef-a72c-773c928830ab",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "19fce94b-d813-44ef-a72c-773c928830ab",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "level": "PRIMARY_1"
+      },
+      {
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "level": "PRIMARY_2"
+      },
+      {
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "level": "PRIMARY_3"
+      },
+      {
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "level": "PRIMARY_4"
+      },
+      {
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "level": "PRIMARY_5"
+      },
+      {
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "level": "PRIMARY_6"
+      },
+      {
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "level": "NURSERY_3"
+      },
+      {
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "level": "DAYCARE"
+      },
+      {
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "level": "PRENURSERY"
+      },
+      {
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "level": "NURSERY_1"
+      },
+      {
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "level": "NURSERY_2"
+      },
+      {
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "level": "NURSERY_3"
+      }
+    ],
+    "AcademicSession": [
+      {
+        "id": "4fdda2fc-0877-48ae-ba14-5421fe7d886a",
+        "session": "2026/2027",
+        "status": "UPCOMING",
+        "createdAt": "2026-08-09T21:27:27.018Z"
+      }
+    ],
+    "AcademicTerm": [
+      {
+        "id": "8e46e8ce-ffcc-45df-985d-f72c3a83d281",
+        "term": "FIRST_TERM",
+        "status": "CURRENT",
+        "startDate": "2026-09-01T00:00:00.000Z",
+        "endDate": "2026-12-15T00:00:00.000Z",
+        "sessionId": "4fdda2fc-0877-48ae-ba14-5421fe7d886a",
+        "createdAt": "2026-08-09T21:27:28.619Z"
+      }
+    ],
+    "Class": [
+      {
+        "id": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "name": "Daycare",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "YELLOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:17.617Z",
+        "updatedAt": "2026-08-09T21:49:17.617Z"
+      },
+      {
+        "id": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "name": "Pre-nursery B",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "GREEN",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:18.237Z",
+        "updatedAt": "2026-08-09T21:49:18.237Z"
+      },
+      {
+        "id": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "name": "Nursery 1A",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "RAINBOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:18.557Z",
+        "updatedAt": "2026-08-09T21:49:18.557Z"
+      },
+      {
+        "id": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "name": "Nursery 1B",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "YELLOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:18.879Z",
+        "updatedAt": "2026-08-09T21:49:18.879Z"
+      },
+      {
+        "id": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "name": "Nursery 2A",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "BLUE",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:19.827Z",
+        "updatedAt": "2026-08-09T21:49:19.827Z"
+      },
+      {
+        "id": "14897352-cae0-4245-881a-f5549b57746f",
+        "name": "Nursery 2B",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "GREEN",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:20.143Z",
+        "updatedAt": "2026-08-09T21:49:20.143Z"
+      },
+      {
+        "id": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "name": "Nursery 2C",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "RAINBOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:20.457Z",
+        "updatedAt": "2026-08-09T21:49:20.457Z"
+      },
+      {
+        "id": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "name": "Nursery 3A",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "YELLOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:20.766Z",
+        "updatedAt": "2026-08-09T21:49:20.766Z"
+      },
+      {
+        "id": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "name": "Nursery 3B",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "BLUE",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:21.071Z",
+        "updatedAt": "2026-08-09T21:49:21.071Z"
+      },
+      {
+        "id": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "name": "Nursery 3C",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "GREEN",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:21.380Z",
+        "updatedAt": "2026-08-09T21:49:21.380Z"
+      },
+      {
+        "id": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "name": "Primary 1 Yellow",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "YELLOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:21.698Z",
+        "updatedAt": "2026-08-09T21:49:21.698Z"
+      },
+      {
+        "id": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "name": "Primary 1 Blue",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "BLUE",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:22.023Z",
+        "updatedAt": "2026-08-09T21:49:22.023Z"
+      },
+      {
+        "id": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "name": "Primary 2 Yellow",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "YELLOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:22.633Z",
+        "updatedAt": "2026-08-09T21:49:22.633Z"
+      },
+      {
+        "id": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "name": "Primary 2 Blue",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "BLUE",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:22.960Z",
+        "updatedAt": "2026-08-09T21:49:22.960Z"
+      },
+      {
+        "id": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "name": "Primary 2 Green",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "GREEN",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:23.911Z",
+        "updatedAt": "2026-08-09T21:49:23.911Z"
+      },
+      {
+        "id": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "name": "Primary 3 Yellow",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "YELLOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:24.642Z",
+        "updatedAt": "2026-08-09T21:49:24.642Z"
+      },
+      {
+        "id": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "name": "Primary 3 Blue",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "BLUE",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:25.267Z",
+        "updatedAt": "2026-08-09T21:49:25.267Z"
+      },
+      {
+        "id": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "name": "Primary 3 Green",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "GREEN",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:25.594Z",
+        "updatedAt": "2026-08-09T21:49:25.594Z"
+      },
+      {
+        "id": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "name": "Primary 4 Yellow",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "YELLOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:25.949Z",
+        "updatedAt": "2026-08-09T21:49:25.949Z"
+      },
+      {
+        "id": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "name": "Primary 4 Blue",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "BLUE",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:26.291Z",
+        "updatedAt": "2026-08-09T21:49:26.291Z"
+      },
+      {
+        "id": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "name": "Primary 4 Green",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "GREEN",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:26.768Z",
+        "updatedAt": "2026-08-09T21:49:26.768Z"
+      },
+      {
+        "id": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "name": "Primary 5 Yellow",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "YELLOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:27.134Z",
+        "updatedAt": "2026-08-09T21:49:27.134Z"
+      },
+      {
+        "id": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "name": "Primary 5 Green",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "GREEN",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:27.786Z",
+        "updatedAt": "2026-08-09T21:49:27.786Z"
+      },
+      {
+        "id": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "name": "Primary 6 Rainbow",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "RAINBOW",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:28.094Z",
+        "updatedAt": "2026-08-09T21:49:28.094Z"
+      },
+      {
+        "id": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "name": "Primary 1 Green",
+        "status": "ACTIVE",
+        "currentEnrollment": 1,
+        "color": "GREEN",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:22.332Z",
+        "updatedAt": "2026-08-15T07:15:53.590Z"
+      },
+      {
+        "id": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "name": "Pre-nursery A",
+        "status": "ACTIVE",
+        "currentEnrollment": 1,
+        "color": "BLUE",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:17.928Z",
+        "updatedAt": "2026-08-15T10:21:26.873Z"
+      },
+      {
+        "id": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "name": "Primary 5 Blue",
+        "status": "ACTIVE",
+        "currentEnrollment": 0,
+        "color": "BLUE",
+        "roomNumber": null,
+        "classTeacherId": null,
+        "assistantTeacherId": null,
+        "createdAt": "2026-08-09T21:49:27.479Z",
+        "updatedAt": "2026-08-15T11:19:47.626Z"
+      }
+    ],
+    "Staff": [
+      {
+        "id": "34546dc9-bac5-4393-920c-e010ee70949c",
+        "staffId": "INPS-ADM-2026-002",
+        "firebaseUid": "AF4fiukG9UZV017M7MhvwRRS3Dg1",
+        "firstName": "Admin",
+        "lastName": "User",
+        "middleName": null,
+        "dateOfBirth": null,
+        "gender": "MALE",
+        "maritalStatus": null,
+        "nationality": null,
+        "state": null,
+        "lga": null,
+        "religion": null,
+        "address": null,
+        "email": "i.inps@yahoo.com",
+        "phone": "08162774990",
+        "type": "NON_TEACHING",
+        "role": "ADMIN",
+        "status": "ACTIVE",
+        "biometricId": null,
+        "qualifications": null,
+        "subjectSpecialization": null,
+        "yearsOfExperience": null,
+        "previousEmployment": null,
+        "dateOfEmployment": null,
+        "nextOfKinName": null,
+        "nextOfKinPhone": null,
+        "nextOfKinRelationship": null,
+        "nextOfKinAddress": null,
+        "deletedAt": null,
+        "createdAt": "2026-08-09T21:23:08.078Z",
+        "updatedAt": "2026-08-09T21:23:08.078Z"
+      },
+      {
+        "id": "2872580f-a5b7-444d-8a45-c730bd634925",
+        "staffId": "INPS-ADM-2026-003",
+        "firebaseUid": "jQWdCiH8JrQrfEEURbAAWIAIGps2",
+        "firstName": "orji",
+        "lastName": "chioma",
+        "middleName": "chioma",
+        "dateOfBirth": "2016-02-23T00:00:00.000Z",
+        "gender": "FEMALE",
+        "maritalStatus": "MARRIED",
+        "nationality": "nigerian",
+        "state": "Abia",
+        "lga": "Arochukwu",
+        "religion": "christianity",
+        "address": "trans ekulu",
+        "email": "orjichiomauka1@gmail.com",
+        "phone": "08166529629",
+        "type": "NON_TEACHING",
+        "role": "ADMIN",
+        "status": "ACTIVE",
+        "biometricId": null,
+        "qualifications": null,
+        "subjectSpecialization": null,
+        "yearsOfExperience": 5,
+        "previousEmployment": null,
+        "dateOfEmployment": "2021-10-20T00:00:00.000Z",
+        "nextOfKinName": "",
+        "nextOfKinPhone": "",
+        "nextOfKinRelationship": "",
+        "nextOfKinAddress": "",
+        "deletedAt": null,
+        "createdAt": "2026-08-18T08:18:40.367Z",
+        "updatedAt": "2026-08-18T08:18:40.367Z"
+      }
+    ],
+    "StaffFinancial": [],
+    "Parent": [],
+    "Student": [],
+    "ClassSubject": [
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:06.236Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:06.557Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:06.896Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:07.195Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:07.982Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:08.293Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:08.607Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:08.930Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:09.241Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:09.563Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:09.868Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:10.158Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:10.456Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:10.758Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:11.074Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:11.399Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:11.716Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:12.012Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:12.310Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:12.620Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:12.925Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:13.526Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:14.095Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "824b1a88-b85f-4d0a-aef5-e0d96b22907f",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:14.404Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:14.715Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:15.029Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:15.342Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:15.644Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:15.964Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:16.269Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:16.573Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:16.885Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:17.703Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:18.607Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:19.273Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "52148466-8890-4fe4-b5b6-ae503b4b533d",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:19.579Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:19.879Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:20.266Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:20.687Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:21.105Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:21.418Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:21.722Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:22.574Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:22.875Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:23.184Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:23.504Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:23.811Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1f46a812-4959-4cd3-b66e-7b84102f629d",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:24.117Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:24.421Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:24.740Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:25.037Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:25.350Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:25.657Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:25.958Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:26.605Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:26.931Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:27.252Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:27.557Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:27.850Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "a9997e70-213c-483d-9e28-25a69a5f8dfc",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:28.189Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:28.495Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:28.792Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:29.102Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:29.407Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:29.708Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:30.009Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:30.305Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:30.615Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:30.945Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:31.253Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:31.566Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "29609e74-0d1f-461c-a359-cdc97b525ebd",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:31.883Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:32.181Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:32.474Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:32.771Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:34.500Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:34.800Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:35.101Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:35.395Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:35.705Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:36.002Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:36.297Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:36.602Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "14897352-cae0-4245-881a-f5549b57746f",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:36.903Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:37.200Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:37.503Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:37.826Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:38.124Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:38.441Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:38.758Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:39.061Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:39.350Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:39.655Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:39.947Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:40.238Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c3e3a83b-070c-4365-9425-c1b3f631aaa2",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:40.550Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:40.850Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:41.170Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:41.470Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:41.771Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:42.109Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:42.415Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:42.717Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:43.021Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:43.750Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:44.062Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:44.366Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3eb9b769-a549-4382-8379-df92a91060f1",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:44.675Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:44.977Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:45.277Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:45.595Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:45.903Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:46.211Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:46.516Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:46.839Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:47.137Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:47.445Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:47.743Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:48.035Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c4cb7a38-f6fc-458d-bcec-87a114d36b55",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:48.338Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "063cbddb-1311-4643-a2f4-217086cfec79",
+        "createdAt": "2026-08-10T13:33:48.628Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "4f55d940-1285-4839-b479-65ea569643de",
+        "createdAt": "2026-08-10T13:33:48.924Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "c7cf2c58-1b36-4769-ab8c-7d39e8ef25cb",
+        "createdAt": "2026-08-10T13:33:49.233Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "6ce61dfc-4232-40ea-b77d-531dd5e6219a",
+        "createdAt": "2026-08-10T13:33:49.538Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "5f195191-2a5d-4d1a-8c9a-4ac775cd614a",
+        "createdAt": "2026-08-10T13:33:49.842Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "ef7aeacb-3251-4940-9d37-b67f20e772f2",
+        "createdAt": "2026-08-10T13:33:50.150Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "abee7252-391e-4ddd-8952-acbcf2af0ed6",
+        "createdAt": "2026-08-10T13:33:50.750Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "f8f33cf3-d771-4df2-b795-13a2f9b13bd5",
+        "createdAt": "2026-08-10T13:33:51.364Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "cf7e8f11-94ac-419a-bf1a-dc9cda8405c5",
+        "createdAt": "2026-08-10T13:33:51.660Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "375f941b-a38f-4b8e-a5e8-7f6357b5886f",
+        "createdAt": "2026-08-10T13:33:51.970Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "14925992-edf5-4590-b19c-ec64a3f68277",
+        "createdAt": "2026-08-10T13:33:52.281Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "da071007-b97a-4ec7-b624-acb5d29a28d6",
+        "subjectId": "c090c6b1-00cc-49f8-93f4-0d622f61f5d3",
+        "createdAt": "2026-08-10T13:33:52.604Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:33:52.922Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:33:53.245Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:33:53.562Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:33:53.883Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:33:54.185Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:33:54.482Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:33:54.783Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:33:55.086Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:33:55.399Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:33:55.709Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:33:56.019Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:33:56.337Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:33:56.638Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:33:56.942Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:33:57.264Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "dda64fdf-b205-43c6-b92a-4103213ab723",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:33:57.578Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:33:57.870Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:33:58.182Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:33:58.482Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:33:58.812Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:33:59.104Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:33:59.408Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:33:59.715Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:00.017Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:00.309Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:00.616Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:01.176Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:01.470Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:01.765Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:02.062Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:02.356Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "86127816-9e89-4c57-bc25-1de0cbc8bda7",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:02.673Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:02.987Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:34:03.592Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:34:04.018Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:34:04.331Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:34:04.647Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:34:04.951Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:34:05.257Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:05.563Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:06.168Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:06.462Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:06.781Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:07.072Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:07.369Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:07.672Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:07.973Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "ff58d17a-d715-4a68-8aa0-603b8c865f35",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:08.298Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:08.614Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:34:08.913Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:34:09.211Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:34:09.513Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:34:09.899Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:34:10.201Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:34:10.498Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:10.806Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:11.118Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:11.419Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:12.451Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:12.758Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:13.053Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:13.351Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:13.647Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c1b45d62-2b37-4d2e-9ee9-17b6726ea385",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:13.963Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:14.264Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:34:14.868Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:34:15.175Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:34:15.470Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:34:15.787Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:34:16.082Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:34:16.386Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:16.705Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:17.018Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:17.435Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:17.998Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:18.291Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:18.784Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:22.853Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:23.164Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "09def474-0ea2-49f4-8b90-07fb5cb9c955",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:23.467Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:23.768Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:34:24.094Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:34:24.398Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:34:24.723Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:34:25.027Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:34:25.328Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:34:25.647Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:25.959Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:26.263Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:26.567Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:26.882Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:27.176Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:27.487Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:27.796Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:28.090Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "61c8b5f4-04cd-40ee-be0f-b91c6aedc7a2",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:28.390Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:28.690Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:34:28.988Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:34:29.300Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:34:29.627Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:34:29.927Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:34:30.257Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:34:30.556Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:30.854Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:31.166Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:31.474Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:31.780Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:32.093Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:32.398Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:32.706Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:33.014Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c33731db-6ede-4ecb-8469-98d10273dd55",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:33.331Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:33.631Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:34:33.920Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:34:34.233Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:34:34.537Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:34:35.297Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:34:35.615Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:34:35.919Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:36.235Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:36.541Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:37.347Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:37.638Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:37.942Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:38.261Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:38.553Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:38.850Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "89e00e22-fb70-4122-96b0-a02b4afec802",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:39.160Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:39.475Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:34:39.787Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:34:40.142Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:34:40.439Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:34:40.750Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:34:41.057Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:34:41.356Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:41.666Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:41.966Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:42.269Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:42.571Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:42.864Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:43.158Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:43.472Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:43.771Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "aca1046c-f368-4efa-a67e-dc361592e6ff",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:44.076Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:44.374Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:34:44.674Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:34:44.970Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:34:45.270Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:34:45.582Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:34:45.873Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:34:46.175Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:46.469Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:46.775Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:47.077Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:47.397Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:47.699Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:48.014Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:48.321Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:49.331Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "c9a6666a-8688-4b6f-895c-1408882ab8b7",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:49.633Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:49.933Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:34:50.260Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:34:50.563Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:34:50.871Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:34:51.180Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:34:51.479Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:34:51.767Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:52.064Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:52.362Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:52.672Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:52.974Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:53.292Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:53.599Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:53.897Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:54.304Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "1c20a7c3-5e3f-4f6d-91ea-4fdf0009f45d",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:54.599Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:54.907Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:34:55.215Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:34:55.507Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:34:55.818Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:34:56.111Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:34:56.428Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:34:56.735Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:34:57.051Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:34:57.350Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:34:57.658Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:34:57.949Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:34:58.263Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:34:58.566Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:34:58.873Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:34:59.174Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "0c04354e-fb42-4f59-9f82-10c07d2bd006",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:34:59.494Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:34:59.807Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:35:00.114Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:35:00.433Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:35:00.742Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:35:01.054Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:35:01.354Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:35:01.673Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:35:01.987Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:35:02.283Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:35:02.624Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:35:02.942Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:35:03.251Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:35:03.548Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:35:03.845Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:35:04.150Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "3e3fbf6d-5bc7-4614-ac1e-af4a4fc365f5",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:35:04.463Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:35:04.779Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:35:05.075Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:35:05.391Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:35:05.728Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:35:06.042Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:35:06.353Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:35:06.667Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:35:07.463Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:35:07.784Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:35:08.075Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:35:08.370Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:35:08.681Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:35:08.985Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:35:09.291Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:35:09.611Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "2c738eb0-5c76-4622-9887-803d9e45b69d",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:35:09.980Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:35:10.318Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:35:10.632Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:35:10.939Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:35:11.255Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:35:11.566Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:35:11.869Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:35:12.176Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:35:13.055Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:35:13.358Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:35:13.674Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:35:13.987Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:35:14.319Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:35:14.637Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:35:14.944Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:35:15.262Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "9b586fe4-f3aa-4d31-a87a-ef7fb834b1d9",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:35:15.574Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-10T13:35:15.875Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "2328b145-c554-4cd0-9bee-0f507c7da76f",
+        "createdAt": "2026-08-10T13:35:16.179Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "38f18a8b-5a11-4a9f-ad49-41a377009404",
+        "createdAt": "2026-08-10T13:35:16.478Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-10T13:35:16.778Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "82eaf204-0f94-4fbf-8b64-95c04ec9c166",
+        "createdAt": "2026-08-10T13:35:17.092Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "b22e5337-6718-428c-96fd-784eee912b1c",
+        "createdAt": "2026-08-10T13:35:17.411Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "9a852d11-7388-41f1-ae41-5a703f52c60c",
+        "createdAt": "2026-08-10T13:35:17.731Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "0d2eb764-d854-4014-b7e6-3de4144a4447",
+        "createdAt": "2026-08-10T13:35:18.038Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-10T13:35:18.346Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "b3521c67-973c-4b94-8ba8-88abb005eea1",
+        "createdAt": "2026-08-10T13:35:18.640Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "e9360b25-bd0f-471a-820f-30a08269b8c9",
+        "createdAt": "2026-08-10T13:35:18.947Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "37141877-76d6-403f-aa54-9c2c40477fc9",
+        "createdAt": "2026-08-10T13:35:19.278Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "23eb1ab9-70ea-4922-ae12-69d47c19c4d1",
+        "createdAt": "2026-08-10T13:35:19.576Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "eb89a650-0ff5-4554-b5ed-f2eb472b6dfd",
+        "createdAt": "2026-08-10T13:35:19.878Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "4f2260c7-6e6f-4673-b527-499728f35f80",
+        "createdAt": "2026-08-10T13:35:20.190Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "e3b4ec5a-5b15-4ac8-ae6e-7b4ffe70045e",
+        "subjectId": "0dff4ee9-67ff-4576-a3a1-0ab3b1ccef18",
+        "createdAt": "2026-08-10T13:35:20.506Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "36f48ae1-e32e-4d56-a2eb-40152b668f1f",
+        "createdAt": "2026-08-15T11:04:00.765Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "1b16cab5-98b2-4aa8-8cb7-495bea9fe75a",
+        "createdAt": "2026-08-15T20:27:09.536Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      },
+      {
+        "classId": "531ec7fb-a7db-4ab4-a696-99b1e90f3f93",
+        "subjectId": "9525fc4f-8f71-4d8b-b28d-a218f9c2cf99",
+        "createdAt": "2026-08-15T20:27:09.536Z",
+        "termId": "8e46e8ce-ffcc-45df-985d-f72c3a83d281"
+      }
+    ],
+    "SubjectAssignment": [],
+    "Schedule": [],
+    "Enrollment": [],
+    "Attendance": [],
+    "BehavioralRating": [],
+    "NurseryAssessment": [],
+    "Result": [],
+    "StudentTermRemark": [],
+    "Bill": [
+      {
+        "id": "c5c4f725-e02a-4ff6-bf86-970de846eea6",
+        "name": "Tuition fee",
+        "amount": 100000,
+        "academicYear": "2026/2027",
+        "term": "FIRST_TERM",
+        "isCompulsory": true,
+        "scope": "ALL_STUDENTS",
+        "intakeType": "CONTINUING",
+        "createdAt": "2026-08-12T09:20:52.170Z",
+        "updatedAt": "2026-08-12T09:20:52.170Z"
+      }
+    ],
+    "BillClass": [],
+    "BillStudent": [],
+    "Invoice": [],
+    "Payment": [],
+    "BookPrice": [],
+    "Expense": [
+      {
+        "id": "9a45413d-0ace-426a-87cb-f3744974dd90",
+        "category": "UTILITIES",
+        "amount": 16000,
+        "description": "purchase made by chika",
+        "date": "2026-08-12T00:00:00.000Z",
+        "createdAt": "2026-08-12T12:42:03.889Z"
+      }
+    ],
+    "IncomeRecord": [],
+    "Communication": [],
+    "CommunicationRead": [],
+    "PromotionRun": [],
+    "PromotionLog": [],
+    "AuditLog": [],
+    "AdmissionNumberPool": [],
+    "Supplier": [],
+    "InventoryItem": [],
+    "StockIn": [],
+    "StockOut": [],
+    "RateLimitHit": []
+  }
+}

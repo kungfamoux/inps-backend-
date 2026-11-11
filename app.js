@@ -23,6 +23,7 @@ const adminClassRouter = require("./admin_portal/routes/adminClassRoutes.js");
 const adminParentRouter = require("./admin_portal/routes/adminParentRoutes.js");
 const adminDashboardRouter = require("./admin_portal/routes/adminDashboardRoutes.js");
 const searchRouter = require("./admin_portal/routes/searchRoutes.js");
+const healthRouter = require("./health_portal/routes/healthRoutes.js");
 const logger = require("./utils/logger");
 const requestLogger = require("./middleware/logger");
 const { requestId } = require("./middleware/requestId");
@@ -112,6 +113,7 @@ app.use("/api/admin/classes", adminClassRouter);
 app.use("/api/admin/parents", adminParentRouter);
 app.use("/api/admin/dashboard", adminDashboardRouter);
 app.use("/api/search", searchRouter);
+app.use("/api/health", healthRouter);
 
 app.use(notFound);
 app.use(errorHandler);

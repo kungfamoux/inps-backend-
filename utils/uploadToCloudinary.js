@@ -37,6 +37,22 @@ const storage = new CloudinaryStorage({
 			folder = "inps/payments/proof";
 		}
 
+		if (file.fieldname === "listImage") {
+			folder = "inps/health/drug-requests";
+		}
+
+		if (file.fieldname === "invoiceImage") {
+			folder = "inps/health/invoices";
+		}
+
+		if (file.fieldname === "receiptImage") {
+			folder = "inps/health/receipts";
+		}
+
+		if (file.fieldname === "dailyVisitorLog") {
+			folder = "inps/health/daily-logs";
+		}
+
 		return {
 			folder,
 			resource_type: "auto",

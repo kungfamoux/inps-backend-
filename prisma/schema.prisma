@@ -107,6 +107,8 @@ model Staff {
   subjectAssignments SubjectAssignment[]
   financialRecord    StaffFinancial?
   recordedPayments   Payment[]      @relation("PaymentRecorder")
+  drugRequests       DrugRequest[]
+  sickbayVisits      SickbayVisit[]
 }
 
 model StaffFinancial {
@@ -240,6 +242,7 @@ model Student {
   storeIssuances     StockOut[]
   parent             Parent?             @relation(fields: [parentId], references: [id])
   termRemarks        StudentTermRemark[]
+  sickbayVisits      SickbayVisit[]
 }
 
 model Subject {
@@ -593,6 +596,49 @@ model CommunicationRead {
   parent          Parent        @relation(fields: [parentId], references: [id])
 
   @@unique([communicationId, parentId])
+}
+
+model DrugRequest {
+  id          String            @id @default(uuid())
+  nurseId     String
+  requestDate DateTime          @default(now())
+  listImage   String            // Cloudinary public_id
+  status      DrugRequestStatus @default(PENDING)
+  notes       String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  nurse       Staff             @relation(fields: [nurseId], references: [id])
+  purchases   DrugPurchase[]
+}
+
+model DrugPurchase {
+  id            String   @id @default(uuid())
+  requestId     String
+  purchaseDate  DateTime @default(now())
+  invoiceImage  String   // Cloudinary public_id
+  receiptImage  String   // Cloudinary public_id
+  amount        Float?
+  supplier      String?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  request       DrugRequest @relation(fields: [requestId], references: [id])
+}
+
+model SickbayVisit {
+  id         String   @id @default(uuid())
+  studentId  String
+  nurseId    String
+  visitDate  DateTime @default(now())
+  symptoms   String
+  treatment  String
+  medication String?
+  notes      String?
+  dailyImage String?  // Cloudinary public_id - daily sickbay visitor log
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  student    Student  @relation(fields: [studentId], references: [id])
+  nurse      Staff    @relation(fields: [nurseId], references: [id])
 }
 
 model PromotionRun {
@@ -972,4 +1018,10 @@ enum AnnouncementCategory {
   GENERAL
   URGENT
   CLASS_UPDATE
+}
+
+enum DrugRequestStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
 }

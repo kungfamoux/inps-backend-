@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INPS Student Registration Form</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+            color: #2c3e50;
+        }
+        
+        .header p {
+            font-size: 11px;
+            margin: 5px 0;
+            color: #666;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        .section h2 {
+            font-size: 14px;
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 8px;
+        }
+        
+        .section h3 {
+            font-size: 12px;
+            margin: 15px 0 10px 0;
+            color: #34495e;
+            font-weight: bold;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 11px;
+        }
+        
+        .form-group label.required::after {
+            content: " *";
+            color: red;
+        }
+        
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 11px;
+            box-sizing: border-box;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .help-text {
+            font-size: 10px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .declaration {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px solid #333;
+            background-color: #fff;
+        }
+        
+        .signature-area {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .signature-item {
+            margin-bottom: 15px;
+        }
+        
+        .signature-item label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .signature-line {
+            border-bottom: 1px solid #333;
+            height: 30px;
+            margin-top: 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 10px;
+            color: #666;
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+        }
+        
+        @media print {
+            body {
+                font-size: 11px;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+            }
+            
+            .signature-area {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>INPS STUDENT REGISTRATION FORM</h1>
+        <p>International Nursery & Primary School</p>
+        <p>Please complete this form and submit to the school administration</p>
+        <p><strong>Academic Year:</strong> _______________   <strong>Date:</strong> _______________</p>
+    </div>
+
+    <div class="section">
+        <h2>STUDENT INFORMATION</h2>
+        
+        <h3>Personal Information</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="required">First Name</label>
+                <input type="text" name="firstName">
+            </div>
+            <div class="form-group">
+                <label class="required">Last Name</label>
+                <input type="text" name="lastName">
+            </div>
+            <div class="form-group">
+                <label class="required">Middle Name</label>
+                <input type="text" name="middleName">
+            </div>
+            <div class="form-group">
+                <label class="required">Gender</label>
+                <select name="gender">
+                    <option value="">Select Gender</option>
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="required">Date of Birth</label>
+                <input type="date" name="dateOfBirth">
+            </div>
+            <div class="form-group">
+                <label class="required">Admission Date</label>
+                <input type="date" name="admissionDate">
+            </div>
+        </div>
+
+        <h3>Additional Information</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="required">Nationality</label>
+                <input type="text" name="nationality">
+            </div>
+            <div class="form-group">
+                <label class="required">State</label>
+                <input type="text" name="state">
+            </div>
+            <div class="form-group">
+                <label class="required">LGA</label>
+                <input type="text" name="lga">
+            </div>
+            <div class="form-group">
+                <label class="required">Religion</label>
+                <select name="religion">
+                    <option value="">Select Religion</option>
+                    <option value="Christianity">Christianity</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Traditional">Traditional</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="required">Health Information</label>
+                <input type="text" name="healthInfo" placeholder="Any medical conditions or allergies">
+            </div>
+            <div class="form-group">
+                <label class="required">Blood Group</label>
+                <select name="bloodGroup">
+                    <option value="">Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="required">Student Type</label>
+                <select name="studentType">
+                    <option value="">Select Type</option>
+                    <option value="Day">Day</option>
+                    <option value="Boarding">Boarding</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="required">Sport House</label>
+                <select name="sportHouse">
+                    <option value="">Select House</option>
+                    <option value="Red">Red</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="Yellow">Yellow</option>
+                    <option value="Purple">Purple</option>
+                    <option value="Orange">Orange</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>ACCOUNT INFORMATION</h2>
+        <p class="help-text">These credentials will be used for parent portal login</p>
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="required">Account Email</label>
+                <input type="email" name="accountEmail">
+            </div>
+            <div class="form-group">
+                <label class="required">Account Phone</label>
+                <input type="tel" name="accountPhone">
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>PRIMARY GUARDIAN (ACCOUNT HOLDER)</h2>
+        <p class="help-text">This guardian will receive portal login credentials, invoices, and SMS alerts</p>
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="required">Relationship</label>
+                <select name="primaryGuardian.relationship">
+                    <option value="">Select Relationship</option>
+                    <option value="Father">Father</option>
+                    <option value="Mother">Mother</option>
+                    <option value="Guardian">Guardian</option>
+                    <option value="Uncle">Uncle</option>
+                    <option value="Aunt">Aunt</option>
+                    <option value="Grandparent">Grandparent</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Title</label>
+                <select name="primaryGuardian.title">
+                    <option value="">Select Title</option>
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Ms.">Ms.</option>
+                    <option value="Dr.">Dr.</option>
+                    <option value="Chief">Chief</option>
+                    <option value="Engr.">Engr.</option>
+                    <option value="Pastor">Pastor</option>
+                    <option value="Imam">Imam</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="required">First Name</label>
+                <input type="text" name="primaryGuardian.firstName">
+            </div>
+            <div class="form-group">
+                <label class="required">Last Name</label>
+                <input type="text" name="primaryGuardian.lastName">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" name="primaryGuardian.phone">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="primaryGuardian.email">
+            </div>
+            <div class="form-group">
+                <label>Occupation</label>
+                <input type="text" name="primaryGuardian.occupation">
+            </div>
+            <div class="form-group full-width">
+                <label>Address</label>
+                <input type="text" name="primaryGuardian.address">
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>SECONDARY GUARDIAN (OPTIONAL)</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="required">Relationship</label>
+                <select name="secondaryGuardian.relationship">
+                    <option value="">Select Relationship</option>
+                    <option value="Father">Father</option>
+                    <option value="Mother">Mother</option>
+                    <option value="Guardian">Guardian</option>
+                    <option value="Uncle">Uncle</option>
+                    <option value="Aunt">Aunt</option>
+                    <option value="Grandparent">Grandparent</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="required">First Name</label>
+                <input type="text" name="secondaryGuardian.firstName">
+            </div>
+            <div class="form-group">
+                <label class="required">Last Name</label>
+                <input type="text" name="secondaryGuardian.lastName">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" name="secondaryGuardian.phone">
+            </div>
+            <div class="form-group">
+                <label class="required">Email Address</label>
+                <input type="email" name="secondaryGuardian.email">
+            </div>
+            <div class="form-group">
+                <label class="required">Occupation</label>
+                <input type="text" name="secondaryGuardian.occupation">
+            </div>
+            <div class="form-group full-width">
+                <label class="required">Address</label>
+                <input type="text" name="secondaryGuardian.address">
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>HOUSEHOLD INFORMATION</h2>
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label class="required">Residential Address</label>
+                <input type="text" name="address">
+            </div>
+            <div class="form-group">
+                <label>Marital Status</label>
+                <select name="maritalStatus">
+                    <option value="">Select Status</option>
+                    <option value="MARRIED">Married</option>
+                    <option value="SINGLE">Single</option>
+                    <option value="DIVORCED">Divorced</option>
+                    <option value="WIDOWED">Widowed</option>
+                    <option value="SEPARATED">Separated</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>MEDICAL INFORMATION & EMERGENCY CONTACTS</h2>
+        <div class="form-group full-width">
+            <label>Important Medical Information</label>
+            <textarea name="medicalInfo" placeholder="Please provide any important medical information, allergies, or conditions"></textarea>
+        </div>
+        
+        <h3>Emergency Contact 1</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="emergencyContact1.name">
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" name="emergencyContact1.phone">
+            </div>
+            <div class="form-group">
+                <label>Relationship</label>
+                <input type="text" name="emergencyContact1.relationship">
+            </div>
+        </div>
+        
+        <h3>Emergency Contact 2</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="emergencyContact2.name">
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" name="emergencyContact2.phone">
+            </div>
+            <div class="form-group">
+                <label>Relationship</label>
+                <input type="text" name="emergencyContact2.relationship">
+            </div>
+        </div>
+    </div>
+
+    <div class="declaration">
+        <h2>DECLARATION</h2>
+        <p>I hereby declare that the information provided above is true and correct to the best of my knowledge.</p>
+        <p>I understand that any false information may result in the rejection of this application.</p>
+        
+        <div class="signature-area">
+            <div class="signature-item">
+                <label>Parent/Guardian Signature</label>
+                <div class="signature-line"></div>
+            </div>
+            <div class="signature-item">
+                <label>Date</label>
+                <div class="signature-line"></div>
+            </div>
+            <div class="signature-item">
+                <label>School Official Signature</label>
+                <div class="signature-line"></div>
+            </div>
+            <div class="signature-item">
+                <label>Date</label>
+                <div class="signature-line"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>INPS - International Nursery & Primary School</strong></p>
+        <p>Contact: info@inpse.com | Phone: +234 XXX XXX XXXX</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="window.print()" style="padding: 10px 20px; font-size: 14px; cursor: pointer;">Print Form</button>
+    </div>
+</body>
+</html>
