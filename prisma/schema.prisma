@@ -815,6 +815,7 @@ enum StaffRole {
   CLEANERS
   SECURITY
   OTHERS
+  PROPRIETOR
 }
 
 enum MaritalStatus {

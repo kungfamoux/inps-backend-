@@ -137,7 +137,7 @@ router.post(
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.get("/sessions", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER', 'BURSARY', 'NURSE']), getAllSessions);
+router.get("/sessions", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER', 'BURSARY', 'NURSE', 'PROPRIETOR']), getAllSessions);
 
 /**
  * @swagger
@@ -173,7 +173,7 @@ router.get("/sessions", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER', 'TE
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.get("/sessions/current", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER', 'BURSARY', 'NURSE']), getCurrentSession);
+router.get("/sessions/current", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER', 'BURSARY', 'NURSE', 'PROPRIETOR']), getCurrentSession);
 
 /**
  * @swagger
@@ -254,7 +254,7 @@ router.get("/sessions/:id", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER',
 router.get(
 	"/sessions/:id/terms",
 	authenticate,
-	requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER', 'BURSARY', 'NURSE']),
+	requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER', 'BURSARY', 'NURSE', 'PROPRIETOR']),
 	getTermsBySession,
 );
 
@@ -436,7 +436,7 @@ router.post(
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.get("/terms/current", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER', 'BURSARY', 'NURSE']), getCurrentTerm);
+router.get("/terms/current", authenticate, requireRoles(['ADMIN', 'HEAD_TEACHER', 'TEACHER', 'BURSARY', 'NURSE', 'PROPRIETOR']), getCurrentTerm);
 
 /**
  * @swagger
