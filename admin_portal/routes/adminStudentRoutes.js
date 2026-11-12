@@ -15,7 +15,7 @@ const {
 	checkNearMatches,
 } = require("../controller/AdminStudentController");
 
-const { authenticate, requireAdmin, validate } = require("../../middleware");
+const { authenticate, requireAdmin, requireRoles, validate } = require("../../middleware");
 
 const { upload } = require("../../utils/uploadToCloudinary");
 
@@ -219,7 +219,7 @@ router.post(
 router.get(
 	"/",
 	authenticate,
-	requireAdmin,
+	requireRoles(["ADMIN", "HEAD_TEACHER", "PROPRIETOR"]),
 	validate(getAllStudentsQuerySchema, "query"),
 	getAllStudents,
 );

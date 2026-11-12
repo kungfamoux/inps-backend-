@@ -9,7 +9,7 @@ const {
 	deleteParent,
 } = require("../controller/AdminParentController");
 
-const { authenticate, requireAdmin, validate } = require("../../middleware");
+const { authenticate, requireAdmin, requireRoles, validate } = require("../../middleware");
 const {
 	createParentSchema,
 	updateParentSchema,
@@ -78,7 +78,7 @@ const {
 router.get(
 	"/",
 	authenticate,
-	requireAdmin,
+	requireRoles(["ADMIN", "HEAD_TEACHER", "PROPRIETOR"]),
 	validate(getAllParentsQuerySchema, "query"),
 	getAllParents,
 );
