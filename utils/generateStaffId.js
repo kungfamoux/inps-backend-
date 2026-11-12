@@ -14,6 +14,7 @@ const ROLE_ABBREVIATIONS = {
 	CLEANERS: "CLN",
 	SECURITY: "SEC",
 	OTHERS: "OTH",
+	PROPRIETOR: "PRO",
 };
 
 /**
