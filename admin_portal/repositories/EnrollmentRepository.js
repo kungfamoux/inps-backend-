@@ -1,5 +1,24 @@
 const prisma = require("../../lib/prisma");
 
+// Level progression for automatic promotion
+const LEVEL_SEQUENCE = {
+  "DAYCARE": "PRENURSERY",
+  "PRENURSERY": "NURSERY_1",
+  "NURSERY_1": "NURSERY_2",
+  "NURSERY_2": "NURSERY_3",
+  "NURSERY_3": "PRIMARY_1",
+  "PRIMARY_1": "PRIMARY_2",
+  "PRIMARY_2": "PRIMARY_3",
+  "PRIMARY_3": "PRIMARY_4",
+  "PRIMARY_4": "PRIMARY_5",
+  "PRIMARY_5": null, // Skip - manual handling
+  "PRIMARY_6": "GRADUATED",
+};
+
+function getNextLevel(currentLevel) {
+  return LEVEL_SEQUENCE[currentLevel];
+}
+
 const enrollStudent = (data, db = prisma) => db.enrollment.create({ data });
 
 const enrollStudentWithCount = async (data, db = prisma) => {
@@ -317,6 +336,205 @@ const findEnrollmentByStudentAndTerm = (studentId, academicYear, term, db = pris
 		},
 	});
 
+// PROMOTION
+
+const findActiveStudentsForSession = async (sessionName, db = prisma) => {
+	const session = await db.academicSession.findUnique({
+		where: { session: sessionName },
+	});
+
+	if (!session) return [];
+
+	return db.student.findMany({
+		where: {
+			status: "ACTIVE",
+			deletedAt: null,
+			enrollments: {
+				some: { sessionId: session.id },
+			},
+		},
+	});
+};
+
+const findResultsByStudentIdsAndSession = async (studentIds, sessionId, db = prisma) => {
+	const results = await db.result.findMany({
+		where: {
+			studentId: { in: studentIds },
+			sessionId,
+		},
+	});
+
+	const resultsByStudent = new Map();
+	for (const result of results) {
+		if (!resultsByStudent.has(result.studentId)) {
+			resultsByStudent.set(result.studentId, []);
+		}
+		resultsByStudent.get(result.studentId).push(result);
+	}
+	return resultsByStudent;
+};
+
+const findPromotionRunBySession = (sessionId, db = prisma) =>
+	db.promotionRun.findUnique({
+		where: { sessionId },
+	});
+
+const promoteStudentsToNextSession = async (sessionId, staffId) => {
+	return prisma.$transaction(async (tx) => {
+		// Get session with next session year
+		const session = await tx.academicSession.findUnique({
+			where: { id: sessionId },
+			include: { terms: true },
+		});
+
+		if (!session) throw new Error("Session not found");
+
+		// Calculate next session year (e.g., 2024/2025 → 2025/2026)
+		const [startYear] = session.session.split('/');
+		const nextSessionYear = `${parseInt(startYear) + 1}/${parseInt(startYear) + 2}`;
+
+		// Check if next session exists, create if not
+		let nextSession = await tx.academicSession.findUnique({
+			where: { session: nextSessionYear },
+		});
+
+		if (!nextSession) {
+			nextSession = await tx.academicSession.create({
+				data: {
+					session: nextSessionYear,
+					status: "UPCOMING",
+				},
+			});
+		}
+
+		// Create promotion run
+		const promotionRun = await tx.promotionRun.create({
+			data: {
+				sessionId,
+				staffId,
+				status: "COMPLETED",
+				completedAt: new Date(),
+			},
+		});
+
+		// Get all active students with their current enrollments
+		const students = await tx.student.findMany({
+			where: { status: "ACTIVE", deletedAt: null },
+			include: {
+				enrollments: {
+					where: { sessionId },
+					include: { class: true },
+				},
+			},
+		});
+
+		let promotedCount = 0;
+		let graduatedCount = 0;
+		let skippedCount = 0;
+
+		for (const student of students) {
+			const currentEnrollment = student.enrollments[0];
+			const currentLevel = currentEnrollment?.class?.level;
+
+			if (!currentLevel) continue;
+
+			const nextLevel = getNextLevel(currentLevel);
+
+			// Skip Primary 5 for manual handling
+			if (currentLevel === "PRIMARY_5") {
+				skippedCount++;
+				await tx.promotionLog.create({
+					data: {
+						promotionRunId: promotionRun.id,
+						studentId: student.id,
+						fromLevel: currentLevel,
+						toLevel: currentLevel,
+						promoted: false,
+						reason: "Manual handling required",
+					},
+				});
+				continue;
+			}
+
+			// Graduate Primary 6
+			if (nextLevel === "GRADUATED") {
+				await tx.student.update({
+					where: { id: student.id },
+					data: { status: "GRADUATED" },
+				});
+
+				await tx.promotionLog.create({
+					data: {
+						promotionRunId: promotionRun.id,
+						studentId: student.id,
+						fromLevel: currentLevel,
+						toLevel: "GRADUATED",
+						promoted: true,
+					},
+				});
+
+				graduatedCount++;
+				continue;
+			}
+
+			// Normal promotion - find next class
+			const nextClass = await tx.class.findFirst({
+				where: { level: nextLevel, status: "ACTIVE" },
+			});
+
+			if (!nextClass) {
+				await tx.promotionLog.create({
+					data: {
+						promotionRunId: promotionRun.id,
+						studentId: student.id,
+						fromLevel: currentLevel,
+						toLevel: nextLevel,
+						promoted: false,
+						reason: "No active class found for next level",
+					},
+				});
+				continue;
+			}
+
+			// Create new enrollment for next session
+			await tx.enrollment.create({
+				data: {
+					studentId: student.id,
+					classId: nextClass.id,
+					academicYear: nextSessionYear,
+					term: "FIRST_TERM",
+					status: "PENDING",
+				},
+			});
+
+			// Update class enrollment count
+			await tx.class.update({
+				where: { id: nextClass.id },
+				data: { currentEnrollment: { increment: 1 } },
+			});
+
+			await tx.promotionLog.create({
+				data: {
+					promotionRunId: promotionRun.id,
+					studentId: student.id,
+					fromLevel: currentLevel,
+					toLevel: nextLevel,
+					promoted: true,
+				},
+			});
+
+			promotedCount++;
+		}
+
+		return {
+			promoted: promotedCount,
+			graduated: graduatedCount,
+			skipped: skippedCount,
+			total: students.length,
+		};
+	});
+};
+
 module.exports = {
 	enrollStudent,
 	enrollStudentWithCount,
@@ -334,4 +552,8 @@ module.exports = {
 	countPendingEnrollmentsByClass,
 	findEnrollmentById,
 	findEnrollmentByStudentAndTerm,
+	findActiveStudentsForSession,
+	findResultsByStudentIdsAndSession,
+	findPromotionRunBySession,
+	promoteStudentsToNextSession,
 };

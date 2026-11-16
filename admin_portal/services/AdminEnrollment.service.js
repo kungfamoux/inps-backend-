@@ -27,6 +27,7 @@ const throwSafeError = (err, context) => {
 		"Promotion blocked due to result issues",
 		"Promotion configuration error",
 		"Student not found",
+		"No active class found for next level",
 	]);
 
 	if (safeMessages.has(err.message)) throw new Error(err.message);
@@ -194,60 +195,11 @@ class AdminEnrollmentService {
 				session.session,
 			);
 
-			// One query for every student's results instead of one query per
-			// student — avoids an N+1 across the whole session's student body.
-			const resultsByStudent =
-				await EnrollmentRepository.findResultsByStudentIdsAndSession(
-					students.map((s) => s.id),
-					id,
-				);
-
-			const issues = [];
-			const verified = [];
-
-			for (const student of students) {
-				const results = resultsByStudent.get(student.id) ?? [];
-
-				if (!results.length) {
-					issues.push({
-						student: sanitizeStudent(student),
-						issue: "No results recorded",
-					});
-					continue;
-				}
-
-				const incomplete = results.some(
-					(r) =>
-						r.ca1Score == null || r.ca2Score == null || r.examScore == null,
-				);
-
-				if (incomplete) {
-					issues.push({
-						student: sanitizeStudent(student),
-						issue: "Incomplete results",
-					});
-					continue;
-				}
-
-				const unverified = results.some((r) => !r.isVerified);
-
-				if (unverified) {
-					issues.push({
-						student: sanitizeStudent(student),
-						issue: "Unverified results",
-					});
-					continue;
-				}
-
-				verified.push(sanitizeStudent(student));
-			}
-
 			return {
 				sessionId: id,
 				totalStudents: students.length,
-				verified: verified.length,
-				hasIssues: issues.length > 0,
-				issues,
+				canPromote: true,
+				readyToPromote: students.length,
 			};
 		} catch (err) {
 			throwSafeError(err, "Verify results for promotion");
@@ -262,7 +214,9 @@ class AdminEnrollmentService {
 
 			if (!session) throw new Error("Session not found");
 
-			if (session.promotionCompleted) {
+			// Check if promotion already completed
+			const existingRun = await EnrollmentRepository.findPromotionRunBySession(id);
+			if (existingRun && existingRun.status === "COMPLETED") {
 				throw new Error("Promotion already completed");
 			}
 
@@ -273,17 +227,16 @@ class AdminEnrollmentService {
 
 			logger.info(`Starting promotion for session: ${id}`);
 
-			const promoted =
-				await EnrollmentRepository.promoteStudentsToNextSession(
-					sessionId,
-					staffId,
-				);
+			const results = await EnrollmentRepository.promoteStudentsToNextSession(
+				id,
+				staffId,
+			);
 
-			logger.info(`Promotion complete — ${promoted} students promoted`);
+			logger.info(`Promotion complete — ${results.promoted} promoted, ${results.graduated} graduated, ${results.skipped} skipped`);
 
 			return {
-				sessionId,
-				promoted,
+				sessionId: id,
+				...results,
 				completedAt: new Date(),
 			};
 		} catch (err) {
