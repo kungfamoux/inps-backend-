@@ -145,8 +145,11 @@ const downloadClassListPDF = async (req, res, next) => {
 		const { id } = req.params;
 		const { academicYear, term } = req.query;
 
+		console.log('[DEBUG PDF] Request params:', { id, academicYear, term });
+
 		// Get class details
 		const classData = await AdminClassService.getClassById(id);
+		console.log('[DEBUG PDF] Class data:', classData);
 
 		// Get students in the class
 		const studentsData = await AdminClassService.getStudentsByClass(id, {
@@ -154,6 +157,8 @@ const downloadClassListPDF = async (req, res, next) => {
 			academicYear: academicYear || '2026/2027',
 			term: term || 'FIRST_TERM',
 		});
+		console.log('[DEBUG PDF] Students data:', JSON.stringify(studentsData, null, 2));
+		console.log('[DEBUG PDF] Students array length:', studentsData?.length || 0);
 
 		// Generate PDF
 		const pdfBuffer = await PDFService.generateClassListPDF(
@@ -162,7 +167,7 @@ const downloadClassListPDF = async (req, res, next) => {
 				academicYear: academicYear || '2026/2027',
 				term: term || 'FIRST_TERM',
 			},
-			studentsData.data || []
+			studentsData || []
 		);
 
 		// Set response headers
@@ -176,6 +181,7 @@ const downloadClassListPDF = async (req, res, next) => {
 		// Send PDF
 		return res.send(pdfBuffer);
 	} catch (error) {
+		console.error('[DEBUG PDF] Error:', error);
 		return next(error);
 	}
 };

@@ -1,5 +1,11 @@
+const fs = require('fs');
 const PDFDocument = require('pdfkit');
 const logger = require('../../utils/logger');
+
+const PAGE_MARGIN = 50;
+const TABLE_WIDTH = 495; // A4 (595.28pt) minus 50pt left and 50pt right margins
+const COL_WIDTHS = [50, 120, 265, 60]; // S/N, Admission No, Name, Gender
+const HEADERS = ['S/N', 'Admission No', 'Name', 'Gender'];
 
 /**
  * PDF Service for generating various PDF documents
@@ -10,14 +16,19 @@ class PDFService {
 	 * @param {object} classData - Class information
 	 * @param {array} students - Array of students in the class
 	 * @param {object} options - Options for PDF generation
-	 * @returns {Buffer} - PDF buffer
+	 * @returns {Promise<Buffer>} - PDF buffer
 	 */
-	static generateClassListPDF(classData, students, options = {}) {
+	static generateClassListPDF(classData = {}, students = [], options = {}) {
 		return new Promise((resolve, reject) => {
 			try {
 				const doc = new PDFDocument({
-					size: 'A4',
-					margins: { top: 50, bottom: 50, left: 50, right: 50 },
+					size: options.size || 'A4',
+					margins: {
+						top: PAGE_MARGIN,
+						bottom: PAGE_MARGIN,
+						left: PAGE_MARGIN,
+						right: PAGE_MARGIN,
+					},
 				});
 
 				const chunks = [];
@@ -25,19 +36,11 @@ class PDFService {
 				doc.on('end', () => resolve(Buffer.concat(chunks)));
 				doc.on('error', reject);
 
-				// Add font (using default fonts for now)
 				doc.font('Helvetica');
 
-				// Header
 				this.addHeader(doc, classData);
-
-				// Table header
 				this.addTableHeader(doc);
-
-				// Student rows
-				this.addStudentRows(doc, students);
-
-				// Footer
+				this.addStudentRows(doc, students, classData);
 				this.addFooter(doc, students.length);
 
 				doc.end();
@@ -49,116 +52,184 @@ class PDFService {
 	}
 
 	/**
-	 * Add header to PDF
+	 * Add organized school and class header to PDF
 	 */
-	static addHeader(doc, classData) {
-		// School name (would be configurable in production)
-		doc.fontSize(20)
+	static addHeader(doc, classData = {}) {
+		const startX = PAGE_MARGIN;
+		const headerTop = doc.y;
+		const className = classData.name || 'N/A';
+		const academicYear = classData.academicYear || '2026/2027';
+		const term = classData.term || 'FIRST TERM';
+		const generatedDate = new Date().toLocaleDateString();
+
+		// Optional logo on top-left if file exists
+		let textStartX = startX;
+		let textWidth = TABLE_WIDTH;
+		if (classData.logoPath && fs.existsSync(classData.logoPath)) {
+			const logoSize = 48;
+			doc.image(classData.logoPath, startX, headerTop, {
+				fit: [logoSize, logoSize],
+			});
+			textStartX = startX + logoSize + 12;
+			textWidth = TABLE_WIDTH - (logoSize + 12);
+		}
+
+		// School name & motto
+		doc.fontSize(17)
 			.font('Helvetica-Bold')
-			.text('INPS PORTAL', { align: 'center' })
-			.moveDown(0.5);
+			.fillColor('#1a252f')
+			.text('INTERNATIONAL NURSERY & PRIMARY SCHOOL', textStartX, headerTop, {
+				width: textWidth,
+				align: classData.logoPath ? 'left' : 'center',
+			});
 
-		// Title
-		doc.fontSize(16)
-			.text('CLASS LIST', { align: 'center' })
-			.moveDown(0.5);
+		doc.moveDown(0.2);
+		doc.fontSize(10.5)
+			.font('Helvetica-Oblique')
+			.fillColor('#5c6b73')
+			.text('Excellence in Education', textStartX, doc.y, {
+				width: textWidth,
+				align: classData.logoPath ? 'left' : 'center',
+			});
 
-		// Class information
-		doc.fontSize(12)
-			.font('Helvetica')
-			.text(`Class: ${classData.name}`, { align: 'center' })
-			.text(`Academic Year: ${classData.academicYear || '2026/2027'}`, { align: 'center' })
-			.text(`Term: ${classData.term || 'FIRST TERM'}`, { align: 'center' })
-			.moveDown(1);
+		doc.moveDown(0.45);
+		doc.fontSize(13)
+			.font('Helvetica-Bold')
+			.fillColor('#2c3e50')
+			.text('CLASS ROSTER', textStartX, doc.y, {
+				width: textWidth,
+				align: classData.logoPath ? 'left' : 'center',
+			});
 
-		// Date
-		doc.fontSize(10)
-			.text(`Generated: ${new Date().toLocaleDateString()}`, { align: 'right' })
-			.moveDown(1);
+		// Ensure Y moves past both text block and logo
+		const blockBottomY = Math.max(doc.y, headerTop + (classData.logoPath ? 52 : 0)) + 8;
+
+		// Two-column metadata strip
+		const metaHeight = 44;
+		const midX = startX + TABLE_WIDTH / 2;
+
+		doc.rect(startX, blockBottomY, TABLE_WIDTH, metaHeight)
+			.fillAndStroke('#f4f6f8', '#d0d7de');
+
+		// Center vertical divider inside metadata strip
+		doc.moveTo(midX, blockBottomY + 6)
+			.lineTo(midX, blockBottomY + metaHeight - 6)
+			.lineWidth(1)
+			.stroke('#d0d7de');
+
+		doc.fontSize(10).fillColor('#1f2937');
+
+		// Left column: Class & Academic Year
+		doc.font('Helvetica-Bold').text('Class: ', startX + 12, blockBottomY + 8, { continued: true });
+		doc.font('Helvetica').text(className);
+
+		doc.font('Helvetica-Bold').text('Session: ', startX + 12, blockBottomY + 24, { continued: true });
+		doc.font('Helvetica').text(academicYear);
+
+		// Right column: Term & Date Generated
+		doc.font('Helvetica-Bold').text('Term: ', midX + 12, blockBottomY + 8, { continued: true });
+		doc.font('Helvetica').text(term);
+
+		doc.font('Helvetica-Bold').text('Date: ', midX + 12, blockBottomY + 24, { continued: true });
+		doc.font('Helvetica').text(generatedDate);
+
+		doc.y = blockBottomY + metaHeight + 12;
 	}
 
 	/**
-	 * Add table header
+	 * Add table header row
 	 */
 	static addTableHeader(doc) {
 		const tableTop = doc.y;
-		const colWidths = [60, 80, 150, 80, 80]; // S/N, Admission No, Name, Gender, Status
-		const startX = 50;
+		const startX = PAGE_MARGIN;
+		const rowHeight = 25;
 
-		// Draw header background
-		doc.rect(startX, tableTop, 450, 25).fill('#4a5568');
+		doc.rect(startX, tableTop, TABLE_WIDTH, rowHeight).fill('#2c3e50');
 
-		// Header text
 		doc.fillColor('white')
-			.fontSize(10)
+			.fontSize(10.5)
 			.font('Helvetica-Bold');
 
-		const headers = ['S/N', 'Admission No', 'Name', 'Gender', 'Status'];
-		headers.forEach((header, i) => {
-			doc.text(header, startX + 5 + colWidths.slice(0, i).reduce((a, b) => a + b, 0), tableTop + 8);
+		HEADERS.forEach((header, i) => {
+			const xOffset = COL_WIDTHS.slice(0, i).reduce((sum, w) => sum + w, 0);
+			doc.text(header, startX + 6 + xOffset, tableTop + 7, {
+				width: COL_WIDTHS[i] - 12,
+				ellipsis: true,
+			});
 		});
 
-		doc.fillColor('black').moveDown(0.5);
+		doc.y = tableTop + rowHeight;
+		doc.fillColor('black');
 	}
 
 	/**
-	 * Add student rows
+	 * Add student rows to table
 	 */
-	static addStudentRows(doc, students) {
-		const colWidths = [60, 80, 150, 80, 80];
-		const startX = 50;
-		const rowHeight = 20;
+	static addStudentRows(doc, students = [], classData = {}) {
+		const startX = PAGE_MARGIN;
+		const rowHeight = 22;
+		const bottomLimit = doc.page.height - PAGE_MARGIN - 40;
+
+		if (!students.length) {
+			doc.moveDown(0.6)
+				.fontSize(11)
+				.fillColor('#555555')
+				.text('No students found in this class.', startX, doc.y);
+			return;
+		}
 
 		students.forEach((student, index) => {
-			const y = doc.y;
-
-			// Alternate row background
-			if (index % 2 === 0) {
-				doc.rect(startX, y, 450, rowHeight).fill('#f7fafc');
+			if (doc.y + rowHeight > bottomLimit) {
+				doc.addPage();
+				this.addHeader(doc, classData);
+				this.addTableHeader(doc);
 			}
 
-			// Draw row border
-			doc.rect(startX, y, 450, rowHeight).stroke('#e2e8f0');
+			const y = doc.y;
+			const studentData = student.student || student;
 
-			// Student data
-			doc.fillColor('black')
-				.fontSize(9)
-				.font('Helvetica');
+			if (index % 2 === 0) {
+				doc.rect(startX, y, TABLE_WIDTH, rowHeight).fill('#f8f9fa');
+			}
+
+			doc.rect(startX, y, TABLE_WIDTH, rowHeight).stroke('#dee2e6');
 
 			const sn = index + 1;
-			const name = `${student.firstName} ${student.middleName || ''} ${student.lastName}`.trim();
-			const gender = student.gender || 'N/A';
-			const status = student.status || 'ACTIVE';
+			const admissionNumber = studentData.admissionNumber || student.admissionNumber || 'N/A';
+			const fullName = [studentData.firstName, studentData.middleName, studentData.lastName]
+				.filter(Boolean)
+				.join(' ')
+				.trim() || 'N/A';
+			const gender = studentData.gender || 'N/A';
 
-			const data = [sn, student.admissionNumber, name, gender, status];
-			data.forEach((text, i) => {
-				doc.text(
-					String(text),
-					startX + 5 + colWidths.slice(0, i).reduce((a, b) => a + b, 0),
-					y + 6,
-					{ width: colWidths[i] - 10, ellipsis: true }
-				);
+			doc.fillColor('#1a1a1a')
+				.fontSize(10)
+				.font('Helvetica');
+
+			const rowValues = [sn, admissionNumber, fullName, gender];
+			rowValues.forEach((value, i) => {
+				const xOffset = COL_WIDTHS.slice(0, i).reduce((sum, w) => sum + w, 0);
+				doc.text(String(value), startX + 6 + xOffset, y + 6, {
+					width: COL_WIDTHS[i] - 12,
+					ellipsis: true,
+				});
 			});
 
 			doc.y = y + rowHeight;
-
-			// Add new page if needed
-			if (doc.y > 700) {
-				doc.addPage();
-				this.addHeader(doc, { name: students[0].class?.name || 'Class' });
-				this.addTableHeader(doc);
-			}
 		});
 	}
 
 	/**
-	 * Add footer with summary
+	 * Add summary footer
 	 */
 	static addFooter(doc, totalStudents) {
-		doc.moveDown(1);
-		doc.fontSize(10)
-			.text(`Total Students: ${totalStudents}`, { align: 'left' })
-			.text('End of Class List', { align: 'right' });
+		doc.moveDown(1.2)
+			.fontSize(11)
+			.font('Helvetica-Bold')
+			.fillColor('#1a1a1a')
+			.text(`Total Students: ${totalStudents}`, PAGE_MARGIN, doc.y, {
+				align: 'left',
+			});
 	}
 }
 
